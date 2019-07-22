@@ -1,0 +1,67 @@
+@layout('layouts.default')
+
+@section('content')
+
+<div class="main-content">
+	<section class="pages-banner-section">
+		<h2 class="page-title">{{ antl.formatMessage('keywords.features') }}</h2>
+	</section>
+	<section class="features-section">
+		<div class="container">
+			<div class="row justify-content-center align-items-center feature-row">
+				<div class="col-md-6 col-sm-12">
+					<div class="feature-img">
+						<img src="{{ assetsUrl('images/features/' + trading.image) }}" alt="Trade Image" title="Trade" class="img-fluid">
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="feature-content">
+						<h3 class="feature-title">{{ antl.formatMessage('keywords.trading') }}</h3>
+						{{{ trading.content }}}
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center align-items-center feature-row">
+				<div class="col-md-6 col-sm-12 second-content">
+					<div class="feature-content">
+						<h3 class="feature-title">{{ antl.formatMessage('keywords.deposit') }}</h3>
+						{{{ deposit.content }}}
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="feature-img">
+						<img src="{{ assetsUrl('images/features/' + deposit.image) }}" alt="Deposit Image" title="Deposit" class="img-fluid">
+					</div>
+				</div>
+			</div>
+			  <div class="row justify-content-center align-items-center feature-row">
+				<div class="col-md-6 col-sm-12">
+					<div class="feature-img">
+						<img src="{{ assetsUrl('images/features/' + withdraw.image) }}" alt="Withdraw Image" title="Withdraw" class="img-fluid">
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="feature-content">
+						<h3 class="feature-title">{{ antl.formatMessage('keywords.withdraw') }}</h3>
+						{{{ withdraw.content }}}
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center align-items-center feature-row">
+				<div class="col-md-6 col-sm-12 second-content">
+					<div class="feature-content">
+						<h3 class="feature-title">{{ antl.formatMessage('keywords.manage_wallets') }}</h3>
+						{{{ wallet.content }}}
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="feature-img">
+						<img src="{{ assetsUrl('images/features/' + wallet.image) }}" alt="Wallets Image" title="Wallets" class="img-fluid">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+@endsection

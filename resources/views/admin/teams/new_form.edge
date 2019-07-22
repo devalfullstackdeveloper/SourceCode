@@ -1,0 +1,58 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Add Team Member - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Add Team Member</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Add New Team Member</h4>
+					<form method="post" action="{{ route('admin.team.new') }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="name" placeholder="Name" autofocus="true" value="{{ old('name', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('name'), hasErrorFor('name')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="designation" placeholder="Designation" value="{{ old('designation', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('designation'), hasErrorFor('designation')) }}
+						<div class="form-group">
+							<textarea class="form-control" name="description" placeholder="Description" value="{{ old('description', '') }}" rows="5"></textarea>
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('description'), hasErrorFor('description')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="alt" placeholder="Alternative information" autofocus="true" value="{{ old('alt', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('alt'), hasErrorFor('alt')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Image</h3>
+							<input type="file" class="form-control" name="image">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('image'), hasErrorFor('image')) }}
+						<button type="submit" class="btn btn-success">Add New Team Member</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

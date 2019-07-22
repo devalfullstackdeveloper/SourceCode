@@ -1,0 +1,71 @@
+@layout('layouts.default')
+
+@section('content')
+<div class="main-content">
+	<section class="pages-banner-section" style="background-image:url('images/how.jpg')">
+		<h2 class="page-title">{{ antl.formatMessage('keywords.how_it_works') }}</h2>
+	</section>
+	<section class="deposite-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="feature-title">{{ antl.formatMessage('keywords.how_to_deposit') }}</h3>
+				</div>
+				<div class="col-sm-12">
+					<div class="pay-wrap shadow">
+						<div class="num-tile">
+							<h1>01</h1>
+						</div>
+						<div class="pay-content">
+							{{{ deposit.content }}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</section>
+	<section class="withdraw-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="feature-title">{{ antl.formatMessage('keywords.how_to_withdraw') }}</h3>
+				</div>
+				<div class="col-sm-12">
+					<div class="pay-wrap shadow">
+						<div class="num-tile">
+							<h1>02</h1>
+						</div>
+						<div class="pay-content">
+							{{{ withdraw.content }}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="payments-section mb-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="feature-title">{{ antl.formatMessage('keywords.methods_we_accept') }}</h3>
+				</div>
+				<div class="col-sm-12">
+					<div class="pay-wrap methods shadow">
+						<div class="num-tile">
+							<h1>03</h1>
+						</div>
+						<div class="pay-content row">
+							<div class="col-md-4 col-sm-12">
+								<div class="pay-type">
+									<img style="width: 100%;" src="{{ assetsUrl('images/2checkout.png') }}" alt="Image" title="2checkout" width="70">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+@endsection

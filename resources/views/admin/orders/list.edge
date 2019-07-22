@@ -1,0 +1,213 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'All Orders - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+	<header class="content__title">
+		<h1 class="float-left">All Orders</h1>
+	</header>
+	<div class="card">
+		<div class="card-body scrolled-table">
+
+			<div class="row quick-stats">
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ btcFees[0].fee ? btcFees[0].fee : 0 }}</h2>
+							<small>BTC Buy/Sell Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ usdFees[0].fee ? usdFees[0].fee : 0 }}</h2>
+							<small>USD Buy/Sell Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ euroFees[0].fee ? euroFees[0].fee : 0 }}</h2>
+							<small>EURO Buy/Sell Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ ethFees[0].fee ? ethFees[0].fee : 0 }}</h2>
+							<small>ETH Buy/Sell Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row quick-stats">
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ btcExchangeFees[0].fee ? btcExchangeFees[0].fee : 0 }}</h2>
+							<small>BTC Exchange Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ usdExchangeFees[0].fee ? usdExchangeFees[0].fee : 0 }}</h2>
+							<small>USD Exchange Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ euroExchangeFees[0].fee ? euroExchangeFees[0].fee : 0 }}</h2>
+							<small>EURO Exchange Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="quick-stats__item">
+						<div class="quick-stats__info">
+							<h2>{{ ethExchangeFees[0].fee ? ethExchangeFees[0].fee : 0 }}</h2>
+							<small>ETH Exchange Fee</small>
+						</div>
+						<div class="peity" style="font-size: 40px;">
+							<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="table-responsive" style="overflow-x: auto;">
+				<div class="table-responsive data-table">
+                  <table class="table table-hover mb-0" id="data-table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>User</th>
+							<th>Pair</th>
+							<th>Type</th>
+							<th>Price</th>
+							<th>Amount</th>
+							<th>Fees</th>
+							<th>Remains</th>
+							<th>Status</th>
+							<th>Total</th>
+							<th>Created At</th>
+						</tr>
+					</thead>
+					<tbody>
+						@each(order in orders.rows)
+						<tr id="order-{{ order.id }}">
+							<td>{{ ($loop.index + 1) }}</td>
+							<td>{{ order.name }}</td>
+							<td>{{ order.pair }}</td>
+							<td>
+							@if( order.order_type == 1 )
+							<span class="badge btn-danger">Sell</span>
+							@elseif( order.order_type == 0 )
+							<span class="badge btn-primary">Buy</span>
+							@else
+							<span class="badge btn-success">Exchange</span>
+							@endif	
+							</td>
+							<td>{{ order.price }}</td>
+							<td>{{ order.amount }}</td>
+							<td>{{ order.fees }}</td>
+							<td>{{ order.remain }}</td>
+							<td>
+								@if( order.status == 0 )
+									<span class="badge btn-warning">Open</span>
+								@elseif( order.status == 1 )
+									<span class="badge btn-success">Completed</span>
+								@else
+									<span class="badge btn-danger">Canceled</span>
+								@endif
+							</td>
+							<td>{{ order.total }}</td>
+							<td>{{ order.created_at }}</td>
+						</tr>
+						@endeach
+					</tbody>
+				</table>
+				<nav>
+					<ul class="pagination justify-content-center">
+						<li class="page-item pagination-first {{ (orders.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.orders.index') }}?page=1"></a></li>
+						<li class="page-item pagination-prev {{ (orders.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.orders.index') }}?page={{ orders.pages.page - 1 }}"></a></li>
+						@each(i in range(orders.pages.lastPage))
+						<li class="page-item {{ (( i + 1 ) == orders.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.orders.index') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+						@endeach
+						<li class="page-item pagination-next {{ (orders.pages.lastPage == orders.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.orders.index') }}?page={{ orders.pages.page + 1 }}"></a></li>
+						<li class="page-item pagination-last {{ (orders.pages.lastPage == orders.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.orders.index') }}?page={{ orders.pages.lastPage }}"></a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.blog.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#blog-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

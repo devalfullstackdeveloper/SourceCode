@@ -1,0 +1,88 @@
+@layout('layouts.default')
+
+@section('content')
+
+<section class="balances">
+	<div class="container">
+		<div class="row">
+			<div class="device-management w-100 mb-4">
+				<legend class="pb-2 mt-4 border-bottom">{{ antl.formatMessage('keywords.deposit') }}</legend>
+				<div class="card mt-4 shadow">
+					<table class="table table-bordered text-center mb-0 wallet-table">
+						<thead>
+							<tr class="grey-text">
+								<th scope="col">#</th>
+								<th scope="col">{{ antl.formatMessage('keywords.currency') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.status') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@each(deposit in deposits.rows)
+							<tr>
+								<td>{{ $loop.index + 1 }}</td>
+								<td>{{ deposit.currency }}</td>
+								<td>{{ deposit.amount }}</td>
+								<td>
+									@if( deposit.status == 1 )
+									<span class="text-success">{{ antl.formatMessage('keywords.deposited') }}</span>
+									@else
+									<span class="text-success">{{ antl.formatMessage('keywords.pending') }}</span>
+									@endif
+								</td>
+								<td>{{ deposit.created_at }}</td>
+							</tr>
+							@endeach
+						</tbody>
+					</table>
+				</div>
+				<legend class="pb-2 mt-4 border-bottom">{{ antl.formatMessage('keywords.withdraw') }}</legend>
+				<div class="card mt-4 shadow">
+					<table class="table table-bordered text-center mb-0 wallet-table">
+						<thead>
+							<tr class="grey-text">
+								<th scope="col">#</th>
+								<th scope="col">{{ antl.formatMessage('keywords.currency') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.bank_name') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.branch_name') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.ac_holder') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.ac_no') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.swift_code') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.status') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@each(withdrawal in withdrawals.rows)
+							<tr>
+								<td>{{ $loop.index + 1 }}</td>
+								<td>{{ withdrawal.currency }}</td>
+								<td>{{ withdrawal.bank_name }}</td>
+								<td>{{ withdrawal.branch_name }}</td>
+								<td>{{ withdrawal.ac_holder }}</td>
+								<td>{{ withdrawal.ac_no }}</td>
+								<td>{{ withdrawal.swift_code }}</td>
+								<td>{{ withdrawal.amount }}</td>
+								<td>
+									@if( withdrawal.status == 1 )
+									<span class="text-success">{{ antl.formatMessage('keywords.success') }}</span>
+									@elseif( withdrawal.status == 2 )
+									<span class="text-danger">{{ antl.formatMessage('keywords.rejected') }}</span>
+									@else
+									<span class="text-warning">{{ antl.formatMessage('keywords.pending') }}</span>
+									@endif
+								</td>
+								<td>{{ withdrawal.created_at }}</td>
+							</tr>
+							@endeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@endsection

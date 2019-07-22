@@ -1,0 +1,113 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Users - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Users</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body">
+			<table class="table table-hover mb-0">
+				<tbody>
+					<tr>
+						<th>Document Type</th>
+						<td style="text-transform: capitalize;">{{ (kyc.document_type).replace('_', ' ') }}</td>
+					</tr>
+					<tr>
+						<th>Front</th>
+						<td style="{{ (kyc.status == 0 || kyc.status == 1) ? '' : 'display : none;' }}">
+							<img src="{{ assetsUrl('images/address-kycs/' + kyc.front) }}" style="height: 300px;">
+							<button class="btn btn-success" onclick="PrintImage('{{ assetsUrl('images/address-kycs/' + kyc.front) }}');">Print</button>
+						</td>
+					</tr>
+					<tr>
+						<!--<td colspan="2">
+							@if(kyc.status == 0 || kyc.status == 3)
+							<button type="button" class="btn btn-success btn-status" data-status="1" data-id="{{ info.user_id }}" style="">Approve</button>
+							<button type="button" class="btn btn-danger btn-status" data-status="2" data-id="{{ info.user_id }}" style="">Reject</button>
+							@elseif(kyc.status == 0 || kyc.status == 2)
+						
+									<a href="javascript:void();"  class="btn btn-danger btn-status"  style="">Rejected(User did not upload KYC documents yet)</p>
+						@elseif(kyc.status == 0 || kyc.status == 1)
+							<button type="button" class="btn btn-danger btn-status" data-status="2" data-id="{{ info.user_id }}" style="">Reject</button>
+						@endif
+						</td>-->
+						<td colspan="2">
+						@if(kyc.status == 0 || kyc.status == 3)
+							<button type="button" class="btn btn-success btn-status" data-status="1" data-id="{{ kyc.user_id }}" style="">Approve</button>
+							<button type="button" class="btn btn-danger btn-status" data-status="2" data-id="{{ kyc.user_id }}" style="">Reject</button>
+						@elseif(kyc.status == 0 || kyc.status == 2) 
+				    	<a href="javascript:void();"  class="btn btn-danger btn-status"  style="">Rejected(User did not upload KYC documents yet)</p>
+					@elseif(kyc.status == 0 || kyc.status == 1)
+						
+							<button type="button" class="btn btn-danger btn-status" data-status="2" data-id="{{ kyc.user_id }}" style="">Reject</button>
+						@endif
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+<script>
+
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var user_id = $(this).attr('data-id');
+			var btn = $(this);
+
+			$.ajax({
+				url		: "{{ route('admin.address_kyc.status') }}",
+				type	: 'GET',
+				data	: { status : status, user_id : user_id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						btn.css('display', 'none');
+						btn.siblings('.btn').css('display', 'block');
+						return;
+					}
+
+					btn.css('display', 'none');
+					btn.siblings('.btn').css('display', 'block');
+					notify('success', response.message );
+  window.location.replace("https://zithex.com/admin/users"); 
+				}
+			});
+
+		});
+
+	});
+
+	function ImagetoPrint(source) {
+		return "<html><head><script>function step1(){" +
+				"setTimeout('step2()', 10);}" +
+				"function step2(){window.print();window.close()}" +
+				"</scri" + "pt></head><body onload='step1()'>" +
+				"<img src='" + source + "' style='min-width : 30%; max-width : 100%; display : block; margin : 0 auto;' /></body></html>";
+	}
+
+	function PrintImage(source) {
+		Pagelink = "about:blank";
+		var pwa = window.open(Pagelink, "_new");
+		pwa.document.open();
+		pwa.document.write(ImagetoPrint(source));
+		pwa.document.close();
+	}
+
+</script>
+@endsection

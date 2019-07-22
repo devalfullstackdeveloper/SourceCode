@@ -1,0 +1,401 @@
+@layout('layouts.default')
+
+@section('vars')
+	@set('title', 'RequestCoin - Zithex')
+@endsection
+
+@section('content')
+<div class="main-content">
+
+<!-- banner -->
+<section class="pages-banner-section">
+	<h2 class="page-title">Listing a Coin on Zithex.com</h2>
+</section>
+<!-- FAQ section -->
+<section class="faq-section">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+	<div class="request-auth-message"></div>
+       <!-- multistep form -->
+        <form   action="{{ route('addcoinapp') }}" class="form-ui-zithex" id="msform" method="post" enctype="multipart/form-data"> 
+          <!-- fieldsets -->
+		  {{ csrfField() }} 
+          <fieldset>
+                <h4 class="col-sm-12 form-sec-head">Listing Application</h4>
+                <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Email Address</label>
+                       <input type="text" name="emailaddress" placeholder="text@yopmail.com" class="form-control">
+                   </div>
+               </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('emailaddress'), hasErrorFor('emailaddress')) }}
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide your full Name </label>
+                       <input type="text" name="fullname" placeholder="testuser" class="form-control">
+                   </div>
+               </div>
+			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('fullname'), hasErrorFor('fullname')) }}
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide the name of  your company </label>
+                       <input type="text" name="companyname" placeholder="testcmp" class="form-control">
+                   </div>
+               </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('companyname'), hasErrorFor('companyname')) }}
+               <div class="col-sm-12">
+                   <div class="form-group d-inline-block">
+                        <label>Plese Confirm your position  with the company
+                            <br>
+                            <small>Tick all that apply. if other" . please specify.</small>
+                         </label>
+                        <ul class="zithex--ui-check" id="group5">
+                          <li>
+                            <input type="checkbox" id="ceo" name="group5" checked="">
+                            <label for="ceo">CEO</label>
+                            <div class="checkbox"></div>
+                          </li>
+                          <li>
+                            <input type="checkbox" id="founder" name="group5">
+                            <label for="founder">Founder /CoFounder</label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                          </li>
+                          <li>
+                            <input type="checkbox" id="other" name="group5">
+                            <label for="other">other </label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                           
+                          </li>
+                          <li class="w-25">
+                           
+                            <input type="text" name="otherposition" class="form-control">
+                          </li>
+                        </ul>
+                    </div>
+                </div>
+
+               <div class="col-sm-12">
+                <div class="form-group" id="iconimage">
+                    <label>Please Provide a copy  of the Zithex Non- Disclosure Agreement ("NDA") signed by the Founder/CEO of thwe Company</label>
+                   <input type="file"  placeholder="Enter Project Name" class="form-control" id="upload-icon" name="upload-icon" style="display: none;">
+                   <label for="upload-icon" class="upload-icon-lab">Upload</label>
+                  
+                </div>
+                       {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}  
+                   
+               </div>
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please give us  your best one-sentence pitch for the token /coin the "Project"
+                            <br>
+                            <small>E.g. Ripple "enterprise payment sattlement network"</small></label>
+                       <input type="text" name="onesentence" placeholder="xxx coin" class="form-control">
+                   </div>
+               </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('onesentence'), hasErrorFor('onesentence')) }}
+               <div class=" col-sm-12">
+               <div class="form-group">
+                    <label>Have you previously submittted a listing application for the token / coin?</label>
+                    <ul class="zithex--ui-check" id="group4">
+                      <li>
+                        <input type="radio" id="last-application" name="group4" checked="">
+                        <label for="last-application">You I have update since last application that I would like to share</label>
+                        <div class="check"></div>
+                      </li>
+                      <li>
+                        <input type="radio" id="first-listing" name="group4">
+                        <label for="first-listing">No This is my first listing application</label>
+                        <div class="check"><div class="inside"></div></div>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+
+                 
+                <input type="button" name="next" class="next action-button" value="Next" /> 
+          </fieldset>
+          <fieldset>
+                <h4 class="col-sm-12 form-sec-head">Project Overview</h4>
+                <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide the Project Name </label>
+                       <input type="text" name="projectname2" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>
+			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname2'), hasErrorFor('projectname2')) }}
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide the token/coin name  </label>
+                       <input type="text" name="coinname2" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinname2'), hasErrorFor('coinname2')) }}
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide the token/coin symbol  </label>
+                       <input type="text" name="coinsymbol2" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>
+			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol2'), hasErrorFor('coinsymbol2')) }}
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide the project's official  website  </label>
+                       <input type="text" name="officialweb" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>
+			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('officialweb'), hasErrorFor('officialweb')) }}
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please Provide a permanent link to the project's Whitepaper </label>
+                       <input type="text" name="permalink" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('permalink'), hasErrorFor('permalink')) }}
+
+              <!-- <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>What is the nature of  the Project?
+                           
+                         </label>
+                        <ul class="zithex--ui-check d-inline-block" id="group5">
+                          <li>
+                            <input type="checkbox" id="currency" name="group2" checked="">
+                            <label for="currency">Currency</label>
+                            <div class="checkbox"></div>
+                          </li>
+                          <li>
+                            <input type="checkbox" id="dapp" name="group2">
+                            <label for="dapp">Dapp</label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                          </li>
+                          <li>
+                            <input type="checkbox" id="payment-token" name="group5">
+                            <label for="payment-token">Payments Token</label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                           
+                          </li>
+
+                          <li>
+                            <input type="checkbox" id="protocol" name="group2" checked="">
+                            <label for="protocol">Protocol</label>
+                            <div class="checkbox"></div>
+                          </li>
+                          <li>
+                            <input type="checkbox" id="platform" name="group2">
+                            <label for="platform">Platform</label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                          </li>
+                          <li>
+                            <input type="checkbox" id="stable-coin" name="group2">
+                            <label for="stable-coin">Stable Coin </label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                           
+                          </li>
+                          <li>
+                            <input type="checkbox" id="other1" name="group2">
+                            <label for="other1">Other </label>
+                            <div class="checkbox"><div class="inside"></div></div>
+                           
+                          </li>
+
+                          <li class="w-100">
+                           
+                            <input type="text" name="othernature" class="form-control">
+                          </li>
+                          
+                        </ul>
+                    </div>
+                </div>-->
+
+            
+               <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>What is the main application of the Project?
+                            <br>
+                            <small>e.g. cloud computing file storage , marketplace and anti-counterfeiting, etc.</small></label>
+                       <input type="text" name="mainapp" placeholder="Your answer" class="form-control">
+                   </div>
+               </div> 
+
+                <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>What is the target industry of the Project?
+                            <br>
+                            <small>(e.g. finance, healthcare, supply chain, social media and energy, etc.)</small></label>
+                       <input type="text" name="targetind" placeholder="Your answer" class="form-control">
+                   </div> 
+               </div>
+
+                <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Who are the Project’s competitors (crypto and non-crypto)? How does the Project plan to differentiate itself?
+                            </label>
+                       <input type="text" name="competitors" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>
+
+                <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Please provide any other information you would like to share.
+                        </label>
+                       <input type="text" name="anyotherinfp" placeholder="Your answer" class="form-control">
+                   </div>
+               </div>
+               
+                <input type="button" name="previous" class="previous action-button" value="Previous" />
+                <input type="submit" name="submit" class="submit action-button float-right" value="Submit" />
+          </fieldset>
+        </form> 
+    </div>
+  </div>
+</div>
+</section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
+<script>
+
+function filePreview(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#whitepaper + img').remove();
+            $('#whitepaper').after('<img src="'+e.target.result+'" width="100" height="100"/>');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function filePreviews(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#iconimage + img').remove();
+            $('#iconimage').after('<img src="'+e.target.result+'" width="100" height="100"/>');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#upload-icon").change(function () {
+    filePreviews(this);
+});
+$("#upload-wp").change(function () {
+    filePreview(this);
+});
+</script>
+</script>
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+
+  <script>
+$(function () {
+  $(document).scroll(function () {
+    var $nav = $(".navbar-fixed-top");
+    $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+  });
+});
+  </script>
+
+<!--date time start-->
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    var interval = setInterval(function() {
+        var momentNow = moment();
+        $('#date-part').html(momentNow.format('YYYY MMMM DD') + ' '
+                            + momentNow.format('dddd')
+                             .substring(0,3).toUpperCase());
+        $('#time-part').html(momentNow.format('A hh:mm:ss'));
+    }, 100);
+    
+    $('#stop-interval').on('click', function() {
+        clearInterval(interval);
+    });
+});
+</script>
+<script type="text/javascript">
+    
+//jQuery time
+var current_fs, next_fs, previous_fs; //fieldsets
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
+
+$(".next").click(function(){
+    if(animating) return false;
+    animating = true;
+    
+    current_fs = $(this).parent();
+    next_fs = $(this).parent().next();
+    
+    //activate next step on progressbar using the index of next_fs
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    
+    //show the next fieldset
+    next_fs.show(); 
+    //hide the current fieldset with style
+    current_fs.animate({opacity: 0}, {
+        step: function(now, mx) {
+            //as the opacity of current_fs reduces to 0 - stored in "now"
+            //1. scale current_fs down to 80%
+            scale = 1 - (1 - now) * 0.2;
+            //2. bring next_fs from the right(50%)
+            left = (now * 50)+"%";
+            //3. increase opacity of next_fs to 1 as it moves in
+            opacity = 1 - now;
+            current_fs.css({
+        'transform': 'scale('+scale+')',
+        'position': 'initial'
+      });
+            next_fs.css({'left': left, 'opacity': opacity});
+        }, 
+        duration: 800, 
+        complete: function(){
+            current_fs.hide();
+            animating = false;
+        }, 
+        //this comes from the custom easing plugin
+        easing: 'easeInOutBack'
+    });
+});
+
+$(".previous").click(function(){
+    if(animating) return false;
+    animating = true;
+    
+    current_fs = $(this).parent();
+    previous_fs = $(this).parent().prev();
+    
+    //show the previous fieldset
+    previous_fs.show(); 
+    //hide the current fieldset with style
+    current_fs.animate({opacity: 0}, {
+        step: function(now, mx) {
+            //as the opacity of current_fs reduces to 0 - stored in "now"
+            //1. scale previous_fs from 80% to 100%
+            scale = 0.8 + (1 - now) * 0.2;
+            //2. take current_fs to the right(50%) - from 0%
+            left = ((1-now) * 50)+"%";
+            //3. increase opacity of previous_fs to 1 as it moves in
+            opacity = 1 - now;
+            current_fs.css({'left': left});
+            previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+        }, 
+        duration: 800, 
+        complete: function(){
+            current_fs.hide();
+            animating = false;
+        }, 
+        //this comes from the custom easing plugin
+        easing: 'easeInOutBack'
+    });
+});
+
+
+
+</script>
+@endsection

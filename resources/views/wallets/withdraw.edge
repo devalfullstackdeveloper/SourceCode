@@ -1,0 +1,118 @@
+@layout('layouts.default')
+
+@section('content')
+
+<section class="withdraw pt-5 pb-5">
+	<div class="container">
+		<legend class="mb-5 border-bottom pb-3">Withdraw</legend>
+		<div class="card shadow">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-6">
+						
+						
+							<p>{{ currency.toUpperCase() }}</p>
+							
+						
+						<ul class="balance-details">
+							<li>
+								<div class="row">
+									<div class="col-sm-6"><p>{{ antl.formatMessage('keywords.total_balance') }}</p></div>
+									<div class="col-sm-6"><p>{{ (balance.total).toFixed(8) + ' ' + currency.toUpperCase() }}</p></div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-sm-6"><p>{{ antl.formatMessage('keywords.in_order') }}</p></div>
+									<div class="col-sm-6"><p>{{ (balance.inOrder).toFixed(8) + ' ' + currency.toUpperCase() }}</p></div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-sm-6"><p>{{ antl.formatMessage('keywords.available_balance') }}</p></div>
+									<div class="col-sm-6"><p>{{ (balance.available).toFixed(8) + ' ' + currency.toUpperCase() }}</p></div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-sm-6">
+						<!-- <div class="address card-body orange lighten-4">
+							<h5 class="text-warning">Important</h5>
+							<ul class="text-warning">
+								<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor.</li>
+							</ul>
+						</div> -->
+						<div class="deposit-address">
+							@if(flashMessage('success'))
+								<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+							@endif
+							@if(flashMessage('error'))
+								<div class="alert alert-danger"> {{ flashMessage('error') }} </div>
+							@endif
+							<form method="post" action="{{ route('withdraw', { currency : currency }) }}" autocomplete="off">
+								{{ csrfField() }}
+								<div class="form-group">
+									<label for="withdraw-address"><h5>{{ (currency).toUpperCase() + ' ' + antl.formatMessage('keywords.withdrawal_address') }}</h5></label>
+									<input type="text" name="address" id="withdraw-address" class="form-control" value="{{ old('address', '') }}">
+									{{ elIf('<span class="text-danger">$self</span>', getErrorFor('address'), hasErrorFor('address')) }}
+								</div>
+								<div class="form-group">
+									<label for="amount"><h5>{{ antl.formatMessage('keywords.amount') }}</h5></label>
+									<input type="number" name="amount" id="amount" class="form-control" value="{{ old('amount', '') }}" min="0.000001" step="0.000001">
+									{{ elIf('<span class="text-danger">$self</span>', getErrorFor('amount'), hasErrorFor('amount')) }}
+									<!-- <small id="emailHelp" class="form-text text-danger">24h Withdrawal Limit 0 / 2 BTC</small> -->
+								</div>
+								<button type="submit" class="btn btn-dark">{{ antl.formatMessage('keywords.withdraw') }}</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card shadow mt-5">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<h5>{{ antl.formatMessage('keywords.history') }}</h5>
+					</div>
+					<!-- <div class="col-sm-6 text-right">
+						<a href="#" class="text-warning">Did not recieve email <i class="far fa-question-circle"></i></a> | <a href="#" class="text-dark">View All</a>
+					</div> -->
+				</div>
+				<div class="table-responsive mt-3">
+					<table class="table">
+						<thead class="black white-text">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.type') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.status') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@each(order in orders.rows)
+							<tr>
+								<th>{{ $loop.index + 1 }}</th>
+								<td>{{ order.price }}</td>
+								<td>{{ order.amount }}</td>
+								<td>{{ (order.order_type == 0) ? 'Buy' : 'Sell' }}</td>
+								<td>{{ (order.status == 0) ? 'In Order' : 'Fullfilled' }}</td>
+								<td>{{ order.created_at }}</td>
+							</tr>
+							@endeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@endsection
+
+@section('script')
+
+
+@endsection

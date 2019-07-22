@@ -1,0 +1,41 @@
+@layout('layouts.default')
+
+@section('content')
+
+<section class="deposit pt-5 pb-5">
+	<div class="container">
+		<legend class="mb-5 border-bottom pb-3">Binance</legend>
+		<div class="card shadow">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-6">
+			
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</section>
+
+<!-- QR Modal -->
+
+
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$('.btn-copy').on('click', function(){
+			$('#deposit-address').select();
+			document.execCommand("copy");
+			$(this).html('<i class="far fa-copy"></i> Copied');
+		});
+	})
+	
+</script>
+
+@endsection

@@ -1,0 +1,55 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Deposits - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Deposits</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body">
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Mobile</th>
+						<th>Amount</th>
+						<th>Deposited At</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(tx in txs.rows)
+					<tr>
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ tx.name }}</td>
+						<td>{{ tx.email }}</td>
+						<td>{{ ( tx.mobile == null ) ? 'NA' : tx.mobile }}</td>
+						<td>{{ tx.amount }}</td>
+						<td>{{ tx.created_at }}</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (txs.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.txs') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (txs.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.txs') }}?page={{ txs.pages.page - 1 }}"></a></li>
+					@each(i in range(txs.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == txs.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.txs') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (txs.pages.lastPage == txs.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.txs') }}?page={{ txs.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (txs.pages.lastPage == txs.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.txs') }}?page={{ txs.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection

@@ -1,0 +1,140 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', user.coin + ' - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>User Detail</h1>
+	</header>
+
+	
+	
+	<div class="card">
+		<div class="card-body">
+			<h4 class="card-title">Wallet Details</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>Coin</th>
+						<th>Address</th>
+						<th>Balance</th>
+						<th>Action</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					
+				
+					@each(user in users.rows)
+					<tr>
+						
+						<td class="coin">{{ user.coin }}</td>
+						<td class="deposit-address" {{{ ( ! user.public_key ) ? 'style="display: none;"' : '' }}} >{{ user.public_key }}</td>
+						<td class="deposit-address" {{{ (  user.public_key ) ? 'style="display: none;"' : '' }}} >N/A</td>
+						<td class="balance" id="{{ user.derive_currency }}">0.00000000</td>
+						<td><a href="{{ route('admin.wdetails.edit', { id : user.id }) }}" class="btn btn-warning btn--icon" ><i class="zmdi zmdi-edit"></i></a></td>
+					
+					</tr>
+					@endeach
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+	
+</section>
+@endsection
+
+
+@section('script')
+<script>
+	
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.tx.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var tx = response.tx;
+
+					var status = '';
+					var statusButton = '';
+
+					if(tx.status == 0){
+						status = '<span class="text-warning">Pending</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + tx.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon btn-status" data-id="' + tx.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(tx.status == 1){
+						status = '<span class="text-success">Approved</span>';
+					} else if(tx.status == 2){
+						status = '<span class="text-danger">Rejected</span>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+					$('tr#tx-' + id + ' td:nth-child(15)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url 	: "{{ route('admin.user.balance', { id : 1 }) }}", 
+		type 	: "GET",
+		data	: { id : id },
+		success : function(response){
+
+			if( ! response.success ){
+				$('.message').html('<div class="alert alert-danger mt-4">' + response.message + '</div>');
+				return;
+			}
+
+			var data = response.data;
+			var len = response.data.length;
+
+			for (var key in data) {
+				if( ! data[key].error ){
+					var balance = (data[key].balance).toFixed(8);
+					$('#' + key).text(balance);
+					var kkh = $("#btc").text();
+					$("#btcmain").text(kkh);
+					
+				} else {
+					console.log(data[key].message);
+				}
+			}
+
+			$('#worth-btc').text((response.btcBalance).toFixed(8));
+			$('#worth-usd').text((response.in_usd).toFixed(2));
+			$('#worth-euro').text((response.in_euro).toFixed(2));
+
+		}
+	});
+</script>
+
+@endsection

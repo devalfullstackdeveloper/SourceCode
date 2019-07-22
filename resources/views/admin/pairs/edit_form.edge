@@ -1,0 +1,99 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Pairs - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Pairs</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit Pair</h4>
+					<form method="post" action="{{ route('admin.pair.edit', {id : pair.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="coin" placeholder="Coin / Token Name" autofocus="true" value="{{ old('coin', pair.coin) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('coin'), hasErrorFor('coin')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="pair_name" placeholder="Coin/Token Symbol" value="{{ old('pair_name', (pair.derive_currency).toUpperCase()) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('pair_name'), hasErrorFor('pair_name')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Base Currency</h3>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="base_currency" class="custom-control-input" value="usd" {{ (pair.base_currency == 'usd') ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">USD</span>
+							</label>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="base_currency" class="custom-control-input" value="eur" {{ (pair.base_currency == 'euro') ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span> 
+								<span class="custom-control-description">EURO</span>
+							</label>
+								<label class="custom-control custom-radio">
+								<input type="radio" name="base_currency" class="custom-control-input" value="btc" {{ (pair.base_currency == 'btc') ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">BTC</span>
+							</label>
+								<label class="custom-control custom-radio">
+								<input type="radio" name="base_currency" class="custom-control-input" value="eth" {{ (pair.base_currency == 'eth') ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">ETH</span>
+							</label>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('base_currency'), hasErrorFor('base_currency')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Currency Type</h3>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="is_token" class="custom-control-input" value="1" value="{{ old('is_token', '') }}" {{ (pair.is_token == 1) ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">Token</span>
+							</label>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="is_token" class="custom-control-input" value="0" value="{{ old('is_token', '') }}" {{ (pair.is_token == 0) ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">Coin</span>
+							</label>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('is_token'), hasErrorFor('is_token')) }}
+						<div class="input-group">
+							<div class="form-group">
+								<input type="text" class="form-control" name="custom_amount" placeholder="Custom Amount" value="{{ old('custom_amount', pair.custom_amount) }}">
+								<i class="form-group__bar"></i>
+							</div>
+							<span class="input-group-addon">%</span>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('custom_amount'), hasErrorFor('custom_amount')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Icon</h3>
+							<img src="{{ assetsUrl('images/coins/' + pair.icon) }}" style="height: 50px;">
+							<input type="file" class="form-control" name="icon">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="alt" placeholder="Alternative information for icon" autofocus="true" value="{{ old('alt', pair.alt) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('alt'), hasErrorFor('alt')) }}
+						<button type="submit" class="btn btn-success">Edit Pair</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

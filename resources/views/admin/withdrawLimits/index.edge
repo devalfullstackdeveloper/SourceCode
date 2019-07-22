@@ -1,0 +1,53 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Withdraw Limits - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+	<header class="content__title">
+		<h1>Withdraw Limits</h1>
+	</header>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit BTC Withdraw Limits</h4>
+					<form method="post" action="{{ route('admin.withdrawLimits.update') }}">
+						{{ csrfField() }}
+						<div class="form-group">
+							<label>Limit For Level One</label>
+							<input type="number" name="levelOneAmount" value="{{ limits ? limits.level_one : 0 }}" min="0.01" step="0.01" class="form-control" required>
+							@if(hasErrorFor('levelOneAmount'))
+                                <div class="text-danger">
+                                    {{ getErrorFor('levelOneAmount') }}
+                                </div>
+                            @endif
+						</div>
+						<div class="form-group">
+							<label>Limit For Level Two</label>
+							<input type="number" name="levelTwoAmount" value="{{ limits ? limits.level_two : 0 }}" min="0.01" step="0.01" class="form-control" required>
+							@if(hasErrorFor('levelTwoAmount'))
+                                <div class="text-danger">
+                                    {{ getErrorFor('levelTwoAmount') }}
+                                </div>
+                            @endif
+						</div>
+						<div class="form-group">
+							<label>Limit For Level Three</label>
+							<input type="number" name="levelThreeAmount" value="{{ limits ? limits.level_three : 0 }}" min="0.01" step="0.01" class="form-control" required>
+							@if(hasErrorFor('levelThreeAmount'))
+                                <div class="text-danger">
+                                    {{ getErrorFor('levelThreeAmount') }}
+                                </div>
+                            @endif
+						</div>
+						<input type="submit" value="Update" class="btn btn-primary btn-block">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+@endsection

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="{{ antl.currentLocale() }}" dir="{{ ( antl.currentLocale() == 'ar' ) ? 'rtl' : 'ltr' }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keyword" content="Bitcoin Trading Platform,  Cryptocurrency Exchange Platform,  Cryptocurrency Trading,  Best Bitcoin Trading Platform,  List Your Coin">
+    <meta name="csrf_token" content="{{ csrfToken }}">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    @!section('title')
+    <link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
+    {{ style('css/all.css') }}
+    {{ style('css/simple-line-icons.css') }}
+    {{ style('fonts/boxicons.min.css') }}
+    {{ style('css/mdb.min.css') }}
+    {{ style('css/swiper.css') }}
+    {{ style('css/style.css') }}
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    @!section('style')
+    {{ script('js/jquery-3.3.1.min.js') }}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142280390-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142280390-1');
+</script>
+
+</head>
+
+<body>
+     <section class="main_header" id="navbar-default">
+        <nav class="navbar navbar-default">
+            <div class="container">
+            
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><img src="../images/logo.png"></a>
+                </div>
+        
+            
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/index/#trading">Trade</a></li>
+                    <li><a href="{{ route('requestcoin') }}">List your Coin</a></li>
+                    <li><a href="{{ route('hire-trader') }}">Hire Trader</a></li>
+                    <li><a href="{{ route('about') }}">About Us  <i class="fa fa-caret-down"></i></a>
+                        <ul CLASS="sub-menu">
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            <li><a href="{{ route('team') }}">Our Team</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Support <i class="fa fa-caret-down"></i></a> 
+                        <ul CLASS="sub-menu">
+                            <li><a href="{{ route('support') }}">Support</a></li>
+                            <li><a href="{{ route('faq') }}">FAQs</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ route('blogs') }}">BLOG</a></li>
+                    
+                </ul>
+                <div class="button_1">
+                    <a href="{{ route('login') }}">Log In</a>
+                </div>
+                <div class="button_2">
+                    <a href="{{ route('signup') }}">Sign Up <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            </div>
+        </nav>
+    </section>
+
+    @!section('content')
+</section>
+  
+<section class="footer">
+    <div class="container">
+    <div class="bnhder">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="footer-text">
+                <h1>Start trading now</h1>
+                <p>Trade Bitcoin,BNB,and hundreds of other cryptocurrencies in minutes.</p>
+                <div class="get-started-btn">
+                    <a href="#">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12">
+            <div class="bnrhd">
+                <img src="images/logo.png">
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="nav_item_1">
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer_nav">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            <li><a href="{{ route('team') }}">Our Team</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer_nav">
+                        <h3>Explore</h3>
+                        <ul>
+                            <li><a href="/index/#trading">Trade/Exchange</a></li>
+                            <li><a href="{{ route('requestcoin') }}">List Your Coin</a></li>
+                            <li><a href="{{ route('hire-trader') }}">Hire Trader</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer_nav">
+                        <h3>Support</h3>
+                        <ul>
+                            <li><a href="{{ route('contact') }}">Support</a></li>
+                            <li><a href="{{ route('faq') }}">FAQs</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="footer_nav">
+                        <h3>Community</h3>
+                        <ul class="icons">
+                            <li ><a href="https://www.facebook.com/zithexglobal/" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="https://twitter.com/zithexglobal" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="end-text">
+            <p>&copy; 2019 CryptoFxSpace.com.All Rights Reserved.</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="right-text terms">
+            <ul>
+                <li>2019-07-15 16.34.43</li>
+                <li><a href="{{ route('legals') }}">Terms & Conditions</li>
+                <li><i class="fas fa-wifi"></i> Connected</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</section> 
+
+    {{--  end sponsors  --}}
+
+    <!-- <section class="copyright p-4">
+        <div class="container-fluid">   
+            <p class="mb-0 text-center">{{{ antl.formatMessage('keywords.copyright_zithex') }}} <a href="{{ route('legals') }}" class="border-bottom white-text ml-1"> {{ antl.formatMessage('keywords.terms_conditions') }}</a> <!--<a  class="border-bottom  white-text ml-1 mr-1" href="{{ route('legals') }}">{{ antl.formatMessage('keywords.privacy_policy') }} </a>--> <!--{{  antl.formatMessage('keywords.all_right_reserved') }}  <i class="fas fa-wifi" size="16" style="color:#6dcb60;"></i> Connected</p>
+
+        </div> 
+    </section> --> 
+
+    <!-- SCRIPTS -->
+    {{ script('js/popper.min.js') }}
+    {{ script('js/bootstrap.min.js') }}
+    {{ script('js/mdb.min.js') }}
+    {{ script('js/swiper.js') }}
+    {{ script('js/moment.js') }}
+    {{ script('js/parsley.min.js') }}
+    
+    <script type="text/javascript">
+        $(function () {
+
+            var swiper = new Swiper('.swiper-container', {
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+
+            $(document).scroll(function () {
+                var $nav = $(".navbar-fixed-top");
+                // {{ script('js/popper.min.js') 
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            });
+
+            var interval = setInterval(function() {
+                var momentNow = moment();
+                $('#date-part').html(momentNow.format('YYYY MMMM DD') + ' ' + momentNow.format('dddd') .substring(0,3).toUpperCase());
+                $('#time-part').html(momentNow.format('A hh:mm:ss'));
+            }, 100);
+
+            $('#stop-interval').on('click', function() {
+                clearInterval(interval);
+            });
+
+        });
+    </script>
+        
+		<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5ca336c11de11b6e3b066a45/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+
+
+</script>
+<!--End of Tawk.to Script-->
+
+<script type="text/javascript">
+function getsponsors(){
+    $.ajax({
+        url		: "/get_sponsor",
+        type	: 'GET',
+        dataType : "text",
+        contentType: "application/json",
+        success : function(response){
+            response=JSON.parse(response);
+                
+            if(response.success){
+                var data=response.data;
+                if(data.length>0)
+                {
+                document.getElementById("sponsor").style.visibility = "visible";
+                }
+               else
+                 {
+                            
+                    document.getElementById("sponsor").style.visibility = "hidden";
+                   }
+               
+                if(data){
+                     
+                    var colcounter=0;
+                    var crouselcounter=0;
+                    var crouselIndicators=' <ol class="carousel-indicators"><li data-target="#sponsersCarousel" data-slide-to="0" class="active"></li>';
+                    var rowTemplate='<div class="carousel-inner"><div class="carousel-item active"><div class="row">';
+                    for(var i=0;i<data.length;i++){
+                            var d=data[i];
+                            if(colcounter==4){
+                                colcounter=0;
+                                crouselcounter++;
+                                crouselIndicators+='<li data-target="#sponsersCarousel" data-slide-to="'+crouselcounter+'" class=""></li>';
+                                rowTemplate+='</div></div><div class="carousel-item"><div class="row">';
+                               
+                            }
+
+                            var colTemplate= '<div class="col-md-3">\
+                                                        <div class="card">\
+                                                          <div class="card-body">\
+                                                            <img class="crouselimage" title='+d.name+' alt='+d.alt+' src="/uploads/'+d.image+'">\
+                                                            <div class="hover-block">\
+                                                                <h6 class="card-subtitle mb-2">'+d.name+'</h6>\
+                                                            </div>\
+                                                          </div>\
+                                                        </div>\
+                                                </div>';
+                                colcounter++;
+                                rowTemplate+=colTemplate;
+                            
+                    
+                            }
+               
+               
+                        }
+                        
+                
+                        rowTemplate+='</div>'
+                        crouselIndicators+="</ol>";                        
+                        $('#sponsersCarousel').html(crouselIndicators+rowTemplate);
+                            
+                            $('#sponsersCarousel').carousel({
+                                interval: 5000
+                            });
+            }
+          
+        }
+    });
+}
+
+    getsponsors();
+
+
+
+</script>	
+@!section('script')
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="{{ antl.currentLocale() }}" dir="{{ ( antl.currentLocale() == 'ar' ) ? 'rtl' : 'ltr' }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keyword" content="Bitcoin Trading Platform,  Cryptocurrency Exchange Platform,  Cryptocurrency Trading,  Best Bitcoin Trading Platform,  List Your Coin">
+    <meta name="csrf_token" content="{{ csrfToken }}">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    @!section('title')
+
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
+
+
+    {{ style('cssnew/theme.css') }}
+    {{ style('fonts/boxicons.min.css') }}
+    {{ style('cssnew/style.css') }}
+
+</head>
+
+@!section('body')
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-blue-900 fixed-top">
+            <div class="container">
+
+                <a class="navbar-brand" href="index.html">
+                    <img src="/images/logo.png" alt="" title="" width="auto" height="36">
+                </a>
+
+                <button type="button" id="sidebarCollapse" class="btn btn-link d-block d-md-none">
+                    <i class="bx bx-menu icon-single"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item pr-md-2">
+                            <a class="nav-link" href="/index/#trading">Trade</a>
+                        </li>
+
+                        <li class="nav-item pr-md-2">
+                            <a class="nav-link" href="{{ route('requestcoin') }}">List Your Coin</a>
+                        </li>
+
+                        <li class="nav-item pr-md-2">
+                            <a class="nav-link" href="{{ route('hire-trader') }}">Hire Trader</a>
+                        </li>
+
+                        <li class="nav-item dropdown pr-md-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                About
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <a class="dropdown-item" href="{{ route('about') }}">About Us</a>
+                                <a class="dropdown-item" href="{{ route('team') }}">Our Team</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown pr-md-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Support
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                <a class="dropdown-item" href="{{ route('contact') }}">Support</a>
+                                <a class="dropdown-item" href="{{ route('faq') }}">FAQs</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item pr-md-2">
+                            <a class="nav-link" href="{{ route('blogs') }}">Blog</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item mr-md-2">
+                            <a class="btn btn-outline-light" href="{{ route('login') }}">Log In</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="btn btn-yellow" href="{{ route('signup') }}">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @!section('content')
+
+     <footer class="footer bg-blue-800">
+        <div class="container">
+            <div class="row text-center mb-7">
+                <div class="col-12">
+                    <h2 class="text-white mt-0 mb-2">Start trading now</h2>
+                    <p class="lead text-white opacity-70 mb-4">Trade Bitcoin, BNB, and hundreds of other
+                        cryptocurrencies in minutes.</p>
+
+                    <a href="#" title="" class="btn btn-yellow">Let's Get Started <i
+                            class="bx bx-arrow-right-alt ml-1"></i></a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-2">
+                    <img src="/images/logo.png" alt="logo" title="" width="auto">
+                </div>
+
+                <div class="col-12 col-lg-3">
+                    <h6 class="text-uppercase text-white font-weight-bold">Company</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="{{ route('about') }}" title="" class="d-block py-1">About Us</a></li>
+                        <li><a href="{{ route('team') }}" title="" class="d-block py-1">Our Team</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-lg-3">
+                    <h6 class="text-uppercase text-white font-weight-bold">Explore</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="/index/#trading" title="" class="d-block py-1">Trade</a></li>
+                        <li><a href="{{ route('requestcoin') }}" title="" class="d-block py-1">List Your Coin</a></li>
+                        <li><a href="{{ route('hire-trader') }}" title="" class="d-block py-1">Hire Trader</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-lg-2">
+                    <h6 class="text-uppercase text-white font-weight-bold">Support</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="{{ route('support') }}" title="" class="d-block py-1">Support</a></li>
+                        <li><a href="{{ route('faq') }}" title="" class="d-block py-1">FAQs</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-lg-2">
+                    <h6 class="text-uppercase text-white font-weight-bold">Community</h6>
+                    <ul class="list-unstyled lead mb-0">
+                        <li class="list-inline-item"><a href="https://www.facebook.com/zithexglobal/" title="" target="_blank"><i
+                                    class="bx bxl-facebook-square"></i></a></li>
+                        <li class="list-inline-item"><a href="https://twitter.com/zithexglobal" title="" target="_blank"><i
+                                    class="bx bxl-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="#" title="" target="_blank"><i
+                                    class="bx bxl-instagram-alt"></i></a></li>
+                        <li class="list-inline-item"><a href="#" title="" target="_blank"><i
+                                    class="bx bxl-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+ <!-- jquery first, then bootstrap js -->
+    {{ script('jsnew/jquery-3.3.1.slim.min.js') }}
+    {{ script('jsnew/bootstrap.bundle.min.js') }}
+    {{ script('jsnew/scripts.js') }}
+
+    @!section('script')
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'FAQ - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">FAQ</h1>
+		<a href="{{ route('admin.faq.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New FAQ</a>
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<div class="table-responsive data-table">
+              <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Question</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(faq in faqs.rows)
+					<tr id="faq-{{ faq.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ faq.question }}</td>
+						<td>
+							<a href="{{ route('admin.faq.edit', { id : faq.id }) }}" class="btn btn-info btn--icon" data-id="{{ faq.id }}" data-toggle="tooltip" title="Edit"><i class="zmdi zmdi-edit"></i></a>
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ faq.id }}" data-toggle="tooltip" title="Delete"><i class="zmdi zmdi-delete"></i></button>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (faqs.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.faqs') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (faqs.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.faqs') }}?page={{ faqs.pages.page - 1 }}"></a></li>
+					@each(i in range(faqs.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == faqs.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.faqs') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (faqs.pages.lastPage == faqs.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.faqs') }}?page={{ faqs.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (faqs.pages.lastPage == faqs.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.faqs') }}?page={{ faqs.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.faq.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#faq-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

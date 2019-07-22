@@ -1,0 +1,36 @@
+@layout('layouts.default')
+
+@section('content')
+
+<div class="login">
+	<div class="container">
+		<div class="login-form">
+			<div class="main-div shadow-lg">
+				<div class="panel">
+					<h2>{{ antl.formatMessage('keywords.reset') }}</h2>
+					<p>{{ antl.formatMessage('keywords.reset_msg') }}</p>
+					@if(flashMessage('success'))
+						<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+					@endif
+					@if(flashMessage('error'))
+						<div class="alert alert-danger"> {{ flashMessage('error') }} </div>
+					@endif
+				</div>
+				<form id="login" method="post" action="{{ route('reset', { token : token }) }}">
+					{{ csrfField() }}
+					<div class="form-group">
+						<input type="password" name="password" class="form-control" id="password" placeholder="{{ antl.formatMessage('keywords.password') }}" value="{{ old('password', '') }}">
+						{{ elIf('<span class="text-danger">$self</span>', getErrorFor('password'), hasErrorFor('password')) }}
+					</div>
+					<div class="form-group">
+						<input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="{{ antl.formatMessage('keywords.password_confirmation') }}" value="{{ old('password_confirmation', '') }}">
+						{{ elIf('<span class="text-danger">$self</span>', getErrorFor('password_confirmation'), hasErrorFor('password_confirmation')) }}
+					</div>
+					<input type="submit" class="btn btn-primary btn-block mt-4" value="{{ antl.formatMessage('keywords.submit') }}">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@endsection

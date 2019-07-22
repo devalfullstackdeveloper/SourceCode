@@ -1,0 +1,110 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Deposite Requests - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">All Deposite Requests</h1>
+	<!-- 	<a href="{{ route('admin.job.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New</a> -->
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+		    <div class="table-responsive data-table">
+               <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>User</th>
+						<th>Status</th>
+						<th>Currency</th>
+						<th>Amount</th>
+						<th>Tx Hash</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(request in requests.rows)
+					<tr id="order-{{ request.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ request.name }}</td>
+						<td>
+						@if(request.status == 0)
+						<span class="badge btn-danger">Pending</span>
+						@elseif(request.status == 1)
+						<span class="badge btn-success">Verified</span>
+						@else
+						<span class="badge btn-primary">Invalid</span>
+						@endif	
+						</td>
+						<td>{{ request.currency }}</td>
+						<td>{{ request.amount }}</td>
+						<td>{{ request.hash }}</td>
+						<td>
+						@if(request.status == 0)
+							<button class="btn  btn-info btn--icon btn-remove" data-id="{{ request.id }}" data-status="Verified"><i class="zmdi zmdi-check"></i></button>
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ request.id }}"><i class="zmdi zmdi-close" data-status="Cancel"></i></button>
+						@endif	
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (requests.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.deposit.request') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (requests.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.deposit.request') }}?page={{ orders.pages.page - 1 }}"></a></li>
+					@each(i in range(requests.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == requests.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.deposit.request') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (requests.pages.lastPage == requests.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.deposit.request') }}?page={{ requests.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (requests.pages.lastPage == requests.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.deposit.request') }}?page={{ requests.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+			</div>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+			var status = $(this).attr('data-status');
+
+			$.ajax({
+				url		: "{{ route('admin.deposit.changestatus') }}",
+				type	: 'GET',
+				data	: { id : id ,status : status },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#job-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

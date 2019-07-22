@@ -1,0 +1,69 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Edit Review - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Edit Review</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit Review</h4>
+					<form method="post" action="{{ route('admin.feedback.edit', {id : feedback.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="title" placeholder="Title" autofocus="true" value="{{ old('title', feedback.title) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('title'), hasErrorFor('title')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="feedback" placeholder="Coin/Token Symbol" value="{{ old('feedback', feedback.feedback) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('feedback'), hasErrorFor('feedback')) }}
+						<div class="form-group">
+		
+						<input type="text" class="form-control" name="url" placeholder="Url" autofocus="true" value="{{ old('url', feedback.url) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('url'), hasErrorFor('url')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Social Media</h3>
+							<select name="socialmedia" class="custom-select custom-select-lg mb-3">
+									@each(socialmedia in socialmedias.rows)
+										<option value="{{ socialmedia.id }}"  {{socialmedia.id ==  old('socialmediaTypeId', feedback.socialmediaTypeId)? 'Selected': '' }} >{{ socialmedia.MediaName }}</option>
+									@endeach
+								</select>
+							</select>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('socialmedia'), hasErrorFor('socialmedia')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Icon</h3>
+							<img src="{{ assetsUrl('images/feedbacks/' + feedback.image) }}" style="width: 100%;">
+							<input type="file" class="form-control" name="image">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="alt_tag" placeholder="Alt Tag" autofocus="true" value="{{ old('alt_tag', feedback.alt_tag) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('alt_tag'), hasErrorFor('alt_tag')) }}
+						<button type="submit" class="btn btn-success">Edit Review</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

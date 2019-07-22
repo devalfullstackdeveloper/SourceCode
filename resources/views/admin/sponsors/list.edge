@@ -1,0 +1,92 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Sponsors - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Sponsors</h1>
+		<a href="{{ route('admin.sponsors.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New</a>
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<div class="table-responsive data-table">
+              <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Alternative information</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(sponsor in sponsors.rows)
+					<tr id="sponsor-{{ sponsor.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ sponsor.name }}</td>
+						<td>{{ sponsor.alt }}</td>
+						<td>
+							<a href="{{ route('admin.sponsors.edit', { id : sponsor.id }) }}" class="btn btn-info btn--icon" data-id="{{ sponsor.id }}" data-toggle="tooltip" title="Edit"><i class="zmdi zmdi-edit"></i></a>
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ sponsor.id }}" data-toggle="tooltip" title="Delete"><i class="zmdi zmdi-delete"></i></button>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (sponsors.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.sponsors') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (sponsor.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.sponsors') }}?page={{ sponsors.pages.page - 1 }}"></a></li>
+					@each(i in range(sponsors.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == sponsors.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.sponsors') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (sponsors.pages.lastPage == sponsors.pages.page) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.sponsors') }}?page={{ sponsors.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (sponsors.pages.lastPage == sponsors.pages.page) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.sponsors') }}?page={{ sponsors.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.sponsors.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#sponsor-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

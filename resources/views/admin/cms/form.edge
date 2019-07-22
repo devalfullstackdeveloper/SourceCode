@@ -1,0 +1,50 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', cms.title +' - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>{{ cms.title }}</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">{{ cms.title }}</h4>
+					<form method="post" action="{{ route('admin.cms', { cms_key : cms.cms_key }) }}">
+						{{ csrfField() }}
+						<div class="form-group">
+							<textarea type="text" class="form-control wysiwyg-editor" name="content" placeholder="{{ cms.title }}" value="{{ old('content', '') }}" rows="5">{{ cms.content }}</textarea>
+							<i class="form-group__bar"></i>
+						</div>
+						<button type="submit" class="btn btn-success">Update</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('style')
+
+{{ style('admin/vendors/bower_components/trumbowyg/dist/ui/trumbowyg.min.css') }}
+
+@endsection
+
+@section('script')
+
+{{ script('admin/vendors/bower_components/trumbowyg/dist/trumbowyg.min.js') }}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".wysiwyg-editor").trumbowyg({ autogrow : !0 })
+	})
+</script>
+
+@endsection

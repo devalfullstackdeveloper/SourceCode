@@ -1,0 +1,535 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+    @set('title', 'Dashboard - Zithex')
+@endsection
+
+@section('content')
+
+<section class="content">
+	<header class="content__title">
+		<h1>Dashboard</h1>
+	</header>
+	<div class="row quick-stats">
+		<div class="col-sm-6 col-md-3">
+			<a href="{{ route('admin.users') }}">
+				<div class="quick-stats__item">
+					<div class="quick-stats__info">
+						<h2>{{{ data.users.users }}}</h2>
+						<small>Users</small>
+					</div>
+					<div class="peity">
+						<i class="zmdi zmdi-accounts zmdi-hc-fw"></i>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<a href="{{ route('admin.pairs') }}">
+				<div class="quick-stats__item">
+					<div class="quick-stats__info">
+						<h2>{{{ data.pairs.pairs }}}</h2>
+						<small>Pairs</small>
+					</div>
+					<div class="peity">
+						<i class="zmdi zmdi-balance-wallet zmdi-hc-fw"></i>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<div class="quick-stats__item">
+				<div class="quick-stats__info">
+					<h2>{{{ data.orders.orders }}}</h2>
+					<small>Orders</small>
+				</div>
+				<div class="peity">
+					<i class="zmdi zmdi-money-box zmdi-hc-fw"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Users Statistics</h4>
+					<div class="flot-chart users-line"></div>
+					<div class="flot-chart-legends users-line-legends--curved"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Orders Statistics</h4>
+					<div class="flot-chart orders-line"></div>
+					<div class="flot-chart-legends orders-line-legends--curved"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Daily Visitors</h4>
+					<div class="flot-chart daily-visitors-line"></div>
+					<div class="flot-chart-legends daily-visitors-line-legends--curved"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Weekly Visitors</h4>
+					<div class="flot-chart weekly-visitors-line"></div>
+					<div class="flot-chart-legends weekly-visitors-line-legends--curved"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Monthly Visitors</h4>
+					<div class="flot-chart monthly-visitors-line"></div>
+					<div class="flot-chart-legends monthly-visitors-line-legends--curved"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@endsection
+
+@section('style')
+<style type="text/css">
+	.peity i {
+		font-size: 42px;
+	}
+</style>
+@endsection
+
+@section('script')
+
+{{ script('admin/vendors/bower_components/flot/jquery.flot.js') }}
+{{ script('admin/vendors/bower_components/flot.time/jquery.flot.time.min.js') }}
+{{ script('admin/vendors/bower_components/flot/jquery.flot.resize.js') }}
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		Date.prototype.getWeek = function (dowOffset) {
+
+		dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0;
+		var newYear = new Date(this.getFullYear(),0,1);
+		var day = newYear.getDay() - dowOffset;
+		day = (day >= 0 ? day : day + 7);
+		var daynum = Math.floor((this.getTime() - newYear.getTime() - 
+		(this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
+		var weeknum;
+		if(day < 4) {
+			weeknum = Math.floor((daynum+day-1)/7) + 1;
+			if(weeknum > 52) { 
+				nYear = new Date(this.getFullYear() + 1,0,1);
+				nday = nYear.getDay() - dowOffset;
+				nday = nday >= 0 ? nday : nday + 7;
+				weeknum = nday < 4 ? 1 : 53;
+			}
+		}
+		else {
+			weeknum = Math.floor((daynum+day-1)/7);
+		}
+		return weeknum;
+	};
+
+		var dayOfMonth = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	
+	
+
+		function gd(year, month, day) {
+			return new Date(year, month, day).getTime();
+		}
+
+		var userStatics = JSON.parse('{{{ data.usersStatics }}}');
+		var userStatistics = [];
+
+		for (var i = 0; i < userStatics.length; i++) {
+			var date = new Date(userStatics[i].created_at);
+			userStatistics.push([gd(date.getFullYear(), date.getDate()), userStatics[i].users]);			
+		}
+
+		var orderStatics = JSON.parse('{{{ data.ordersStatics }}}');
+		var orderStatistics = [];
+
+		for (var i = 0; i < orderStatics.length; i++) {
+			var date = new Date(orderStatics[i].created_at);
+			orderStatistics.push([gd(date.getFullYear(), date.getMonth(), date.getDate()), orderStatics[i].orders]);			
+		}
+
+		var dailyVisitorsStatics = JSON.parse('{{{ data.dailyVisitors }}}');
+		var dailyVisitorsStatistics = [];
+
+		for (var i = 0; i < dailyVisitorsStatics.length; i++) {
+			var date = new Date(dailyVisitorsStatics[i].created_at);
+			dailyVisitorsStatistics.push([gd(date.getFullYear(), date.getMonth(), date.getDate()), dailyVisitorsStatics[i].visitors]);			
+		}
+
+		var weeklyVisitorsStatics = JSON.parse('{{{ data.weeklyVisitors }}}');
+		var weeklyVisitorsStatistics = [];
+
+		for (var i = 0; i < weeklyVisitorsStatics.length; i++) {
+			var date = new Date(weeklyVisitorsStatics[i].created_at);
+			weeklyVisitorsStatistics.push([gd(date.getFullYear(), date.getMonth(), date.getDate()), weeklyVisitorsStatics[i].visitors]);			
+		}
+
+		var monthlyVisitorsStatics = JSON.parse('{{{ data.monthlyVisitors }}}');
+		var monthlyVisitorsStatistics = [];
+
+		for (var i = 0; i < monthlyVisitorsStatics.length; i++) {
+			var date = new Date(monthlyVisitorsStatics[i].created_at);
+			monthlyVisitorsStatistics.push([gd(date.getFullYear(), date.getMonth(), date.getDate()), monthlyVisitorsStatics[i].visitors]);			
+		}
+
+		var usersLineChartData = [
+			{
+				color: 'rgba(255,255,255,0.8)',
+				lines: {
+					show: true,
+					lineWidth: 0.1,
+					fill: 1,
+					fillColor: {
+						colors: ['rgba(255,255,255,0.01)', '#fff']
+					}
+				},
+				data: userStatistics
+			}
+		];
+
+		// Main
+		var usersLineChartOptions = {
+			series: {
+				shadowSize: 0,
+				bars: {
+					show: true,
+					barWidth: 0.075,
+					fill: 1,
+					lineWidth: 0
+				}
+			},
+			grid: {
+				borderWidth: 1,
+				borderColor: 'rgba(255,255,255,0.1)',
+				show: true,
+				hoverable: true,
+				clickable: true
+			},
+			xaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				mode: "time",
+				tickFormatter: function (val, axis) {
+			        return dayOfMonth[new Date(val).getMonth()];
+				},
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				}
+			},
+			yaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				tickDecimals: 0,
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				},
+				min: 0
+			},
+			legend:{
+				container: '.users-line-legends--curved',
+				backgroundOpacity: 0.5,
+				noColumns: 0,
+				lineWidth: 0,
+				labelBoxBorderColor: 'rgba(255,255,255,0)'
+			}
+		};
+
+		$.plot($('.users-line'), usersLineChartData, usersLineChartOptions);
+
+		var ordersLineChartData = [
+			{
+				color: 'rgba(255,255,255,0.8)',
+				lines: {
+					show: true,
+					lineWidth: 0.1,
+					fill: 1,
+					fillColor: {
+						colors: ['rgba(255,255,255,0.01)', '#fff']
+					}
+				},
+				data: orderStatistics
+			}
+		];
+
+		// Main
+		var ordersLineChartOptions = {
+			series: {
+				shadowSize: 0,
+				bars: {
+					show: true,
+					barWidth: 0.075,
+					fill: 1,
+					lineWidth: 0
+				}
+			},
+			grid: {
+				borderWidth: 1,
+				borderColor: 'rgba(255,255,255,0.1)',
+				show: true,
+				hoverable: true,
+				clickable: true
+			},
+			xaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				mode: "time",
+				tickFormatter: function (val, axis) {
+			        return dayOfMonth[new Date(val).getMonth()];
+				},
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				}
+			},
+			yaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				tickDecimals: 0,
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				},
+				min: 0
+			},
+			legend:{
+				container: '.orders-line-legends--curved',
+				backgroundOpacity: 0.5,
+				noColumns: 0,
+				lineWidth: 0,
+				labelBoxBorderColor: 'rgba(255,255,255,0)'
+			}
+		};
+
+		$.plot($('.orders-line'), ordersLineChartData, ordersLineChartOptions);
+
+		var dailyVisitorsLineChartData = [
+			{
+				color: 'rgba(255,255,255,0.8)',
+				lines: {
+					show: true,
+					lineWidth: 0.1,
+					fill: 1,
+					fillColor: {
+						colors: ['rgba(255,255,255,0.01)', '#fff']
+					}
+				},
+				data: dailyVisitorsStatistics
+			}
+		];
+
+		// Main
+		var dailyVisitorsLineChartOptions = {
+			series: {
+				shadowSize: 0,
+				bars: {
+					show: true,
+					barWidth: 0.075,
+					fill: 1,
+					lineWidth: 0
+				}
+			},
+			grid: {
+				borderWidth: 1,
+				borderColor: 'rgba(255,255,255,0.1)',
+				show: true,
+				hoverable: true,
+				clickable: true
+			},
+			xaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				mode: "time",
+				tickFormatter: function (val, axis) {
+					return new Date(val).getDate();
+				},
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				}
+			},
+			yaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				tickDecimals: 0,
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				},
+				min: 0
+			},
+			legend:{
+				container: '.daily-visitors-line-legends--curved',
+				backgroundOpacity: 0.5,
+				noColumns: 0,
+				lineWidth: 0,
+				labelBoxBorderColor: 'rgba(255,255,255,0)'
+			}
+		};
+
+		$.plot($('.daily-visitors-line'), dailyVisitorsLineChartData, dailyVisitorsLineChartOptions);
+
+		var weeklyVisitorsLineChartData = [
+			{
+				color: 'rgba(255,255,255,0.8)',
+				lines: {
+					show: true,
+					lineWidth: 0.1,
+					fill: 1,
+					fillColor: {
+						colors: ['rgba(255,255,255,0.01)', '#fff']
+					}
+				},
+				data: weeklyVisitorsStatistics
+			}
+		];
+
+		// Main
+		var weeklyVisitorsLineChartOptions = {
+			series: {
+				shadowSize: 0,
+				bars: {
+					show: true,
+					barWidth: 0.075,
+					fill: 1,
+					lineWidth: 0
+				}
+			},
+			grid: {
+				borderWidth: 1,
+				borderColor: 'rgba(255,255,255,0.1)',
+				show: true,
+				hoverable: true,
+				clickable: true
+			},
+			xaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				mode: "time",
+				tickFormatter: function (val, axis) {
+					return new Date(val).getWeek();
+				},
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				}
+			},
+			yaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				tickDecimals: 0,
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				},
+				min: 0
+			},
+			legend:{
+				container: '.weekly-visitors-line-legends--curved',
+				backgroundOpacity: 0.5,
+				noColumns: 0,
+				lineWidth: 0,
+				labelBoxBorderColor: 'rgba(255,255,255,0)'
+			}
+		};
+
+		$.plot($('.weekly-visitors-line'), weeklyVisitorsLineChartData, weeklyVisitorsLineChartOptions);
+
+		var monthlyVisitorsLineChartData = [
+			{
+				color: 'rgba(255,255,255,0.8)',
+				lines: {
+					show: true,
+					lineWidth: 0.1,
+					fill: 1,
+					fillColor: {
+						colors: ['rgba(255,255,255,0.01)', '#fff']
+					}
+				},
+				data: monthlyVisitorsStatistics
+			}
+		];
+
+		// Main
+		var monthlyVisitorsLineChartOptions = {
+			series: {
+				shadowSize: 0,
+				bars: {
+					show: true,
+					barWidth: 0.075,
+					fill: 1,
+					lineWidth: 0
+				}
+			},
+			grid: {
+				borderWidth: 1,
+				borderColor: 'rgba(255,255,255,0.1)',
+				show: true,
+				hoverable: true,
+				clickable: true
+			},
+			xaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				mode: "time",
+				tickFormatter: function (val, axis) {
+					return dayOfMonth[new Date(val).getMonth()];
+				},
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				}
+			},
+			yaxis: {
+				tickColor: 'rgba(255,255,255,0.1)',
+				tickDecimals: 0,
+				font: {
+					lineHeight: 13,
+					style: 'normal',
+					color: 'rgba(255,255,255,0.75)',
+					size: 11
+				},
+				min: 0
+			},
+			legend:{
+				container: '.monthly-visitors-line-legends--curved',
+				backgroundOpacity: 0.5,
+				noColumns: 0,
+				lineWidth: 0,
+				labelBoxBorderColor: 'rgba(255,255,255,0)'
+			}
+		};
+
+		$.plot($('.monthly-visitors-line'), monthlyVisitorsLineChartData, monthlyVisitorsLineChartOptions);
+
+	});
+</script>
+
+@endsection

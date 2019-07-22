@@ -1,0 +1,2086 @@
+@layout('layouts.default')
+
+@section('content')
+<style>
+    .pair-name i.fa {
+        color: #a9a9a9;
+        cursor: pointer;
+    }
+
+    .pair-name i.fa-active {
+        color: #d58c07;
+    }
+
+    .tredi-price2 .active {
+        background-color: transparent !important;
+    }
+
+    .tredi-price2 .nav-link {
+        border-radius: 0px
+    }
+</style>
+<section class="trade pt-4 pb-4 market-section" id="newdays">   
+    <div class="container">
+        <img class="mr-2 bit-img" width="35" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
+        <h3 class="text-weight-bold" style="">
+        
+            <a href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'detailmarket', { pair : pair.pair_key } ) : route( 'login' ) }}" class="market-heading"><span class="h0o2f9-1 bztrIH">{{ (pair.pair_name).toUpperCase() }}</span></a>
+
+            <input type="hidden" id="selectedpair" value="{{ (pair.pair_key).toUpperCase() }}">
+        </h3>
+        <div class="messages"></div>
+        <div class="col-sm-12"> 
+            <div class="row p-1 mt-4 market-head-box"> 
+                <div class="col">
+                    <div class="d-flex"> <span class="trade-sm small">{{ antl.formatMessage('keywords.last_price') }}</span>  </div>  
+                    <div class="d-flex font-weight-bold"> <span class="mr-2" id="last_price">0.000</span></div>
+                </div>
+                <div class="col">
+                    <div class="d-flex"> <span class="trade-sm small">{{ antl.formatMessage('keywords.24h_change') }}e</span>  </div>  
+                    <div class="d-flex font-weight-bold"> <span class="mr-2" id="24h_change">0.000</span></div>
+                </div>
+                <div class="col">
+                    <div class="d-flex"> <span class="trade-sm small">{{ antl.formatMessage('keywords.24h_high') }}</span>  </div>  
+                    <div class="d-flex font-weight-bold"> <span class=" mr-2" id="24_high">0.000</span> </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex"> <span class="trade-sm small">{{ antl.formatMessage('keywords.24h_low') }}</span>  </div>  
+                    <div class="d-flex font-weight-bold"><span id="24_low">0.000</span> </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex"> <span class="trade-sm small">{{ antl.formatMessage('keywords.24h_volume') }}</span>  </div>  
+                    <div class="d-flex font-weight-bold"><span id="24h_volume">0.000</span> </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex">
+                        <ul class="list-inline m-0">
+                            <li class="list-inline-item">
+                                <button class="ztxday zth-theme-btn" onclick="ztxday();">
+                                    <i class="fas fa-sun"></i>
+                                </button>
+                            </li>
+                            <li class="list-inline-item">
+                                <button  class="ztxnight zth-theme-btn" onclick="ztxnight();">
+                                    <i class="fas fa-moon"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-sm-12 col-md-3 tredi-price1">
+                <div class="">
+                    <div class="d-inline table-scroll">
+                        <table class="table table-sm table-bordered text-center mb-0 trade-ui--table cursor-table">
+                            <thead>
+                                <tr class="grey-text">
+                                    <th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+                                    <th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+                                    <th scope="col">{{ antl.formatMessage('keywords.total') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="title-body common-tbody">
+                                <tr>
+                                    <td colspan="3" style="font-weight: bold; font-size: 14px !important; text-transform: uppercase;">Buy</td>
+                                </tr>
+                            </tbody>    
+                            <tbody class="buy-orders scroll-body common-tbody">
+                                <tr class="small">
+                                    <td class="thime-color">-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-inline table-scroll">
+                        <table class="table table-sm table-bordered text-center mb-0 trade-ui--table cursor-table">
+                            <thead>
+                                <tr class="grey-text">
+                                    <th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+                                    <th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+                                    <th scope="col">{{ antl.formatMessage('keywords.total') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="title-body common-tbody">
+                                <tr>
+                                    <td colspan="3" style="font-weight: bold; font-size: 14px !important; text-transform: uppercase;">Sell<span style="float: right;padding: 0px 0px 0px 0px;">
+                                <img src="data:image/gif;base64,R0lGODlhEgANAPEAAP/DMdHR0f///wAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFHgAAACwAAAAAEgANAEACI4SPGcvW8N6Jy7EKMQ1J6ctl4bZZI9alkvqFU2uWYgzPorwVACH5BAUeAAEALAAABgADAAcAAAIEhI+pBQAh+QQFHgABACwFAAQAAwAJAAACBISPqVoAIfkEBR4AAQAsCgACAAMACwAAAgWEj6mbBQAh+QQFHgABACwPAAAAAwANAAACBYSPqctXADs=" class="#" alt="Market Status" title="Market Status" id="marketstatus">
+                                    </span></td>
+                                </tr>
+                            </tbody>    
+                            <tbody class="sell-orders scroll-body common-tbody">
+                                <tr class="small">
+                                    <td class="thime-color">-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+
+                <div class="clearfix">
+                    <div class="float-md-right text-center">
+                        <button onclick="showOriginal()" class="btn btn-sm btn-primary">Zithex Chart</button>
+                        <button onclick="showTradeView()" class="btn btn-sm btn-primary">Trading View</button>
+                    </div>
+                </div>
+
+                <div class="tread-view d-inline w-100" style="display: none !important;">
+                    <div id="chart-container" class="tread-box-cnt"></div>
+                </div>
+                <div style="background: #ffffff;" class="original-view d-inline w-100">
+                    <div style="background: #ffffff;" id="chart-original" class="tread-box-cnt">
+                    <h3>Coming soon..</h3>
+                    </div>
+                </div>
+                <div class="col-sm-12 mt-5">
+                <input type="hidden" value="{{ stoporderdata }}" id="stoporderdata" name="stoporderdata" />
+                
+                <input type="hidden" value="{{ stoporderdatas }}" id="stoporderdatas" name="stoporderdatas" />
+                    <div class="tab-content border p-3 trade-ui--tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="fees-card d-md-flex">
+                                <h3>Fees</h3>
+                                <ul class="list-inline m-0 pl-md-4 pl-0">
+                                   @each(requestfees in requestfees.rows)
+                                    <li class="list-inline-item">
+                                        <p class="m-0">{{ requestfees.user_level }}:   <span> {{ requestfees.amount }} %</span></p>
+                                    </li>
+                                    @endeach  
+                                </ul>   
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-12 tredi-price2">
+                                    <ul class="nav nav-pills trade-ui--pills" id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                          <a class="nav-link active p-1 grey-text small border" id="start-market-tab-link" data-toggle="pill" href="#start-market-tab" role="tab" aria-controls="start-market-tab" aria-selected="true">Buy</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " id="stop-market-tab-link" data-toggle="pill" href="#stop-market-tab" role="tab" aria-controls="stop-market-tab" aria-selected="true">Stop Limit</a>
+                                        </li>
+                                         <li class="nav-item">
+                                          <a class="nav-link" id="exchange-market-tab-link" data-toggle="pill" href="#exchange-market-tab" role="tab" aria-controls="exchange-market-tab" aria-selected="true">Exchange</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="pills-tabContent">
+                                         <div class="tab-pane fade show active" id="start-market-tab" role="tabpanel" aria-labelledby="start-market-tab-link">
+                                            <div class="p-3 trade-ui--tab-box">
+                                               <h4 class="h5">{{ antl.formatMessage('keywords.buy') }}<span class="ml-2">{{ pair.coin }}</span></h4>
+                                               <div id="buyFormMessage"></div>
+                                               @if(auth.user)
+                                               <form method="post" id="buyForm" data-parsley-validate autocomplete="off">
+                                            
+                                                  <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.base_currency).toUpperCase() }}
+                                                  <div  id="mainusdbal">
+
+                                                  @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
+                                                  <span class="float-right" id="kkrt">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                  @else
+                                                  <span class="float-right" id="kkrt">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00000000' }}</span>
+                                                  @endif
+                                                  </div></p>
+                                                  {{ csrfField() }}
+                                                  <input type="hidden" name="against" value="">
+                                                  <input type="hidden" value="{{ base_currency_balance }}" id="mainbalance" />
+                                                  <input type="hidden" name="stop_limit" value="">
+                                                  <input type="hidden" name="feesperc" id="feesperc" value="{{ userfees.amount }}" />
+                                                  @endif
+                                                  <div class="form-group">
+                                                     <label for="buy-price" class="">{{ antl.formatMessage('keywords.price') }}</label>
+                                                     <input data-parsley-required class="form-control" name="price" id="buy-price" type="number" step="0.00000001" min="0.00000001">
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-amount" class="">{{ antl.formatMessage('keywords.amount') }}</label>
+                                                     <input data-parsley-required class="form-control" name="amount" id="buy-amount" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getone(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="gettwo(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getthree(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getfour(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
+                                                      <input data-parsley-required class="form-control" name="total"  id="buy-total" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
+                                                  </div>
+                                                  @if(auth.user)
+                                                  <div class="text-center"><input type="submit" id="buyFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch" value="{{ antl.formatMessage('keywords.buy') }}"></div>
+                                               </form>
+                                               @else
+                                               <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
+                                               @endif
+                                            </div>
+                                         </div>
+                                         <!---new stop limit -->
+                                         <div class="tab-pane fade" id="stop-market-tab" role="tabpanel" aria-labelledby="stop-market-tab-link">
+                                            <div class="p-3 trade-ui--tab-box">
+                                               
+                                                <p class="text-center">Coming Soon</p>
+                                               <!--<h4 class="h5">{{ antl.formatMessage('keywords.buy') }}<span class="ml-2">{{ pair.coin }}</span></h4>
+                                               <div id="stopbuyFormMessage"></div>
+                                               @if(auth.user)
+                                               <form method="post" id="stopbuyForm" data-parsley-validate autocomplete="off">
+                                                  <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div id="mainusdbal2">
+
+                                                  @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
+                                                    <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                  @else
+                                                    <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00000000' }}</span>
+                                                  @endif
+                                                  </div></p>
+                                                  {{ csrfField() }}
+                                                  <input type="hidden" name="against" value="">
+                                                  <input type="hidden" value="{{ base_currency_balance }}" id="mainbalance" />
+                                                  <input type="hidden" name="feesperc" id="feesperc" value="{{ userfees.amount }}" />
+                                                  @endif
+                                                  <div class="form-group">
+                                                     <label for="buy-price" class="">Stop Price</label>
+                                                     <input data-parsley-required class="form-control" name="stop_limit" id="stop_limit" type="number" step="0.00000001" min="0.00000001">
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-price" class="">{{ antl.formatMessage('keywords.price') }}</label>
+                                                     <input data-parsley-required class="form-control buy-price" name="price" id="buy-price" type="number" step="0.00000001" min="0.00000001">
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-amount" class="">{{ antl.formatMessage('keywords.amount') }}</label>
+                                                     <input data-parsley-required class="form-control buy-amount" name="amount"  id="buy-amount" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get9(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get10(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get11(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get12(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
+                                                     <input data-parsley-required class="form-control buy-total" name="total"  id="buy-total" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
+                                                  </div>
+                                                  @if(auth.user)
+                                                  <div class="text-center"><input type="submit" id="stopbuyFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch" value="{{ antl.formatMessage('keywords.buy') }}"></div>
+                                               </form>
+                                               @else
+                                               <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}
+                                               </div>
+                                               @endif
+                                               -->
+                                            </div>
+                                         </div>
+                                         <!-- buy Exchange Form -->
+                                         
+                                           <div class="tab-pane fade" id="exchange-market-tab" role="tabpanel" aria-labelledby="exchange-market-tab-link">
+                                            <div class="p-3 trade-ui--tab-box">
+                                               <h4 class="h5">Exchange<span class="ml-2">{{ pair.coin }}</span></h4>
+                                               <div id="exchangebuyFormMessage"></div>
+                                               @if(auth.user)
+                                               <form method="post" id="exchangebuyForm" data-parsley-validate autocomplete="off">
+                                                  <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div  id="mainusdbal3">
+
+                                                  @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
+                                                     <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                  @else
+                                                     <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00000000' }}</span>
+                                                  @endif
+                                                 
+
+                                                  </div></p>
+                                                  {{ csrfField() }}
+                                                  <input type="hidden" name="against" value="">
+                                                  <input type="hidden" value="{{ base_currency_balance }}" id="mainbalance" />
+                                                  <input type="hidden" name="stop_limit" value="">
+                                                  <input type="hidden" name="feesperc" id="feesperc" value="{{ userfees.amount }}" />
+                                                  @endif 
+                                                  <div class="form-group">
+                                                     <label for="buy-price" class="">{{ antl.formatMessage('keywords.price') }}</label>
+                                                     <input data-parsley-required class="form-control" name="price" id="exchange-price" type="number" step="0.00000001" min="0.00000001" readonly>
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-amount" class="">{{ antl.formatMessage('keywords.amount') }}</label>
+                                                     <input data-parsley-required class="form-control" name="amount"  id="exchange-amount" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetone(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egettwo(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetthree(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetfour(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                  </div>
+                                                  <div class="form-group">
+                                                     <label for="buy-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
+                                                      <input data-parsley-required class="form-control" name="total"  id="exchange-total" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
+                                                  </div>
+                                                  @if(auth.user)
+                                                  <div class="text-center"><input type="submit" id="buyFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch" value="Exchange"></div>
+                                               </form>
+                                               @else
+                                               <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
+                                               @endif
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>    
+                                <div class="col-lg-6 col-12">
+                                        <ul class="nav nav-pills trade-ui--pills">
+                                            <li class="nav-item">
+                                                <button class="nav-link active sellTabBtn" onclick="startsell()">Sell</button>    
+                                            </li>
+                                            <li class="nav-item">
+                                                <button class="nav-link sellLimitTabBtn" onclick="stopsell()">Stop Limit</button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button class="nav-link sellExchangeTabBtn" onclick="exchangestartsell()">Exchange</button>
+                                            </li>
+                                        </ul>
+                                        <div class="p-3 trade-ui--tab-box" id="startsell">
+                                            
+                                            <h4 class="h5">{{ antl.formatMessage('keywords.sell') }}<span class="ml-2">{{ pair.coin }}</span></h4> 
+                                            <div id="sellFormMessage"></div>
+                                            @if(auth.user)
+                                            <form id="sellForm" method="post" data-parsley-validate autocomplete="off">
+                                                <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="sellformbal">
+                                                @if( pair.derive_currency == 'usd' || (pair.derive_currency) == 'euro' )
+                                                <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                @else
+                                                <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00000000' }}</span>
+                                                @endif
+
+                                                </div></p>
+                                                {{ csrfField() }}
+                                                <input type="hidden" name="against" value="">
+                                                <input type="hidden" value="{{ derive_currency_balance }}" id="derivebalance" />
+                                                <input type="hidden" name="feesperc" id="feesperc" value="{{ userfees.amount }}" />
+                                                @endif
+                                                <div class="form-group">
+                                                   <label for="sell-price" class="">{{ antl.formatMessage('keywords.price') }}</label>
+                                                   <input data-parsley-required class="form-control" name="price" id="sell-price" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="sell-amount" class="">{{ antl.formatMessage('keywords.amount') }}</label>
+                                                   <input data-parsley-required class="form-control" name="amount" id="sell-amount" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                <div class="form-group">
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getfive(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getsix(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getseven(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="geteight(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="sell-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
+                                                   <input data-parsley-required class="form-control" name="total" id="sell-total" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                @if(auth.user)
+                                                <div class="text-center"><button type="submit" id="sellFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch">{{ antl.formatMessage('keywords.sell') }}</button></div>
+                                            </form>
+                                             @else
+                                             <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
+                                             @endif
+                                        </div>
+                                        <div class="p-3 trade-ui--tab-box" id="stopsell" style="display:none;">
+                                            <p class="text-center">Coming Soon</p>
+
+                                            <!--<h4 class="h5">{{ antl.formatMessage('keywords.sell') }}<span class="ml-2">{{ pair.coin }}</span></h4>
+                                            <div id="stopsellFormMessage"></div>
+                                            @if(auth.user)
+                                            <form id="stopsellForm" method="post" data-parsley-validate autocomplete="off">
+                                                <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.derive_currency).toUpperCase() }} <div id="sellformbal2">
+                                                @if( pair.derive_currency == 'usd' || pair.derive_currency == 'euro' )
+                                                <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                @else
+                                                <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00000000' }}</span>
+                                                @endif
+                                                </div></p>
+                                                {{ csrfField() }}
+                                                <input type="hidden" name="against" value="">
+                                                <input type="hidden" value="{{ derive_currency_balance }}" id="derivebalance" />
+                                                <input type="hidden" name="feesperc" id="feesperc" value="{{ userfees.amount }}" />
+                                                @endif
+                                                <div class="form-group">
+                                                   <label for="sell-price" class="">Stop Price</label>
+                                                   <input  class="form-control" name="stopsell_limit" id="stopsell_limit" type="number" step="0.00000001" min="0.00000001" data-parsley-required>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="stopsell-price" class="">{{ antl.formatMessage('keywords.price') }}</label>
+                                                   <input data-parsley-required class="form-control" name="price" id="stopsell-price" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="stopsell-amount" class="">{{ antl.formatMessage('keywords.amount') }}</label>
+                                                   <input data-parsley-required class="form-control" name="amount" id="stopsell-amount" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                <div class="form-group">
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get13(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get14(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get15(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get16(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="sell-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
+                                                   <input data-parsley-required class="form-control" name="total" id="stopsell-total" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                @if(auth.user)
+                                                <div class="text-center"><button type="submit" id="stopsellFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch">{{ antl.formatMessage('keywords.sell') }}</button></div>
+                                            </form>
+                                            @else
+                                            <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
+                                            @endif
+                                            -->
+                                        </div>
+                                        <div class="p-3 trade-ui--tab-box" id="exchangestartsell" style="display:none;">
+                                            <h4 class="h5">Exchange<span class="ml-2">{{ pair.coin }}</span></h4>
+                                            <div id="exchangesellFormMessage"></div>
+                                            @if(auth.user)
+                                            <form id="exchangesellForm" method="post" data-parsley-validate autocomplete="off">
+                                                <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="exchangesellformbal">
+                                                @if( pair.derive_currency == 'usd' || pair.derive_currency == 'euro' )
+                                                  <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                @else
+                                                  <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00000000' }}</span>
+                                                @endif
+
+                                                  </div></p>
+                                                {{ csrfField() }}
+                                                <input type="hidden" name="against" value="">
+                                                <input type="hidden" value="{{ derive_currency_balance }}" id="derivebalance" />
+                                                <input type="hidden" name="feesperc" id="feesperc" value="{{ userfees.amount }}" />
+                                                @endif
+                                                <div class="form-group">
+                                                   <label for="sell-price" class="">{{ antl.formatMessage('keywords.price') }}</label>
+                                                   <input data-parsley-required class="form-control" name="price" id="exchangesell-price" type="number" step="0.00000001" min="0.00000001" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="sell-amount" class="">{{ antl.formatMessage('keywords.amount') }}</label>
+                                                   <input data-parsley-required class="form-control" name="amount" id="exchangesell-amount" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                <div class="form-group">
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetfive(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetsix(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetseven(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegeteight(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="sell-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
+                                                   <input data-parsley-required class="form-control" name="total" id="exchangesell-total" type="number" step="0.00000001" min="0.00000001">
+                                                </div>
+                                                @if(auth.user)
+                                                <div class="text-center"><button type="submit" id="sellFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch">Exchange</button></div>
+                                            </form>
+                                             @else
+                                             <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
+                                             @endif
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-3 tredi-price2">
+            <!--search bar-->
+            <div class="searchnew mb-3 mt-3">
+  				<input type="text" name="search" id="search" class="form-control" placeholder="search here..">
+  				<i class="fa fa-search"></i>
+  			</div>
+            <!--search bar-->
+                <ul class="nav nav-pills trade-ui--pills" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                        <a class="nav-link" id="favourite-market-tab-link" data-toggle="pill" href="#favourite-market-tab" role="tab" aria-controls="favourite-market-tab" aria-selected="true"><i class="fa fa-star fa-active" style="color: #d58c07;"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active p-1 grey-text small border" id="btc-market-tab-link" data-toggle="pill" href="#btc-market-tab" role="tab" aria-controls="btc-market-tab" aria-selected="true">USD</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-1 grey-text small border" id="eth-market-tab-link" data-toggle="pill" href="#eth-market-tab" role="tab" aria-controls="eth-market-tab" aria-selected="false">EURO</a>
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link p-1 grey-text small border" id="btcnew-market-tab-link" data-toggle="pill" href="#btcnew-market-tab" role="tab" aria-controls="btcnew-market-tab" aria-selected="false">BTC</a>
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link p-1 grey-text small border" id="ethnew-market-tab-link" data-toggle="pill" href="#ethnew-market-tab" role="tab" aria-controls="ethnew-market-tab" aria-selected="false">ETH</a>
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link p-1 grey-text small border" id="ztxnew-market-tab-link" data-toggle="pill" href="#ztxnew-market-tab" role="tab" aria-controls="ztxnew-market-tab" aria-selected="false">ZTX</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                     <div class="tab-pane fade" id="favourite-market-tab" role="tabpanel" aria-labelledby="favourite-market-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>{{ antl.formatMessage('keywords.pair') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.price') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.change') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="scroll-body common-tbody">
+                                    @each(pair in favourite.rows)
+                                        <tr id="{{ pair.pair_key }}">
+                                            <td class="text-center pair-name d-flex"><i class="fa fa-star favourite {{ ( ( favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i><a href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">  {{ pair.pair_name }}</a></td>
+                                            <td></td>
+                                            <td class="text-right"></td>
+                                        </tr>
+                                    @endeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show active" id="btc-market-tab" role="tabpanel" aria-labelledby="btc-market-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>{{ antl.formatMessage('keywords.pair') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.price') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.change') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="scroll-body common-tbody">
+                                    @each(pair in usd.rows)
+                                        <tr id="{{ pair.pair_key }}">
+                                            <td class="text-center pair-name d-flex"><i class="fa fa-star favourite {{ ( ( favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i><a href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">  {{ pair.pair_name }}</a></td>
+                                            <td></td>
+                                            <td class="text-right"></td>
+                                        </tr>
+                                    @endeach
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                    <div class="tab-pane fade" id="eth-market-tab" role="tabpanel" aria-labelledby="eth-market-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>{{ antl.formatMessage('keywords.pair') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.price') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.change') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="scroll-body common-tbody">
+                                    @each(pair in euro.rows)
+                                    <tr id="{{ pair.pair_key }}">
+                                        <td class="text-center pair-name d-flex"><i class="fa fa-star favourite {{ ( ( favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i><a href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">  {{ pair.pair_name }}</a></td>
+                                        <td></td>
+                                        <td class="text-right"></td>
+                                    </tr>
+                                    @endeach
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                    <div class="tab-pane fade" id="btcnew-market-tab" role="tabpanel" aria-labelledby="btcnew-market-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>{{ antl.formatMessage('keywords.pair') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.price') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.change') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="scroll-body common-tbody">
+                                    @each(pair in btc.rows)
+                                    <tr id="{{ pair.pair_key }}">
+                                        <td class="text-center pair-name d-flex"><i class="fa fa-star favourite {{ ( ( favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i><a href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">  {{ pair.pair_name }}</a></td>
+                                        <td></td>
+                                        <td class="text-right"></td>
+                                    </tr>
+                                    @endeach
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                    <div class="tab-pane fade" id="ethnew-market-tab" role="tabpanel" aria-labelledby="ethnew-market-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>{{ antl.formatMessage('keywords.pair') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.price') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.change') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="scroll-body common-tbody">
+                                    @each(pair in eth.rows)
+                                    <tr id="{{ pair.pair_key }}">
+                                        <td class="text-center pair-name d-flex"><i class="fa fa-star favourite {{ ( ( favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i><a href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}"> {{ pair.pair_name }}</a></td>
+                                        <td></td>
+                                        <td class="text-right"></td>
+                                    </tr>
+                                    @endeach
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                        <div class="tab-pane fade" id="ztxnew-market-tab" role="tabpanel" aria-labelledby="ztxnew-market-tab-link">
+                        <div class="table-scroll">    
+                            <table class="table table-sm table-bordered trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>{{ antl.formatMessage('keywords.pair') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.price') }}</th>
+                                        <th>{{ antl.formatMessage('keywords.change') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="scroll-body common-tbody">
+                                    <tr id="#">
+                                        <td class="text-center pair-name d-flex" colspan="3">
+                                            <i class="fa fa-star favourite"></i> Coming Soon
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                </div>
+                <ul class="nav nav-pills trade-ui--pills" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active p-1 grey-text small border" id="history-tab-link" data-toggle="pill" href="#history-tab" role="tab" aria-controls="btc-market-tab" aria-selected="true">{{ antl.formatMessage('keywords.market') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-1 grey-text small border" id="my-history-tab-link" data-toggle="pill" href="#my-history-tab" role="tab" aria-controls="eth-market-tab" aria-selected="false">{{ antl.formatMessage('keywords.my_order') }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="history-tab" role="tabpanel" aria-labelledby="history-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered text-center trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="small">
+                                        <th colspan="3"><span class="text-weight-bold">{{ antl.formatMessage('keywords.trade_history') }}</span> </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="history-orders scroll-body common-tbody">
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                    <div class="tab-pane fade" id="my-history-tab" role="tabpanel" aria-labelledby="history-tab-link">
+                        <div class="table-scroll">
+                            <table class="table table-sm table-bordered text-center trade-ui--table table-on-right">
+                                <thead>
+                                    <tr class="small">
+                                        <th colspan="3"><span class="text-weight-bold">{{ antl.formatMessage('keywords.trade_history') }}</span> </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="myhistory-orders scroll-body common-tbody">
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 mb-4 px-md-0 px-3">
+                <legend class="pb-2 mt-md-4 mt-3 border-bottom text-uppercase">{{ antl.formatMessage('keywords.open_orders') }}</legend>
+                <div class="table-scroll-lg mobile-responsive">
+                    <table class="table table-bordered text-center mb-0 trade-ui--table table-brw table-on-right">
+                        <thead>
+                            <tr class="grey-text">
+                                <th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.pair') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.type') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+                                <th scope="col">Stop Limit</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+                                <th scope="col">Fees</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.filled') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.total') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.cancel') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="open-orders common-tbody">
+                            <tr><td colspan="8">{{ antl.formatMessage('keywords.no_order') }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="w-100 mb-0 px-md-0 px-3">
+                <legend class="pb-2 mt-md-4 mt-3 border-bottom">{{ antl.formatMessage('keywords.24hr_history') }}</legend>
+                <div class="table-scroll-lg mobile-responsive">
+                    <table class="table table-bordered text-center mb-0 trade-ui--table table-brw table-on-right">
+                        <thead>
+                            <tr class="grey-text">
+                                <th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.pair') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.type') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+                                            <th scope="col">Stop Limit</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+                                <th>Fees</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.filled') }}</th>
+                                <th scope="col">{{ antl.formatMessage('keywords.total') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="orders common-tbody">
+                            <tr><td colspan="8">{{ antl.formatMessage('keywords.no_order') }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+        </div>
+    </div>
+</section>
+<input type="hidden" id="theCurrentPrice">
+
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.2.5/polyfill.min.js"></script>
+<script src="https://unpkg.com/@adonisjs/websocket-client"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+
+<script type="text/javascript">
+    $(document).on('keyup', '#search', function(event){
+
+		if( event.which == 32 ){
+			$(this).val('');
+		}
+		// this extend is to search with out any case senstive issue
+		// Contains Jquery is case senstive
+		$.extend($.expr[':'], {
+ 			 'containsZithex': function(elem, i, match, array)
+ 			 {
+ 			   return (elem.textContent || elem.innerText || '').toLowerCase()
+   			 .indexOf((match[3] || "").toLowerCase()) >= 0;
+ 			 }
+		});
+		
+		$('.tab-pane.active table tr').hide();
+		$('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').each(function(){
+         $(this).closest('tr').show();
+      	});
+ 
+	});
+
+    isArray = function(a) {
+        return (!!a) && (a.constructor === Array);
+    };
+
+    setTimeout(function(){
+        document.getElementById("marketstatus").setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAANCAYAAACkTj4ZAAAAQ0lEQVR42mL8//8/AzmgcCUjiIJrZiFBE17AQoIjkJ3OSNAgYmwnxUV4bcdqELkuwOYikm3HBpgYqARGDaKjQQABBgBQWAuOuEADZgAAAABJRU5ErkJggg==");
+    }, 2000);
+
+    function get9(i) {
+        var th = ((i * 25)/100);
+        var th = th.toFixed(8);
+        $(".buy-total").val(th);
+        var gh = $(".buy-price").val();
+        var ty = $(".buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $(".buy-amount").val(kl);
+    }
+
+    function get10(i) {
+        var th = ((i * 50)/100);
+        var th = th.toFixed(8);
+        $(".buy-total").val(th);
+        var gh = $(".buy-price").val();
+        var ty = $(".buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $(".buy-amount").val(kl);
+    }
+
+    function get11(i) {
+        var th = ((i * 75)/100);
+        var th = th.toFixed(8);
+        $(".buy-total").val(th);
+        var gh = $(".buy-price").val();
+        var ty = $(".buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $(".buy-amount").val(kl);
+    }
+
+    function get12(i) {
+        var th = i;
+        var th = th.toFixed(8);
+        $(".buy-total").val(th);
+        var gh = $(".buy-price").val();
+        var ty = $(".buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $(".buy-amount").val(kl);
+    }
+
+    function getone(i) {
+        var th = ((i * 25)/100);
+        var th = th.toFixed(8);
+        $("#buy-total").val(th);
+        var gh = $("#buy-price").val();
+        var ty = $("#buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#buy-amount").val(kl);
+    }
+
+    function gettwo(i) {
+        var th = ((i * 50)/100);
+        var th = th.toFixed(8);
+        $("#buy-total").val(th);
+        var gh = $("#buy-price").val();
+        var ty = $("#buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#buy-amount").val(kl);
+    }
+
+    function getthree(i) {
+        var th = ((i * 75)/100);
+        var th = th.toFixed(8);
+        $("#buy-total").val(th);
+        var gh = $("#buy-price").val();
+        var ty = $("#buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#buy-amount").val(kl);
+    }
+
+    function getfour(i) {
+        var th = i;
+        var th = th.toFixed(8);
+        $("#buy-total").val(th);
+        var gh = $("#buy-price").val();
+        var ty = $("#buy-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#buy-amount").val(kl);
+    }
+
+    function egetone(i) {
+        var th = ((i * 25)/100);
+        var th = th.toFixed(8);
+        $("#exchange-total").val(th);
+        var gh = $("#exchange-price").val();
+        var ty = $("#exchange-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#exchange-amount").val(kl);
+    }
+
+    function egettwo(i) {
+        var th = ((i * 50)/100);
+        var th = th.toFixed(8);
+        $("#exchange-total").val(th);
+        var gh = $("#exchange-price").val();
+        var ty = $("#exchange-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#exchange-amount").val(kl);
+    }
+
+    function egetthree(i) {
+        var th = ((i * 75)/100);
+        var th = th.toFixed(8);
+        $("#exchange-total").val(th);
+        var gh = $("#exchange-price").val();
+        var ty = $("#exchange-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#exchange-amount").val(kl);
+    }
+
+    function egetfour(i) {
+        var th = i;
+        var th = th.toFixed(8);
+        $("#exchange-total").val(th);
+        var gh = $("#exchange-price").val();
+        var ty = $("#exchange-total").val();
+        var kl = (ty / gh);
+        var kl = kl.toFixed(8);
+        $("#exchange-amount").val(kl);
+    }
+
+    function getfive(i) {
+        var th = ((i * 25)/100);
+        var th = th.toFixed(8);
+        $("#sell-amount").val(th);
+        var gh = $("#sell-price").val();
+        var ty = $("#sell-amount").val();
+        var kl = (ty * gh); 
+        var kl = kl.toFixed(8);
+        $("#sell-total").val(kl);
+    }
+
+    function getsix(i) {
+        var th = ((i * 50)/100);
+        var th = th.toFixed(8);
+        $("#sell-amount").val(th);
+        var gh = $("#sell-price").val();
+        var ty = $("#sell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#sell-total").val(kl);
+    }
+
+    function getseven(i) {
+        var th = ((i * 75)/100);
+        var th = th.toFixed(8);
+        $("#sell-amount").val(th);
+        var gh = $("#sell-price").val();
+        var ty = $("#sell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#sell-total").val(kl);
+    }
+
+    function geteight(i) {
+        var th = i;
+        var th = th.toFixed(8);
+        $("#sell-amount").val(th);
+        var gh = $("#sell-price").val();
+        var ty = $("#sell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#sell-total").val(kl);
+    }
+
+    //-----exchange-sell
+    function exchangegetfive(i) {
+        var th = ((i * 25)/100);
+        var th = th.toFixed(8);
+        $("#exchangesell-amount").val(th);
+        var gh = $("#exchangesell-price").val();
+        var ty = $("#exchangesell-amount").val();
+        var kl = (ty * gh); 
+        var kl = kl.toFixed(8);
+        $("#exchangesell-total").val(kl);
+    }
+
+    function exchangegetsix(i) {
+        var th = ((i * 50)/100);
+        var th = th.toFixed(8);
+        $("#exchangesell-amount").val(th);
+        var gh = $("#exchangesell-price").val();
+        var ty = $("#exchangesell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#exchangesell-total").val(kl);
+    }
+
+    function exchangegetseven(i) {
+        var th = ((i * 75)/100);
+        var th = th.toFixed(8);
+        $("#exchangesell-amount").val(th);
+        var gh = $("#exchangesell-price").val();
+        var ty = $("#exchangesell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#exchangesell-total").val(kl);
+    }
+
+    function exchangegeteight(i) {
+        var th = i;
+        var th = th.toFixed(8);
+        $("#exchangesell-amount").val(th);
+        var gh = $("#exchangesell-price").val();
+        var ty = $("#exchangesell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#exchangesell-total").val(kl);
+    }
+
+    function get13(i) {
+        var th = ((i * 25)/100);
+        var th = th.toFixed(8);
+        $("#stopsell-amount").val(th);
+        var gh = $("#stopsell-price").val();
+        var ty = $("#stopsell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#stopsell-total").val(kl);
+    }
+
+    function get14(i) {
+        var th = ((i * 50)/100);
+        var th = th.toFixed(8);
+        $("#stopsell-amount").val(th);
+        var gh = $("#stopsell-price").val();
+        var ty = $("#stopsell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#stopsell-total").val(kl);
+    }
+
+    function get15(i) {
+        var th = ((i * 75)/100);
+        var th = th.toFixed(8);
+        $("#stopsell-amount").val(th);
+        var gh = $("#stopsell-price").val();
+        var ty = $("#stopsell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#stopsell-total").val(kl);
+    }
+
+    function get16(i) {
+        var th = i;
+        var th = th.toFixed(8);
+        $("#stopsell-amount").val(th);
+        var gh = $("#stopsell-price").val();
+        var ty = $("#stopsell-amount").val();
+        var kl = (ty * gh);
+        var kl = kl.toFixed(8);
+        $("#stopsell-total").val(kl);
+    }
+
+    function ztxday() {
+        $('#newdays').removeClass('ztx-night');
+        $('#newdays').addClass('ztx-day');
+    }
+
+    function ztxnight() {
+        $('#newdays').removeClass('ztx-day');
+        $('#newdays').addClass('ztx-night');
+    }
+
+    $(document).on('click', '.favourite', function(){
+        var favourite = $(this);
+        var pair = favourite.attr('data-id');
+        $.ajax({
+            url : "https://zithex.com/favourite/" + pair,
+            success : function(result){
+                if( result.added ){
+                    favourite.addClass('fa-active');
+                $('#favourite-market-tab tbody').append( $('tr#' + pair).clone());
+                } else {
+                    favourite.removeClass('fa-active');
+                    $('#favourite-market-tab tr#' + pair).remove();
+                }
+            }
+        });
+    });
+
+    function stopnewfunction(){
+
+        var pair = '{{ pair.pair_key }}';
+
+        var jkv = $("#last_price").text();  
+        var jkv = Number(jkv);
+         
+        var stoporderdatas = $("#stoporderdatas").val();
+
+        if( stoporderdatas == "" || stoporderdatas == null ) {
+            return;
+        }
+
+        var stoporderdatas = JSON.parse(stoporderdatas);
+        var stoporderdata = $("#stoporderdata").val();
+        var stoporderdata = stoporderdata.replace("[", "'");
+        var stoporderdata = stoporderdata.replace("]", "'");
+        var nameArr = stoporderdata.split(',');
+
+        if( stoporderdata.match(new RegExp("(?:^|,)"+jkv+"(?:,|$)"))) {
+            var code = stoporderdatas[jkv]
+            var nameArr = stoporderdata.split(',');
+            var result = { 'stopid' : code, 'pair' : currency, 'currency' : '{{ pair.base_currency }}', 'derive_currency' : '{{ pair.derive_currency }}','_csrf' : $('meta[name="csrf_token"]').attr('content') };
+
+            $.ajax({
+                url : "{{ route('orderstopbuy') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+                        $('#stopbuyFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+
+                        setTimeout(function(){
+                            $(document).find('.alert-danger').remove(); 
+                        }, 10000);
+
+                        btn.prop('disabled', false);
+                        btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                        return;
+                    }
+
+                    $('#stopbuyFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ 
+                        $(document).find('.alert-success').remove(); 
+                    }, 10000);
+
+                    $('#stopbuyForm').find('input[name="amount"]').val('');
+                    $('#stopbuyForm').find('input[name="total"]').val('');
+
+                    btn.prop('disabled', false);
+                    btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                    ws.getSubscription('trading:' + currency  + '-{{ auth.user.id }}').emit('message', 'get-data');
+                }
+            });
+        } else {
+            console.error('No stop order data match');
+        }
+    }
+    setInterval(stopnewfunction, 3000);
+
+    // sell stop function
+    function sellstopnewfunction(){
+
+        var pair = '{{ pair.pair_key }}';
+
+        var jkv = $("#last_price").text();  
+        var jkv = Number(jkv);
+
+        var stoporderdatas = $("#stoporderdatas").val();
+
+        if( stoporderdatas == "" || stoporderdatas == null ) {
+            return;
+        }
+
+        var stoporderdatas = JSON.parse(stoporderdatas);
+        var stoporderdata = $("#stoporderdata").val();
+        var stoporderdata = stoporderdata.replace("[", "'");
+        var stoporderdata = stoporderdata.replace("]", "'");
+
+        var nameArr = stoporderdata.split(',');
+
+        if( stoporderdata.match(new RegExp("(?:^|,)"+jkv+"(?:,|$)"))) {
+
+            var code = stoporderdatas[jkv]
+            var nameArr = stoporderdata.split(',');
+            var result = { 'stopid' : code, 'pair' : currency, 'currency' : '{{ pair.base_currency }}', 'derive_currency' : '{{ pair.derive_currency }}','_csrf' : $('meta[name="csrf_token"]').attr('content') };
+            $.ajax({
+                url : "{{ route('orderstopsell') }}",
+                type : 'post',
+                data : result,
+                success : function(res) {
+                    if( ! res.success ){
+                        $('#stopsellFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ 
+                            $(document).find('.alert-danger').remove(); 
+                        }, 10000);
+
+                        btn.prop('disabled', false);
+                        btn.html("{{ antl.formatMessage('keywords.buy') }}");
+                        return;
+                    }
+
+                    $('#stopsellFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ 
+                        $(document).find('.alert-success').remove();
+                    }, 10000);
+
+                    $('#stopsellForm').find('input[name="amount"]').val('');
+                    $('#stopsellForm').find('input[name="total"]').val('');
+
+                    btn.prop('disabled', false);
+                    btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                }
+            });
+        } else {
+            console.error('No stop order data match [sell]');
+        }
+    }
+    setInterval(sellstopnewfunction, 3000);
+
+    function refreshthetotal() {
+        $('#mainusdbal').load(location.href + ' #kkrt');
+        $('#mainusdbal2').load(location.href + ' #kkrt2');
+        $('#mainusdbal3').load(location.href + ' #kkrt5');
+        $('#sellformbal').load(location.href + ' #kkr3');
+        $('#exchangesellformbal').load(location.href + ' #exchangekkr3');
+        $('#sellformbal2').load(location.href + ' #kkr4');
+    }
+    setInterval(refreshthetotal, 5000);
+
+    var pair = '{{ pair.pair_key.toUpperCase() }}';
+    var currency = '{{ (pair.pair_key).toLowerCase() }}';
+    var addedPair = '{{ allPairs }}';
+    var custRates = {{{ custRates }}};
+
+    var ethBtcPairs =  '{{ btcEthPairs }}';
+
+    var binanceAPI = 'wss://stream.binance.com:9443/ws/!ticker@arr';
+binanceSocket = new WebSocket(binanceAPI);
+
+binanceSocket.onmessage = function(evt) {
+    var data = JSON.parse(evt.data);
+    
+    data.forEach(function(pair) {
+
+    if( (ethBtcPairs).indexOf(pair.s) === -1 ) return;
+
+    var pairID = (pair.s).toLowerCase();
+
+    var price = parseFloat( pair.c ) + ( ( parseFloat( pair.c ) * parseFloat(custRates[pairID]) ) / 100 );
+    var low = parseFloat( pair.c ) + ( ( parseFloat( pair.c ) * parseFloat(custRates[pairID]) ) / 100 );
+    
+    if(parseFloat(pair.P) >= 0){
+      $('#'+pairID+' td:nth-child(3)').attr('class', 'text-center text-success');
+    } else {
+      $('#'+pairID+' td:nth-child(3)').attr('class', 'text-center text-danger');
+    }
+    $('#'+pairID+' td:nth-child(3)').text( parseFloat( pair.P  ).toFixed(2) + '%' );
+    
+    var selectedpair=document.getElementById("selectedpair").value;
+    if(selectedpair==pairID.toUpperCase()){
+        console.log("selected pair",selectedpair);
+          $('#last_price').text(price);
+          $('#24h_change').text(parseFloat( pair.P  ).toFixed(2) + '%' );
+          $('#24_high').text(pair.h);
+          $('#24_low').text(pair.l);
+          $('#24h_volume').text(pair.v);
+    }
+  });
+};
+
+
+    function tickerInfos() {
+        $.get('{{ route("api.ticker") }}?symbols='+ addedPair, function(response){
+
+            if( ! response[0] ) {
+                console.error('Sorry unable to get pair data.');
+                return;
+            }
+
+            response.forEach(function(pair) {
+
+                var pairID = (pair[0]).replace('t', '').toLowerCase();
+
+                var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat( custRates[pairID] ) ) / 100 );
+
+                $('#'+pairID+' td:nth-child(2)').text(price.toFixed(8));
+                if(parseFloat(pair[5]) >= 0){
+                    $('#'+pairID+' td:nth-child(3)').attr('class', 'text-md-right text-success');
+                } else {
+                    $('#'+pairID+' td:nth-child(3)').attr('class', 'text-md-right text-danger');
+                }
+                $('#'+pairID+' td:nth-child(3)').text( parseFloat( ( pair[6] ) * 100 ).toFixed(1) + '%' );
+            });
+        });
+    }
+    setInterval(tickerInfos, 5000);
+
+    tickerInfos();
+
+    new TradingView.widget({
+        "width": "100%",
+        "height": 300,
+        "symbol": "BITFINEX:" + pair,
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "chart-container",
+        "hide_side_toolbar": false,
+        "show_popup_button": true,
+        "popup_width": "1000",
+        "popup_height": "600",
+    });
+
+    $(document).ready(function(){
+
+      $('#pills-tab a').click(function(e) {
+    e.preventDefault();
+    $(this).tab('show');
+  });
+
+  // store the currently selected tab in the hash value
+  $("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
+    var id = $(e.target).attr("href").substr(1);
+    window.location.hash = id;
+  });
+
+  // on load of the page: switch to the currently selected tab
+  var hash = window.location.hash;
+  $('#pills-tab a[href="' + hash + '"]').tab('show');
+
+
+    var dataPoints = [];
+    var pairID = '{{ (pair.pair_key).toLowerCase() }}';  
+    var priceToShow = $('#last_price').text();
+    var options = {
+        chart: {
+            height: 350,
+            type: 'candlestick',
+            toolbar: {
+                show: true,
+                tools: {
+                    customIcons: [{
+                      icon: '<img src="https://image.flaticon.com/icons/png/128/566/566017.png" width="14" style="position: relative; top: -2px; left: 5px; filter: invert(0);">', index: 4, title: 'tooltip of the icon',
+                      class: 'custom-icon',
+                      click: function () {
+                        var elem = document.querySelector("#chart-original");
+                        if((window.fullScreen) ||
+                           (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            } else if (document.mozCancelFullScreen) {
+                                document.mozCancelFullScreen();
+                            } else if (document.webkitExitFullscreen) { 
+                                document.webkitExitFullscreen();
+                            } else if (document.msExitFullscreen) {
+                                document.msExitFullscreen();
+                            }
+                        } else {
+                            if (elem.requestFullscreen) {
+                                elem.requestFullscreen();
+                            } else if (elem.mozRequestFullScreen) {
+                                elem.mozRequestFullScreen();
+                            } else if (elem.webkitRequestFullscreen) {
+                                elem.webkitRequestFullscreen();
+                            } else if (elem.msRequestFullscreen) {
+                                elem.msRequestFullscreen();
+                            }
+                        }
+                      }
+                    }]
+                }
+            }
+        },
+        series: [{
+            data: dataPoints
+        }],
+        title: {
+            text: '{{ (pair.pair_key).toUpperCase() }}',
+            align: 'left'
+        },
+        xaxis: {
+            type: 'datetime'
+        },
+        yaxis: {
+            tooltip: {
+                enabled: true
+            }
+        },
+        annotations: {
+            yaxis: [{
+                y: priceToShow,
+                borderColor: "#673600",
+                label: {
+                    borderColor: "#673600",
+                    style: {
+                        color: "#fff",
+                        background: "#673600"
+                    },
+                    text: priceToShow
+                }
+            }]
+        }
+    };
+
+      var chart = new ApexCharts(
+          document.querySelector("#chart-original"),
+          options
+      );
+
+
+    function initOriginalChart() {
+
+        $.get('{{ route("chart.candles.data") }}', {
+            pair: 't{{ (pair.pair_key).toUpperCase() }}'
+        }, function(res){
+
+            for( var i = 0; i < res.length; i++ ) {
+                dataPoints.push({
+                    x: new Date(res[i][0]),
+                    y: [
+                        (parseFloat( res[i][1] ) + ( ( parseFloat( res[i][1] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8), //open
+
+                        (parseFloat( res[i][3] ) + ( ( parseFloat( res[i][3] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8), //high
+                        (parseFloat( res[i][4] ) + ( ( parseFloat( res[i][4] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8), //low
+                        (parseFloat( res[i][2] ) + ( ( parseFloat( res[i][2] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8)  //close
+                    ]
+                });
+            }
+
+            //For now we do not need this chart so hidden the chart render
+            //chart.render();
+        });
+    }
+
+                initOriginalChart();
+
+        var wsUri = 'wss://api.bitfinex.com/ws/2';
+        market = new WebSocket(wsUri);
+
+        market.onopen = function(evt) {
+
+            var pair = '{{ pair.pair_key }}';
+
+            var msg = JSON.stringify({
+                event: 'subscribe',
+                channel: 'ticker',
+                symbol: 't' + pair.toUpperCase()
+            });
+
+            market.send(msg);
+
+        };
+
+        market.onerror = function(evt){ 
+            console.log('Error on websocket: ' + evt); 
+        }
+
+        market.onmessage = function(evt) {
+            
+            var message = JSON.parse(evt.data);
+             var selectedpair=document.getElementById("selectedpair").value;  
+            if( message[1] !== "hb" && isArray(message)){                
+            //    if( message[1] !== "hb" && isArray(message) ){ 
+                    
+                var price = parseFloat( message[1][0] ) + ( ( parseFloat( message[1][0] ) * parseFloat( custRates["{{ pair.pair_key }}"] ) ) / 100 );
+
+                $('#last_price').text(price.toFixed(8));
+
+                if( $('tr#neousd td:nth-child(2)').text() != "" && 
+                  $('tr#neousd td:nth-child(2)').text() != null &&
+                  $('tr#neousd td:nth-child(2)').text() != undefined ) {
+                  $('tr#neousd td:nth-child(2)').text(price.toFixed(8));
+                }
+
+                priceToShow = price.toFixed(8);
+
+            //     chart.updateOptions({
+            //       annotations: {
+            //           yaxis: [{
+            //               y: priceToShow,
+            //               borderColor: "#673600",
+            //               label: {
+            //                   borderColor: "#673600",
+            //                   style: {
+            //                       color: "#fff",
+            //                       background: "#673600"
+            //                   },
+            //                   text: priceToShow
+            //               }
+            //           }]
+            //       }
+            //   });
+
+              $('#24h_change').text( parseFloat( ( message[1][5] ) * 100 ).toFixed(1) + '%' );
+                $('#24_high').text(message[1][8]);
+                $('#24_low').text(message[1][9]);
+                $('#24h_volume').text(message[1][7]);           
+           
+                if(parseFloat(message[1][5]) >= 0){
+                    $('#24h_change').attr('class', 'mr-2 text-success');
+                } else {
+                    $('#24h_change').attr('class', 'mr-2 text-danger');
+                }
+
+                //if($('input[name="price"]').val() == ''){
+                    var price = price.toFixed(8)
+
+
+                    var allFormIds = ['#buyForm', '#stopbuyForm', '#exchangebuyForm', '#sellForm', '#stopsellForm', '#exchangesellForm'];
+
+                    for( var i = 0; i < allFormIds.length; i++ ) {
+                      if( $(allFormIds[i] + ' input[name="total"]').val() == "" || 
+                          $(allFormIds[i] + ' input[name="total"]').val() == null || 
+                          $(allFormIds[i] + ' input[name="total"]').val() == 0 || 
+                          $(allFormIds[i] + ' input[name="total"]').val() == undefined ) {
+                        $(allFormIds[i] + ' input[name="price"]').val(price);
+                      }
+                    }
+
+
+                    $('#theCurrentPrice').val(price);
+                //}
+
+                $.post('{{ route("autocomplete.buy") }}', {
+                  currentPrice: price,
+                  currentPair: '{{ pair.pair_key }}',
+                  _csrf: $('meta[name="csrf_token"]').attr('content')
+                }, function(response){
+                  ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                })
+
+                $.post('{{ route("autocomplete.sell") }}', {
+                  currentPrice: price,
+                  currentPair: '{{ pair.pair_key }}',
+                  _csrf: $('meta[name="csrf_token"]').attr('content')
+                }, function(response){
+                  ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                })
+
+            }
+
+        };
+
+        const ws = adonis.Ws('{{ ws_url }}');
+
+        ws.connect();
+
+        ws.subscribe('trading:' + currency + '-{{ auth.user.id }}');
+
+        ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').on('close', () => {
+            console.log('Get subscription ws closed');
+        });
+
+        ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').on('message', (data) => {
+
+            var buyOrders = '';
+            var sellOrders = '';
+            var historyOrders = '';
+            var openOrders = '<tr><td colspan="8">{{ antl.formatMessage('keywords.no_order') }}</td></tr></tbody>';
+            var orders = '<tr><td colspan="8">{{ antl.formatMessage('keywords.no_order') }}</td></tr></tbody>';
+            var myHistory = '<tr><td colspan="3">{{ antl.formatMessage('keywords.no_order') }}</td></tr></tbody>';
+
+            for (var i = 0; i < data.buy.length; i++) {
+                buyOrders += '<tr class="small"> <td class="thime-color">' + data.buy[i].price + '</td> <td>' + data.buy[i].remain.toFixed(8) + '</td> <td>' + ( data.buy[i].price * data.buy[i].remain ).toFixed(8) + '</td> </tr>';
+            }
+
+            for (var i = 0; i < data.sell.length; i++) {
+                sellOrders += '<tr class="small"> <td class="text-success">' + data.sell[i].price + '</td> <td>' + data.sell[i].remain.toFixed(8) + '</td> <td>' + ( data.sell[i].price * data.sell[i].remain ).toFixed(8) + '</td> </tr>';
+            }
+
+            for (var i = 0; i < data.history.length; i++) {
+                historyOrders += '<tr class="small"> <td class="text-success">' + data.history[i].price + '</td>  <td>' + data.history[i].amount.toFixed(8) + '</td> <td>' + data.history[i].total.toFixed(8) + '</td> </tr>';
+            }
+
+            for (var i = 0; i < data.openOrders.length; i++) {
+            var bjr = ( ( ( (data.openOrders[i].amount - data.openOrders[i].remain) * 100 ) / data.openOrders[i].amount ) ).toFixed(2)
+
+                var orderType = "";
+
+                if( (data.openOrders[i].order_type == 0) || 
+                    (data.openOrders[i].order_type == 3) ) {
+                  orderType = "Buy"
+                }
+
+                if( (data.openOrders[i].order_type == 1) || 
+                    (data.openOrders[i].order_type == 4) ) {
+                  orderType = "Sell"
+                }
+
+                if( data.openOrders[i].order_type == 5 ) {
+                  orderType = "Exchange"
+                }
+
+                openOrders +=   '<tr class="small"> <td title="'+data.openOrders[i].created_at+'">' + (data.openOrders[i].created_at).split(' ')[0] + '</td> <td>' + (data.openOrders[i].pair).toUpperCase()  + '</td> <td>' + orderType + '</td> <td>' + data.openOrders[i].price + '</td> <td>' + data.openOrders[i].stop_amout.toFixed(8) + '</td> <td>' + data.openOrders[i].amount.toFixed(8) + '</td><td>'+data.openOrders[i].fees+'</td> <td>' + ( ( ( (data.openOrders[i].amount - data.openOrders[i].remain) * 100 ) / data.openOrders[i].amount ) ).toFixed(2) + '</td> <td>' + data.openOrders[i].total.toFixed(8) + '</td> <td> ' + ( (bjr == 0.00) ? '<button type="button" data-id="' + data.openOrders[i].id + '" class="btn btn-sm btn-warning btn-cancel"><i class="fa fa-times"></button>' : "" ) + '</td> </tr>';
+            }
+
+            for (var i = 0; i < data.orders.length; i++) {
+
+                var orderType = "";
+
+                if( (data.orders[i].order_type == 0) || 
+                    (data.orders[i].order_type == 3) ) {
+                  orderType = "Buy"
+                }
+
+                if( (data.orders[i].order_type == 1) || 
+                    (data.orders[i].order_type == 4) ) {
+                  orderType = "Sell"
+                }
+
+                if( data.orders[i].order_type == 5 ) {
+                  orderType = "Exchange"
+                }
+
+                 var orderStatus = "";
+
+                if(data.orders[i].status == 2) {
+                  orderStatus = "<span style='color:crimson;'>(canceled)</span>";
+                }
+
+                orders +=   '<tr class="small"> <td>' + data.orders[i].created_at + '</td> <td>' + (data.orders[i].pair).toUpperCase() + orderStatus  + '</td> <td>' + orderType + '</td> <td>' + data.orders[i].price + '</td> <td>' + data.orders[i].stop_amout.toFixed(8) + '</td> <td>' + data.orders[i].amount.toFixed(8) + '</td> <td>'+data.orders[i].fees+'</td><td class="kkr">' + ( ( ( (data.orders[i].amount - data.orders[i].remain) * 100 ) / data.orders[i].amount ) ).toFixed(2) + '</td> <td>' + data.orders[i].total.toFixed(8) + '</td></tr>';
+            }
+
+            for (var i = 0; i < data.myHistory.length; i++) {
+                 var orderStatus = "";
+
+                if(data.myHistory[i].status == 2) {
+                  orderStatus = "<span style='color:crimson;'>(canceled)</span>";
+                }
+
+                myHistory += '<tr class="small"> <td class="text-success">' + data.myHistory[i].price + orderStatus + '</td> <td>' + data.myHistory[i].amount + '</td> <td>' + data.myHistory[i].total + '</td> </tr>';
+            }
+
+            $('tbody.buy-orders').html(buyOrders);
+            $('tbody.sell-orders').html(sellOrders);
+            $('tbody.history-orders').html(historyOrders);
+            $('tbody.open-orders').html(openOrders);
+            $('tbody.orders').html(orders);
+            $('tbody.myhistory-orders').html(myHistory);
+
+        });
+
+        ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+
+        $('#buyForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            if( ! $('#buyForm').parsley().isValid() ){
+                return;
+            }
+
+            var btn = $('#buyFormBtn');
+
+            btn.prop('disabled', true);
+            btn.html("<i class='fa fa-spinner fa-spin'></i> {{ antl.formatMessage('keywords.loading') }}");
+
+            var formData = $(this).serializeArray();
+
+            var result = { 'pair' : currency, 'currency' : '{{ pair.base_currency }}', 'derive_currency' : '{{ pair.derive_currency }}', current_price: $('#theCurrentPrice').val() };
+
+            $.each(formData, function() {
+                result[this.name] = this.value;
+            });
+
+            $.ajax({
+                url : "{{ route('buy') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+
+                        $('#buyFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ $(document).find('.alert-danger').remove(); }, 10000);
+                        
+                        btn.prop('disabled', false);
+                        btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                        return;
+                    }
+
+                    $('#buyFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ $(document).find('.alert-success').remove(); }, 10000);
+
+                    $('#buyForm').find('input[name="amount"]').val('');
+                    $('#buyForm').find('input[name="total"]').val('');
+
+                    btn.prop('disabled', false);
+                    btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                
+                    $('#mainusdbal').load(location.href + ' #kkrt')
+                    $('#mainusdbal2').load(location.href + ' #kkrt2')
+                    $('#mainusdbal3').load(location.href + ' #kkrt3')
+
+                }
+            });
+
+        });
+        
+        
+        $('#exchangebuyForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            if( ! $('#exchangebuyForm').parsley().isValid() ){
+                return;
+            }
+
+            var btn = $('#exchangebuyFormBtn');
+
+            btn.prop('disabled', true);
+            btn.html("<i class='fa fa-spinner fa-spin'></i> {{ antl.formatMessage('keywords.loading') }}");
+
+            var formData = $(this).serializeArray();
+
+            var result = { 'pair' : currency, 'currency' : '{{ pair.base_currency }}', 'derive_currency' : '{{ pair.derive_currency }}' };
+
+            $.each(formData, function() {
+                result[this.name] = this.value;
+            });
+
+            $.ajax({
+                url : "{{ route('exchangebuy') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+
+                        $('#exchangebuyFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ $(document).find('.alert-danger').remove(); }, 10000);
+                        
+                        btn.prop('disabled', false);
+                        btn.html('Exchange');
+
+                        return;
+                    }
+
+                    $('#exchangebuyFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ $(document).find('.alert-success').remove(); }, 10000);
+
+                    $('#exchangebuyForm').find('input[name="amount"]').val('');
+                    $('#exchangebuyForm').find('input[name="total"]').val('');
+
+                    btn.prop('disabled', false);
+                    btn.html('Exchange');
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                
+                    $('#mainusdbal').load(location.href + ' #kkrt')
+                    $('#mainusdbal2').load(location.href + ' #kkrt2')
+                    $('#mainusdbal3').load(location.href + ' #kkrt3')
+
+                }
+            });
+
+        });
+        
+        
+        $('#stopbuyForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            if( ! $('#stopbuyForm').parsley().isValid() ){
+                return;
+            }
+
+            var btn = $('#stopbuyFormBtn');
+
+            btn.prop('disabled', true);
+            btn.html("<i class='fa fa-spinner fa-spin'></i> {{ antl.formatMessage('keywords.loading') }}");
+
+            var formData = $(this).serializeArray();
+
+            var result = { 'pair' : currency, 'currency' : '{{ pair.base_currency }}', 'derive_currency' : '{{ pair.derive_currency }}' };
+
+            $.each(formData, function() {
+                result[this.name] = this.value;
+            });
+
+            $.ajax({
+                url : "{{ route('stopbuy') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+
+                        $('#stopbuyFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ $(document).find('.alert-danger').remove(); }, 10000);
+                        
+                        btn.prop('disabled', false);
+                        btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                        return;
+                    }
+
+                    $('#stopbuyFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ $(document).find('.alert-success').remove(); }, 10000);
+
+                    $('#stopbuyForm').find('input[name="amount"]').val('');
+                    $('#stopbuyForm').find('input[name="total"]').val('');
+
+                    btn.prop('disabled', false);
+                    btn.html("{{ antl.formatMessage('keywords.buy') }}");
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                    location.reload();
+
+                    $('#mainusdbal').load(location.href + ' #kkrt')
+                    $('#mainusdbal2').load(location.href + ' #kkrt2')
+                    $('#mainusdbal3').load(location.href + ' #kkrt3')
+                }
+            });
+        });
+
+        $('#buyForm input[name="amount"], #buyForm input[name="total"]').on('keypress', function () {
+            $('.filled').removeClass('filled');
+            $('#buyForm').parsley().destroy();
+        });
+         $('#exchangebuyForm input[name="amount"], #exchangebuyForm input[name="total"]').on('keypress', function () {
+            $('.filled').removeClass('filled');
+            $('#exchangebuyForm').parsley().destroy();
+        });
+
+        $('#stopbuyForm input[name="amount"], #stopbuyForm input[name="total"]').on('keypress', function () {
+            $('.filled').removeClass('filled');
+            $('#stopbuyForm').parsley().destroy();
+        });
+
+        $('#sellForm input[name="amount"], #sellForm input[name="total"]').on('keypress', function () {
+            $('.filled').removeClass('filled');
+            $('#sellForm').parsley().destroy();
+        });
+        
+        $('#exchangesellForm input[name="amount"], #exchangesellForm input[name="total"]').on('keypress', function () {
+            $('.filled').removeClass('filled');
+            $('#exchangesellForm').parsley().destroy();
+        });
+        
+        $('#stopsellForm input[name="stopamount"], #stopsellForm input[name="total"]').on('keypress', function () {
+            $('.filled').removeClass('filled');
+            $('#stopsellForm').parsley().destroy();
+        });
+
+        $('#sellForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            if( ! $('#sellForm').parsley().isValid() ){
+                return;
+            }
+
+            var btn = $('#sellFormBtn');
+
+            btn.prop('disabled', true);
+            btn.html("<i class='fa fa-spinner fa-spin'></i> {{ antl.formatMessage('keywords.loading') }}");
+
+            var formData = $(this).serializeArray();
+
+            var result = { 'pair' : currency, 'currency' : '{{ pair.derive_currency }}', current_price: $('#theCurrentPrice').val(), 'derive_currency' : '{{ pair.base_currency }}' };
+
+            $.each(formData, function() {
+                result[this.name] = this.value;
+            });
+
+            $.ajax({
+                url : "{{ route('sell') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+
+                        $('#sellFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ $(document).find('.alert-danger').remove(); }, 10000);
+                        
+                        btn.prop('disabled', false);
+                        btn.html("{{ antl.formatMessage('keywords.sell') }}");
+
+                        return;
+                    }
+
+                    $('#sellFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ $(document).find('.alert-success').remove(); }, 10000);
+
+                    $('#sellForm').find('input[name="amount"]').val('');
+                    $('#sellForm').find('input[name="total"]').val('');
+                        
+                    btn.prop('disabled', false);
+                    btn.html("{{ antl.formatMessage('keywords.sell') }}");
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                    $('#sellformbal').load(location.href + ' #kkr3')
+                    $('#sellformbal2').load(location.href + ' #kkr4')
+
+                }
+            });
+
+        });
+        
+        //Exchange Form Submit
+        $('#exchangesellForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            if( ! $('#exchangesellForm').parsley().isValid() ){
+                return;
+            }
+
+            var btn = $('#exchangesellFormBtn');
+
+            btn.prop('disabled', true);
+            btn.html("<i class='fa fa-spinner fa-spin'></i> {{ antl.formatMessage('keywords.loading') }}");
+
+            var formData = $(this).serializeArray();
+
+            var result = { 'pair' : currency, 'currency' : '{{ pair.derive_currency }}' };
+
+            $.each(formData, function() {
+                result[this.name] = this.value;
+            });
+
+            $.ajax({
+                url : "{{ route('exchangesell') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+
+                        $('#exchangesellFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ $(document).find('.alert-danger').remove(); }, 10000);
+                        
+                        btn.prop('disabled', false);
+                        btn.html('Exchange');
+
+                        return;
+                    }
+
+                    $('#exchangesellFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ $(document).find('.alert-success').remove(); }, 10000);
+
+                    $('#exchangesellForm').find('input[name="amount"]').val('');
+                    $('#exchangesellForm').find('input[name="total"]').val('');
+                        
+                    btn.prop('disabled', false);
+                    btn.html('Exchange');
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                    $('#sellformbal').load(location.href + ' #kkr3')
+                    $('#exchangesellformbal').load(location.href + ' #exchangekkr3')
+                    $('#sellformbal2').load(location.href + ' #kkr4')
+
+                }
+            });
+        });
+        
+        
+        $('#stopsellForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            if( ! $('#stopsellForm').parsley().isValid() ){
+                return;
+            }
+
+            var btn = $('#stopsellFormBtn');
+
+            btn.prop('disabled', true);
+            btn.html("<i class='fa fa-spinner fa-spin'></i> {{ antl.formatMessage('keywords.loading') }}");
+
+            var formData = $(this).serializeArray();
+
+            var result = { 'pair' : currency, 'currency' : '{{ pair.derive_currency }}' };
+
+            $.each(formData, function() {
+                result[this.name] = this.value;
+            });
+
+            $.ajax({
+                url : "{{ route('stopsell') }}",
+                type : 'post',
+                data : result,
+                success : function(res){
+
+                    if( ! res.success ){
+
+                        $('#stopsellFormMessage').html('<div class="alert alert-danger">' + res.message + '</div>');
+                        setTimeout(function(){ $(document).find('.alert-danger').remove(); }, 10000);
+                        
+                        btn.prop('disabled', false);
+                        btn.html("{{ antl.formatMessage('keywords.sell') }}");
+
+                        return;
+                    }
+
+                    $('#stopsellFormMessage').html('<div class="alert alert-success">' + res.message + '</div>');
+                    setTimeout(function(){ $(document).find('.alert-success').remove(); }, 10000);
+
+                    $('#stopsellForm').find('input[name="amount"]').val('');
+                    $('#stopsellForm').find('input[name="total"]').val('');
+                        
+                    btn.prop('disabled', false);
+                    btn.html("{{ antl.formatMessage('keywords.sell') }}");
+
+                    ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                    location.reload();
+                        $('#sellformbal').load(location.href + ' #kkr3')
+                        $('#exchangesellformbal').load(location.href + ' #exchangekkr3')
+                    $('#sellformbal2').load(location.href + ' #kkr4')
+
+                }
+            });
+        });
+
+        $(document).on('keyup', 'input[name="amount"]', function(){
+
+            var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
+            var amount = parseFloat($(this).parents('form').find('input[name="amount"]').val());
+
+
+                $(this).parents('form').find('input[name="total"]').val((amount * price ).toFixed(8));
+
+        });
+
+        $(document).on('keyup', 'input[name="price"]', function(){
+
+            var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
+            var amount = parseFloat($(this).parents('form').find('input[name="amount"]').val());
+
+
+                $(this).parents('form').find('input[name="total"]').val((amount * price ).toFixed(8));
+
+        });
+
+        $(document).on('keyup', 'input[name="total"]', function(){
+
+            var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
+            var total = parseFloat($(this).parents('form').find('input[name="total"]').val());
+                
+                $(this).parents('form').find('input[name="amount"]').val((total / price).toFixed(8));
+
+        });
+          
+/*      $(document).on('keyup mouseup', 'input[name="amount"]', function(){
+            var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
+            var amount = parseFloat($(this).parents('form').find('input[name="amount"]').val());
+
+            $(this).parents('form').find('input[name="total"]').val((price * amount).toFixed(8));
+        });*/
+
+/*        $(document).on('keyup mouseup', 'input[name="total"]', function(){
+            var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
+            var total = parseFloat($(this).parents('form').find('input[name="total"]').val());
+
+            $(this).parents('form').find('input[name="amount"]').val((total / price).toFixed(8));
+        });*/
+
+        $(document).on('click', '.btn-cancel', function() {
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                url     : "{{ route('cancel_order') }}",
+                type    : "post",
+                data    : { id : id },
+                headers : {
+                    'X-CSRF-TOKEN' : $('meta[name="csrf_token"]').attr('content')
+                },
+                success : function(response){
+                    if(response.success){
+                        ws.getSubscription('trading:' + currency + '-{{ auth.user.id }}').emit('message', 'get-data');
+                    }
+                }
+            });
+        });
+    });
+
+    function startsell() {
+        $('.sellTabBtn, .sellLimitTabBtn, .sellExchangeTabBtn').removeClass('active');
+        $("#exchangestartsell").hide();
+        $("#stopsell").hide();
+        $('.sellTabBtn').addClass('active');
+        $("#startsell").show();
+    }
+
+    function stopsell() {
+        $('.sellTabBtn, .sellLimitTabBtn, .sellExchangeTabBtn').removeClass('active');
+        $("#stopsell").show();
+        $("#startsell").hide();
+        $('.sellLimitTabBtn').addClass('active');
+        $("#exchangestartsell").hide();
+    }
+
+    function exchangestartsell() {
+        $('.sellTabBtn, .sellLimitTabBtn, .sellExchangeTabBtn').removeClass('active');
+        $("#exchangestartsell").show();
+        $("#stopsell").hide();
+        $('.sellExchangeTabBtn').addClass('active');
+        $("#startsell").hide();
+    }
+</script>
+<script type="text/javascript">
+
+    function showOriginal() {
+        $('.tread-view.d-inline.w-100').removeAttr('style').attr('style', 'display:none !important;');
+        $('.original-view.d-inline.w-100').show();
+    }
+
+    function showTradeView() {
+        $('.original-view.d-inline.w-100').removeAttr('style').attr('style', 'display:none !important;');
+        $('.tread-view.d-inline.w-100').show();
+    }
+    showTradeView();
+</script>
+@endsection

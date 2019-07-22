@@ -1,0 +1,148 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'USD/EURO Withdraw Requests - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Transaction Request</h1>
+	</header>	
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Transaction Details</h4>
+			<div class="table-responsive data-table">
+    <table class="table table-hover mb-0" id="data-table">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Currency</th>
+						<th>Bank Name</th>
+						<th>Branch Name</th>
+						<th>Ac Holder</th>
+						<th>Amount</th>
+						<th>Ac no</th>
+						<th>Swift Code</th>
+						<th>Iban Number</th>
+						<th>Mobile</th>
+						<th>Address</th>
+						<th>City</th>
+						<th>Country</th>
+						<th>Withdew At</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(transaction in allTransactions.rows)
+					<tr id="tx-{{ transaction.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<th>{{transaction.name}}</th>
+						<th>{{transaction.email}}</th>
+						<td class="currency">{{transaction.currency}}</td>
+						<td class="bank_name">{{transaction.bank_name}}</td>
+						<td class="branch_name">{{transaction.branch_name}}</td>
+						<td class="ac_holder">{{transaction.ac_holder}}</td>
+						<td class="amount">{{transaction.amount}}</td>
+						<td class="ac_no">{{transaction.ac_no}}</td>
+						<td class="swift_code">{{ transaction.swift_code }}</td>
+						<td class="iban_number" >{{ transaction.iban_number }}</td>
+						<td class="mobile">{{ transaction.mobile }}</td>
+						<td class="address" >{{ transaction.address }}</td>
+						<td class="city">{{ transaction.city }}</td>
+						<td class="country" >{{ transaction.country }}</td>
+						<td>{{ transaction.created_at }}</td>
+						<td>
+							@if( transaction.status == 1 )
+							<span class="text-success">Approved</span>
+							@elseif( transaction.status == 2 )
+							<span class="text-danger">Rejected</span>
+							@else
+							<span class="text-warning">Pending</span>
+							@endif
+						</td>
+						<td >
+							@if(transaction.status == 0)
+								<button class="btn btn-success btn--icon btn-status" data-id="{{ transaction.id }}" data-status="1"><i class="zmdi zmdi-check"></i></button>
+								<button class="btn btn-warning btn--icon btn-status" data-id="{{ transaction.id }}" data-status="2"><i class="zmdi zmdi-close"></i></button>
+							@endif
+						</td>
+					</tr>
+					@endeach
+					
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</section>
+@endsection
+
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+$('.editCryptoBalance').on('click', function(){
+	var el = $(this);
+	$('input[data-crypto-balance="'+el.attr('data-crypto-balance')+'"]').removeAttr('readonly');
+	el.hide();
+	$('.updateCrptoBalance[data-crypto-balance="'+el.attr('data-crypto-balance')+'"]').show();
+});
+
+$(document).on('click', '.btn-status', function(){
+
+	var status = $(this).attr('data-status');
+	var id = $(this).attr('data-id');
+	var td = $(this).parent('td');
+
+	$.ajax({
+		url		: "{{ route('admin.tx.status') }}",
+		type	: 'GET',
+		data	: { status : status, id : id },
+		success : function(response){
+
+			if( ! response.success ){
+				notify('danger', response.message );
+				return;
+			}
+
+			var tx = response.tx;
+
+			var status = '';
+			var statusButton = '';
+
+			if(tx.status == 0){
+				status = '<span class="text-warning">Pending</span>';
+				statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + tx.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon btn-status" data-id="' + tx.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+			} else if(tx.status == 1){
+				status = '<span class="text-success">Approved</span>';
+			} else if(tx.status == 2){
+				status = '<span class="text-danger">Rejected</span>';
+			} else {
+				status = '<span class="text-danger">Error</span>';
+			}
+
+			$('tr#tx-' + id + ' td:nth-child(17)').html(status);
+			td.find('.btn-status').replaceWith(statusButton);
+
+			notify('success', response.message );
+
+		}
+	});
+
+});
+
+});
+</script>
+
+@endsection

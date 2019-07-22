@@ -1,0 +1,248 @@
+@layout('layouts.default')
+
+@section('vars')
+	@set('title', 'RequestCoin - Zithex')
+@endsection
+
+@section('content')
+<div class="main-content">
+
+<!-- banner -->
+<section class="pages-banner-section">
+	<h2 class="page-title">Listing a Coin on Zithex.com</h2>
+</section>
+<!-- FAQ section -->
+<section class="faq-section">
+<div class="container">
+  <div class="row"> 
+    <div class="col-md-12">
+	<div class="request-auth-message"></div>
+       <!-- multistep form -->  
+        <form class="form-ui-zithex form-md row" action="{{ route('addcoininfo') }}" id="uploadForm" method="post" enctype="multipart/form-data">
+          <!-- fieldsets -->
+		   {{ csrfField() }}
+            <h4 class="col-sm-12 form-sec-head">Please Add</h4>
+           <div class="col-sm-12">
+               <div class="form-group" id="iconimage">
+                    <label>Icon Picture</label>
+                   <input type="file" name="upload-icon" placeholder="Enter Project Name" class="form-control" id="upload-icon" style="display: none;">
+                   <label for="upload-icon" class="upload-icon-lab">Upload</label>
+              
+               </div>
+           </div>
+		      {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}
+           <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Coin Full Name(is Required)</label>
+                    <input type="text" name="coinfname" class="form-control">
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinfname'), hasErrorFor('coinfname')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Coin Abbreviation(is Required)</label>
+                    <input type="text" name="coinaname" class="form-control">
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinaname'), hasErrorFor('coinaname')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Issue Date</label>
+                    <input type="date" name="issuedate" class="form-control">
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedate'), hasErrorFor('issuedate')) }}
+            <div class="col-sm-12">
+               <div class="form-group">
+                    <label>Issue Price</label>
+                    <input type="Number" name="issuedprice" class="form-control" placeholder="$">
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedprice'), hasErrorFor('issuedprice')) }}
+            <div class="col-sm-12">
+               <div class="form-group">
+                    <input type="Number" name="issuebprice" class="form-control" placeholder="B">
+                </div>
+            </div> 
+              {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuebprice'), hasErrorFor('issuebprice')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Total Supply</label>
+                    <input type="Number" name="totalsupply" class="form-control">
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('totalsupply'), hasErrorFor('totalsupply')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Max Supply</label>
+                    <input type="Number" name="maxsupply" class="form-control">
+                </div>
+            </div> 
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('maxsupply'), hasErrorFor('maxsupply')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Circulating Supply</label>
+                    <input type="Number" name="circulsupply" class="form-control">
+                </div>
+            </div>
+           {{ elIf('<p class="text-danger">$self</p>', getErrorFor('circulsupply'), hasErrorFor('circulsupply')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Proof type</label>
+                    <input type="text" name="prooftype" class="form-control" placeholder="POW/POS">
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('prooftype'), hasErrorFor('prooftype')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Encryption Algorithm</label>
+                    <input type="text" name="ealgo" class="form-control" placeholder="SHA256">
+                </div>
+            </div> 
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('ealgo'), hasErrorFor('ealgo')) }}
+            <div class="col-md-6 col-sm-12">
+               <div class="form-group">
+                    <label>Category</label>
+                    <ul class="zithex--ui-check" id="group4">
+                      <li>
+                        <input type="radio" id="coin" value="coin" name="group4" checked>
+                        <label for="coin">COIN</label>
+                        <div class="check"></div>
+                      </li>
+                      <li>
+                        <input type="radio" id="token" value="token" name="group4">
+                        <label for="token">TOKEN</label>
+                        <div class="check"><div class="inside"></div></div>
+                      </li>
+                    </ul>
+                </div>
+            </div>  
+            <div class="col-sm-12">
+               <div class="form-group">
+                    <label>Website</label>
+                    <input type="text" name="website" class="form-control" placeholder="http://">
+                
+                </div>
+            </div>
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('website'), hasErrorFor('website')) }}
+            <div class="col-sm-12">
+               <div class="form-group">
+                    <label>Explorer</label>
+                    <input type="text" name="explorer" class="form-control" placeholder="http://">
+                </div>
+            </div>  
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('explorer'), hasErrorFor('explorer')) }}
+            <div class="col-sm-12">
+               
+            </div>
+           <!-- <div class="col-md-4 col-sm-12">
+               <div class="form-group">
+                    <label>Community</label>
+                    <select class="form-control">
+                        <option></option>
+                        <option>Telegram</option><option>Facebook</option><option>Twitter</option><option>Weibo</option><option>Youtube</option><option>Medium</option><option>Reddit</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+               <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="" class="form-control" placeholder="http://">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+               <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" name="" class="form-control" placeholder="http://">
+                </div>
+            </div> -->
+            <div class="col-sm-12">
+              
+            </div>  
+            <div class="col-md-4 col-sm-12">
+               <div class="form-group">
+                    <label>Source Code</label>
+                    <input type="text" name="sourcecode" class="form-control" placeholder="http://">
+                </div> 
+            </div>  
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('sourcecode'), hasErrorFor('sourcecode')) }}
+            <div class="col-sm-12">
+               <div class="form-group" id="whitepaper">
+                    <label>White paper</label>
+                   <input type="file" name="whitep" placeholder="Enter Project Name" class="form-control" id="upload-wp" style="display: none;">
+                   <label for="upload-wp" class="upload-icon-lab">Upload</label>
+               </div>
+           </div>
+		      {{ elIf('<p class="text-danger">$self</p>', getErrorFor('whitep'), hasErrorFor('whitep')) }}
+           <div class="col-sm-12">
+               <div class="form-group">
+                    <label>Introduction</label>
+                    <textarea class="form-control text-control" name="intro"></textarea>
+                </div>
+            </div> 
+			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('intro'), hasErrorFor('intro')) }}
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-block btn-theme waves-effect waves-light">Submit</button>
+            </div> 
+        </form> 
+    </div>
+  </div>
+</div>
+</section>
+</div>
+<script>
+function filePreview(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#whitepaper + img').remove();
+            $('#whitepaper').after('<img src="'+e.target.result+'" width="100" height="100"/>');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function filePreviews(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#iconimage + img').remove();
+            $('#iconimage').after('<img src="'+e.target.result+'" width="100" height="100"/>');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#upload-icon").change(function () {
+    filePreviews(this);
+});
+$("#upload-wp").change(function () {
+    filePreview(this);
+});
+</script>
+<script>
+function submitform()
+{
+alert('yes');
+event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('addcoininfo') }}",
+                type : 'post',
+                data : $('#uploadForm').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.request-auth-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.request-auth-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#uploadForm').trigger('reset');
+
+                   <!--  setTimeout(function(){window.location.reload(); }, 3000); -->
+
+                }
+            });
+}
+</script>
+@endsection

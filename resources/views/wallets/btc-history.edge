@@ -1,0 +1,41 @@
+@layout('layouts.default')
+
+@section('content')
+
+<section class="deposit pt-5 pb-5">
+	<div class="container">
+		<legend class="mb-5 border-bottom pb-3">{{ antl.formatMessage('keywords.history') }}</legend>
+		<div class="card shadow">
+			<div class="card-body">
+				<div class="table-responsive mt-3">
+					<table class="table">
+						<thead class="black white-text">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.type') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.status') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@each(order in orders.rows)
+							<tr>
+								<th>{{ $loop.index + 1 }}</th>
+								<td>{{ order.price }}</td>
+								<td>{{ order.amount }}</td>
+								<td>{{ (order.order_type == 0) ? 'Buy' : 'Sell' }}</td>
+								<td>{{ (order.status == 0) ? 'In Order' : 'Fullfilled' }}</td>
+								<td>{{ order.created_at }}</td>
+							</tr>
+							@endeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@endsection

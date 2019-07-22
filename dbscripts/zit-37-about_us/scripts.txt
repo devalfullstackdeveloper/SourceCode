@@ -1,0 +1,24 @@
+CREATE TABLE `abouts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) NOT NULL,
+  `Description` nvarchar(5000) NOT NULL,
+  `image` nvarchar(500) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+Insert into abouts value(1,'Some Words About Us', 'In 2010 was the first time we heard about Bitcoin, about cryptocurrency. Trying to investigate and understand the plan, the functions, the technologies behind this new thing, we realised that we had to do a new way of transacting money, a new way to increase your cash.We understand that we talk about an asset with a strong capacity to become something. Globally substantial and famous. The anonymity behind this asset and generally the advantages that were providing this technology, made us try this kind of investment. We were lucky because were a team of people who were working on Forex products. People who knew what trading was and how to survive in such kind of market.Finally, after almost ten (10) years, we are here to provide our knowledge, to offer our services, and to support this technology by launching our cryptocurrency trading, exchange and investment platform Zithex Global or better.', '1550325551740.jpeg', CURDATE(),CURDATE(),null)
+
+
+
+Insert into abouts value(2,'What is Zithex Global and who we are', 'Zithex.com is cryptocurrency trading, exchanging and investment platform, that belongs to Zithex Global company. Zithex Global company is officially registered Public Company in Estonia and based in Tallinn. As all of you know, the last years Estonia become one of the most friendly countries, accepting cryptocurrency companies, officially. Zithex.com is a long term vision project that finally comes true. Our target is to offer a high exchange price for all the cryptocurrencies, with low exchange and trade fees. Zithex.com is here to offer all the necessary services are needed, clients to have more secure, more comfortable and more profitable trading and exchange way. Zithex.com is friendly with all the countries and is here to welcome anyone interested to use our services.', '1550325551740.jpeg', CURDATE(),CURDATE(),null)
+
+
+Insert into abouts value(3,'To Zithex we Trust!', 'Our team well informed with anything connected with the cryptocurrency world, as all the members they have more than seven years experiences on this market. We are in a position to offer, trading services of the most popular cryptocurrencies, exchange services for all the well-known cryptocurrencies. Also, our professional traders are here to advise you the best choice of the crypto market at the current moment, for long or short term according to the market signals. We will be glad to welcome you at any time. Feel free to ask anything you need to know before to trade, to invest or to exchange any cryptocurrency. Our support live chat is 24/7 available for you.<br>
+
+					<span style="color:#c4961d;">Welcome to Zithex.com<br>
+					Kind Regards,<br>
+					The CEO of Zithex.com<br>
+					Natalia Krupenko
+					</span>', '1550325551740.jpeg', CURDATE(),CURDATE(),null)

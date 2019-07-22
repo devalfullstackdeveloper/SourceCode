@@ -1,0 +1,97 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Hire Trader Requests - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Hire Trader Requests</h1>		
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>                                            
+						<th>Email</th>
+						<th>Package</th>
+						<th>Mobile</th>
+                        <th>Address</th>
+						<th>Dob</th>
+						<th>Currency</th>
+						<th>Transaction Hash</th>
+                        <th>Request Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(hireTraderRequest in hireTraderRequests.rows)
+					<tr id="hiretrader-{{ hireTraderRequest.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ hireTraderRequest.first_name }} {{ hireTraderRequest.middle_name }} {{ hireTraderRequest.last_name }}</td>						
+                        <td>{{ hireTraderRequest.email }}</td>
+                        <td>{{ packages[hireTraderRequest.package - 1] }}</td>
+                        <td>{{ hireTraderRequest.mobile }}</td>
+                        <td>{{ hireTraderRequest.address }}, {{ hireTraderRequest.city }}, {{ hireTraderRequest.country }}, {{ hireTraderRequest.zipcode }}</td>
+                        <td>{{ hireTraderRequest.dob }}</td>
+                        <td>{{ hireTraderRequest.payment_currency }}</td>
+                        <td>{{ hireTraderRequest.payment_transaction_hash }}</td>
+                        <td>{{ hireTraderRequest.created_at }}</td>
+						<td>							
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ hireTraderRequest.id }}"><i class="zmdi zmdi-delete"></i></button>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (hireTraderRequests.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.hiretraders') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (hireTraderRequests.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.hiretraders') }}?page={{ hireTraderRequests.pages.page - 1 }}"></a></li>
+					@each(i in range(hireTraderRequests.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == hireTraderRequests.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.hiretraders') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (hireTraderRequests.pages.lastPage == hireTraderRequests.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.hiretraders') }}?page={{ hireTraderRequests.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (hireTraderRequests.pages.lastPage == hireTraderRequests.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.hiretraders') }}?page={{ hireTraderRequests.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+<script>
+	$(document).ready(function(){
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.hiretrader.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#hiretrader-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

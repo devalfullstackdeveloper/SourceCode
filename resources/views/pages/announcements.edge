@@ -1,0 +1,47 @@
+@layout('layouts.defaultnew')
+
+@section('title')
+<title>News | CryptoFxSpace</title>
+
+<meta name="Description" Content=" Check out the Latest Announcements and Offers we have for our users interested in trading and Exchange of Cryptocurrency."/>
+
+@endsection
+@section('body')
+<body>
+@endsection
+@section('content')
+
+
+<section class="bg-gradient text-center">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-12">
+          <h6 class="text-uppercase text-white">News &amp; Annoucements</h6>
+          <h1 class="display-4 text-white mb-0">Latest news and updates from CryptoFxSpace.</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      @each(announcement in announcements.rows)
+      <div class="row">
+        <div class="col-12 col-lg-10 offset-lg-1">
+
+          <div class="row mb-6">
+            <div class="col-12 col-lg-4">
+              <p class="font-weight-bold mb-0">{{ date_format(announcement.updated_at) }}</p>
+            </div>
+            <div class="col-12 col-lg-8">
+              <h3 class="font-weight-bold mb-3">{{ announcement.title }}</h3>
+              <p class="lead text-muted mb-0">{{{ announcement.description }}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      @endeach
+    </div>
+  </section>
+@endsection

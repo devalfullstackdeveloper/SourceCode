@@ -1,0 +1,64 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Add URL - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Add URL</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Add New URL</h4>
+					<form method="post" action="{{ route('admin.Sitemap.new') }}" enctype="multipart/form-data">
+                        {{ csrfField() }}
+                        <div class="form-group">
+                            
+                              <select required class="form-control" name="parent" autofocus="true" value="{{ old('Parent', '') }}">
+                                    <option value="0" style="color:black;" selected>-- Select Parent --</option>
+                                    
+                                    @each(Data in SitemapData.rows)
+
+                                   <option value="{{ Data.id }}" style="color:black;">{{ Data.title }}</option>
+                                  
+                                    @endeach
+                                   
+                                  
+                                   
+                                  </select>
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('parent'), hasErrorFor('parent')) }}
+						<div class="form-group">
+							<input required type="text" class="form-control" name="title" placeholder="Title" autofocus="true" value="{{ old('title', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('title'), hasErrorFor('title')) }}
+						<div class="form-group">
+							<input required type="text" class="form-control" name="Description" placeholder="Description" value="{{ old('Description', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('Description'), hasErrorFor('Description')) }}
+						<div class="form-group">
+							<input required type="text" class="form-control" name="URL" placeholder="URL" value="{{ old('URL', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('URL'), hasErrorFor('URL')) }}
+						<button type="submit" class="btn btn-success">Add New URL</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

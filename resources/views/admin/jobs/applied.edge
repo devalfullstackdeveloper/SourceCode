@@ -1,0 +1,42 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Applied - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Applied</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body">
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Mobile</th>
+						<th>Resume</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(applied in applieds)
+					<tr id="applied-{{ applied.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ applied.name }}</td>
+						<td>{{ applied.email }}</td>
+						<td>{{ applied.mobile }}</td>
+						<td><a target="_blank" href="{{ assetsUrl('images/resume/' + applied.resume ) }}" class="btn btn-info"><i class="zmdi zmdi-download"></i></a></td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</section>
+@endsection

@@ -1,0 +1,47 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Deposit Wallet - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Deposit Wallet</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit Deposit Wallet</h4>
+					<form method="post" action="{{ route('admin.deposits.edit', {id : deposit.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<select class="form-control" name="currency" autofocus="true" value="{{ old('currency', deposit.currency) }}" style="color: black">
+							<option value="">Select Currency</option>
+							@each(pair in pairsw.rows)
+							<option value="{{ pair.derive_currency }}" {{ (deposit.currency ==  pair.derive_currency) ? 'selected' : ''}}>{{ pair.derive_currency }}</option>
+							@endeach	
+							</select>
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('currency'), hasErrorFor('currency')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="address" placeholder="address" value="{{ old('address', deposit.address) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('address'), hasErrorFor('address')) }}
+						<button type="submit" class="btn btn-success">Edit Deposite Wallet</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

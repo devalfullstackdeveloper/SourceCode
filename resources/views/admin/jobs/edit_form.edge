@@ -1,0 +1,39 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Job - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Job</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit Job</h4>
+					<form method="post" action="{{ route('admin.job.edit', {id : job.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="title" placeholder="Title" autofocus="true" value="{{ old('title', job.title) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('title'), hasErrorFor('title')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="job_type" placeholder="Job Type" value="{{ old('job_type', job.job_type) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('job_type'), hasErrorFor('job_type')) }}
+						<button type="submit" class="btn btn-success">Edit Job</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection

@@ -1,0 +1,5 @@
+* If getting error regarding sql connection as follows
+"Client does not support authentication protocol requested by server; consider upgrading MySQL client in nodejs"
+
+Run following command for your database
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root

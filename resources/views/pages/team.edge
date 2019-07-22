@@ -1,0 +1,35 @@
+@layout('layouts.default')
+@section('title')
+<title>Cryptocurrency Trading Sites | Best Trading Sites For Bitcoin-Zithex </title>
+
+<meta name="Description" Content=" Zithex is a renowned Cryptocurrency trading sites among others & considered as one of the best Trading Sites For Bitcoin. “/>
+
+@endsection
+@section('content')
+<title>Cryptocurrency Trading Sites | Best Trading Sites For Bitcoin-Zithex </title>
+
+<meta name="Description" Content=" Zithex is a renowned Cryptocurrency trading sites among others & considered as one of the best Trading Sites For Bitcoin. “/>
+
+<section class="pages-banner-section" style="background-image:url('/images/headerimages/{{{teams.headerImage.image}}}')"><div class="main-content">
+
+		<h2 class="page-title">{{ antl.formatMessage('keywords.our_team') }}</h2>
+	</section>
+	<h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Our Team</h1>
+	<section class="team-section">
+		<div class="container">
+			<div class="row">
+				@each(team in teams.rows)
+				<div class="col-md-4 col-sm-12">
+					<div class="card team-card">
+						<img src="{{ assetsUrl('images/teams/' + team.image) }}" title="{{ team.name }}" alt="{{ team.alt }}">
+						<h1>{{ team.name }}</h1>
+						<p class="title">{{ team.designation }}</p>
+						<p class="about-team">{{ team.description }}</p>
+					</div>
+				</div>
+				@endeach
+			</div>
+		</div>
+	</section>
+</div>
+@endsection

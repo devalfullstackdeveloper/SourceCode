@@ -1,0 +1,118 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Fees Level - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Fees Levels</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body">
+			<table class="table table-hover mb-0">
+				<thead> 
+					<tr>
+						<th>#</th>
+						<th>Level Type</th>
+						<th>Fees (%)</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(requestfees in requestfeess.data)
+					<tr id="requestfees-{{ requestfees.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ requestfees.user_level }}</td>
+						<td>{{ requestfees.amount }}</td>
+					<td>{{ status(requestfees.status) }}</td>
+						<td>
+							@if(requestfees.status == 0)
+									<button class="btn btn-success btn--icon btn-status" data-id="{{ requestfees.id }}" data-status="1"><i class="zmdi zmdi-check"></i></button>
+							@elseif(requestfees.status == 1)
+									<button class="btn btn-warning btn--icon btn-status" data-id="{{ requestfees.id }}" data-status="2"><i class="zmdi zmdi-close"></i></button>
+							@elseif(requestfees.status == 2)
+									<button class="btn btn-success btn--icon btn-status" data-id="{{ requestfees.id }}" data-status="1"><i class="zmdi zmdi-check"></i></button>
+							@endif
+							<a href="{{ route('admin.requestfees.edit', { id : requestfees.id }) }}" class="btn btn-info btn--icon" data-id="{{ requestfees.id }}"><i class="zmdi zmdi-edit"></i></a>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (requestfees.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.requestfees') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (requestfees.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.requestfees') }}?page={{ requestfees.pages.page - 1 }}"></a></li>
+					@each(i in range(requestfees.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == requestfees.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.requestfees') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (requestfees.pages.lastPage == requestfees.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.requestfees') }}?page={{ requestfees.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (requestfees.pages.lastPage == requestfees.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.requestfees') }}?page={{ requestfees.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.requestfees.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var requestfees = response.requestfees;
+ 
+					var status = '';
+					var statusButton = '';
+
+					if(requestfees.status == 0){
+						status = '<span class="text-warning">Pending</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + requestfees.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon btn-status" data-id="' + requestfees.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(requestfees.status == 1){
+						status = '<span class="text-success">Active</span>';
+						statusButton = '<button class="btn btn-warning btn--icon btn-status" data-id="' + requestfees.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(requestfees.status == 2){
+						status = '<span class="text-danger">Inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + requestfees.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+ location.reload(); 
+					//$('tr#requestcoin-' + id + ' td:nth-child(5)').html(status); 
+					td.find('.btn-status').replaceWith(statusButton);
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+
+
+	});
+</script>
+@endsection

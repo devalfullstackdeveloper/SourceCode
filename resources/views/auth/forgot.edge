@@ -1,0 +1,51 @@
+@layout('layouts.defaultnew')
+@section('title')
+<title> Forgot | CryptoFxSpace </title>
+
+<meta name=""/>
+
+@endsection
+@section('body')
+<body class="bg-gradient">
+@endsection
+
+@section('content')
+
+
+<section class="space-md">
+    <div class="container">
+      <div class="row mt-5 text-center">
+        <div class="col-12">
+          <h1 class="display-4 text-white">Forgot Password?</h1>
+        </div>
+      </div>
+
+      <div class="row mt-7">
+        <div class="col-12 col-lg-5 mx-auto">
+
+          			@if(flashMessage('success'))
+						<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+					@endif
+					@if(flashMessage('error'))
+						<div class="alert alert-danger"> {{ flashMessage('error') }} </div>
+					@endif
+				
+				<form id="login" method="post" action="{{ route('forgot') }}">
+					{{ csrfField() }}
+					<div class="form-group">
+						<input type="text" name="email" class="form-control" id="email" placeholder="{{ antl.formatMessage('keywords.email') }}" value="{{ old('email', '') }}">
+						{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+					</div>
+					<div class="forgot">
+						<a href="{{ route('login') }}">{{ antl.formatMessage('keywords.back_to_login') }}</a>
+					</div>
+					<input type="submit" class="btn btn-primary btn-block mt-4" value="{{ antl.formatMessage('keywords.submit') }}">
+				</form>
+				 <p class="text-sm text-white opacity-70 mt-7 text-center">&copy; 2019 CryptoFxSpace.com. All Rights Reserved.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+@endsection

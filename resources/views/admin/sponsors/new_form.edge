@@ -1,0 +1,63 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Sponsors - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Sponsors</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Add New Sponsor</h4>
+					<form method="post" action="{{ route('admin.sponsors.new') }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="name" placeholder="Name" autofocus="true" value="{{ old('name', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('name'), hasErrorFor('name')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="alt" placeholder="Alternative information" autofocus="true" value="{{ old('alt', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('alt'), hasErrorFor('alt')) }}
+						
+						<div class="form-group">
+							{{--  <textarea type="text" class="form-control wysiwyg-editor" name="image" placeholder="image" value="{{ old('image', '') }}" rows="2"></textarea>  --}}
+							<input type="file" class="form-control" name="image" placeholder="Image" autofocus="true" value="{{ old('image', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('image'), hasErrorFor('image')) }}
+						<button type="submit" class="btn btn-success">Add New</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('style')
+
+{{ style('admin/vendors/bower_components/trumbowyg/dist/ui/trumbowyg.min.css') }}
+
+@endsection
+
+@section('script')
+
+{{ script('admin/vendors/bower_components/trumbowyg/dist/trumbowyg.min.js') }}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".wysiwyg-editor").trumbowyg({ autogrow : !0 })
+	})
+</script>
+
+@endsection

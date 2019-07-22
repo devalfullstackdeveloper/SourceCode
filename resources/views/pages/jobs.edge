@@ -1,0 +1,39 @@
+@layout('layouts.default')
+@section('title')
+<title> Stock Trader Jobs – Zithex Global</title>
+
+<meta name="Description" Content=" Click here for the latest job openings of Stock Trader Jobs offering various benefits to our employees with handsome salary. "/>
+
+@endsection
+@section('content')
+<title> Stock Trader Jobs – Zithex Global</title>
+
+<meta name="Description" Content=" Click here for the latest job openings of Stock Trader Jobs offering various benefits to our employees with handsome salary. "/>
+
+<div class="main-content">
+	<section class="pages-banner-section">
+		<h2 class="page-title">{{ antl.formatMessage('keywords.careers') }}</h2>
+	</section>
+	<h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Stock Trader Jobs – Zithex Global</h1>
+	<section class="career-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="feature-title mt-5">{{ antl.formatMessage('keywords.current_openings') }}</h3>
+				</div>
+				@each(job in jobs)
+				<div class="col-md-3 col-sm-12">
+					<div class="opening-wrap shadow text-center">
+						<h6>{{ job.title }}</h6>
+						<img src="{{ assetsUrl('images/job.svg') }}" alt="Image" width="35">
+						<small>Job Type : {{ job.job_type }}</small>
+						<a href="{{ route('apply', { id : job.id }) }}" class="btn btn-block btn-theme waves-effect waves-light">{{ antl.formatMessage('keywords.apply_now') }}</a>
+					</div>
+				</div>
+				@endeach
+			</div>
+		</div>
+	</section>
+</div>
+
+@endsection

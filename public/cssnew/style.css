@@ -1,0 +1,74 @@
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+a {
+  transition: all 0.3s ease;
+}
+
+.text-yellow-500 {
+  color: #F5BC00;
+}
+
+.bg-yellow-500 {
+  background: #F5BC00;
+}
+
+.bg-blue-800 {
+  background: #0E0A3A;
+}
+
+.bg-blue-900 {
+  background: #0D0934;
+}
+
+.bg-gradient {
+  background-image: linear-gradient(to bottom, #0E0A3A, #084688);
+  background-repeat: no-repeat;
+}
+
+.btn-yellow {
+  color: #1a202c;
+  background: #F5BC00;
+}
+
+.footer {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.footer ul li a {
+  color: #FFF;
+  opacity: .7;
+}
+
+.footer ul li a:hover,
+.footer ul li a:focus {
+  opacity: 1;
+}
+
+.text-uppercase {
+  letter-spacing: 0.05em;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-box {
+  background: rgba(255, 255, 255, .1);
+  border-radius: 4px;
+}
+
+.accordion .card {
+  border: 1px solid rgba(255, 255, 255, .25);
+}
+
+.accordion .card-header {
+  padding: 1rem;
+  border: none;
+}
+
+.accordion .card-body {
+  padding: 1rem 1.45rem;
+}

@@ -1,0 +1,128 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Abouts - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">About</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive data-table">
+             <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Image</th>
+						<th>Alternative information</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(about in abouts.rows)
+					<tr id="slider-{{ about.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ about.Name }}</td>
+						<td>{{ about.Description }}</td>
+						<td>
+							<img src="{{ assetsUrl( 'images/about/' + about.image ) }}" style="height: 32px; width:106px">
+						</td>
+						<td>{{ about.alt }}</td>
+						<td>
+							<a href="{{ route('admin.aboutus.edit', { id : about.id }) }}" class="btn btn-info btn--icon" data-id="{{ slider.id }}"><i class="zmdi zmdi-edit"></i></a>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.slider.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var slider = response.slider;
+
+					var status = '';
+					var statusButton = '';
+
+					if(slider.status == 1){
+						status = '<span class="text-success">Active</span>';
+						statusButton = '<button class="btn btn-warning btn--icon btn-status" data-id="' + slider.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(slider.status == 2){
+						status = '<span class="text-danger">Inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + slider.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+					$('tr#slider-' + id + ' td:nth-child(8)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+					
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.slider.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#slider-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

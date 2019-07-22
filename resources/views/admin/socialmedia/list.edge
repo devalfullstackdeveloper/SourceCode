@@ -1,0 +1,77 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'socialmedias - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Social Media</h1>
+	 <a href="{{ route('admin.socialmedia.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New Social Media</a>
+	</header>
+
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive data-table">
+             <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>MediaName</th>
+						<th>Icon</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(socialmedia in socialmediatypes.rows)
+					<tr id="socialmedia-{{ socialmedia.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ socialmedia.MediaName }}</td>
+						
+						<td>
+							<img src="{{ assetsUrl(socialmedia.iconPath ) }}" style="height: 40px; width:40px">
+						</td>
+						<td>
+							<a href="{{ route('admin.socialmedia.edit', { id : socialmedia.id }) }}" class="btn btn-info btn--icon" data-id="{{ socialmedia.id }}"><i class="zmdi zmdi-edit"></i></a>
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ socialmedia.id }}"><i class="zmdi zmdi-delete"></i></button>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>	
+		$(document).on('click', '.btn-remove', function(){
+			var id = $(this).attr('data-id');
+			$.ajax({
+				url		: "{{ route('admin.socialmedia.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#socialmedia-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+		});
+</script>
+@endsection

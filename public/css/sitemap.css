@@ -1,0 +1,37 @@
+li{
+    font-size: 20px;
+}
+ol {
+    color: #d58c07;
+}
+h1{
+    color: #d58c07;
+    border-bottom: 3px solid black;
+    padding-bottom: 10px;
+    width: 18%;
+    margin: 0 auto;
+
+}
+a{
+    text-decoration: none;
+    color: #161624;
+}
+a:hover{
+    font-weight: bold;
+    color: #d58c07;
+}
+.sitemap-links {
+    border: 2px solid #d58c07;
+}
+.sitemap-links i {
+    font-size: 2em;
+    margin: 0 auto;
+    color: #d58c07;
+    border: 1px solid;
+    padding: .4rem;
+}
+.sitemap-links i:hover {
+    background-color: #d58c07;
+    color: #fff;
+}
+

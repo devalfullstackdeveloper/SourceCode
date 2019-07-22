@@ -1,0 +1,99 @@
+@layout('layouts.default')
+@section('title')
+<title> Recent Blog Posts - Zithex Blog</title>
+
+<meta name="Description" Content="Checkout the Recent blog posts of Zithex Global and make yourself up to date with crypto world. "/>
+
+@endsection
+@section('content')
+
+<div class="main-content blog-detail-page">
+	<section class="pages-banner-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 post-title-block">       
+					<h2 class="page-title">{{ blog.title }}</h2>
+					
+					<ul class="list-inline text-center mb-0 mt-3">
+						<li class="list-inline-item">{{ date_format(blog.updated_at) }}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="post-content-section">
+		<div class="container">
+			<div class="row">
+					
+				<div class="col-lg-9 col-md-9 col-sm-12">
+						<img alt={{{blog.alternative_text}}}  src={{assetsUrl('images/blogs/'+blog.image)}} width="100%" style="margin-bottom:30px;">
+				
+					<br /><br /><br />
+					{{{ blog.description }}}
+					<!-- <div class="comments-wrap">
+						<h5 class="text-uppercase">Comments</h5>
+						<form class="comments-form form-ui-zithex">
+							<div class="form-group">
+								<textarea class="form-control" placeholder="Leave a Comment"></textarea>
+							</div>
+							<button type="submit" class="btn btn-block btn-theme waves-effect waves-light">Submit</button>
+						</form>
+					</div> -->
+				</div>
+				<div class="col-lg-3  col-md-3 col-sm-12 sidebar-wrap">
+					<div class="well">
+						<h2>{{ antl.formatMessage('keywords.subscribe') }}</h2>
+						<form>
+							<div class="form-group">
+								<input type="Email" class="form-control" placeholder="{{ antl.formatMessage('keywords.email') }}" required="">
+							</div>    
+							<button class="btn btn-theme btn-block waves-effect waves-light" type="submit">{{ antl.formatMessage('keywords.subscribe') }}</button>
+						</form>
+					</div>
+					<!-- <div class="well">
+						<div class="media"> 
+							<div class="media-left">
+								<a href="javascript:void(0);"><img class="media-object" alt="Media" src="img/64x64.svg"></a>
+							</div> 
+							<div class="media-body">
+								<h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla.
+							</div>
+						</div>
+						<div class="media"> 
+							<div class="media-left">
+								<a href="javascript:void(0);"><img class="media-object" alt="Media" src="img/64x64.svg"></a>
+							</div> 
+							<div class="media-body">
+								<h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla.
+							</div>
+						</div>
+						<div class="media"> 
+							<div class="media-left">
+								<a href="javascript:void(0);"><img class="media-object" alt="Media" src="img/64x64.svg"></a>
+							</div> 
+							<div class="media-body">
+								<h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla.
+							</div>
+						</div>
+					</div>
+					<div class="list-group">
+						<a class="list-group-item active" href="#">
+							<h4 class="list-group-item-heading">List group item heading</h4>
+							<p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+						</a>
+						<a class="list-group-item" href="#">
+							<h4 class="list-group-item-heading">List group item heading</h4>
+							<p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+						</a>
+						<a class="list-group-item" href="#">
+							<h4 class="list-group-item-heading">List group item heading</h4>
+							<p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+						</a>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+@endsection

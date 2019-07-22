@@ -1,0 +1,169 @@
+@layout('layouts.default')
+@section('title')
+<title> Crypto Trading Company | Online Currency Exchange – Zithex Global</title>
+<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
+<meta name="Description" Content=" Looking for Online Currency  Exchange? Just Signup with zithex, a best Crypto trading company offers the high exchange rates & lowest fees of market ."/>
+@endsection
+@section('content')
+
+<!--<section class="pages-banner-section" style="background-image:url('/images/headerimages/{{{data.headerImage.image}}}')"><div class="main-content">
+		<h2 class="page-title">{{ antl.formatMessage('keywords.about_us') }}</h2>
+</section> -->
+
+<section class="banners">
+	<div class="single-header slider header-bg">
+		<div class="container">
+			<div class="bnrhdere">
+				<div class="navbnr">
+					<ul>
+						<li><a href="{{ route('about') }}">ABOUT</a></li>
+						<li><a href="{{ route('team') }}">OUR TEAM</a></li>
+						<li><a href="{{ route('careers') }}">CAREERS</a></li>
+						<li><a href="{{ route('contact') }}">CONTACT US</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="bnr-txt">
+					<h4>About CryptoFxSpace</h4>
+					<h1>Crypto Trading Company<br> Online Currency Exchange</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="about_us">
+	<div class="container">
+		<div class="col-md-8 col-sm-8 col-xs-12">
+			<div class="about_text">
+				<h6>Some Words About Us</h6>
+				<h3>We’re growing fast, and we’re looking for <br>extraordinary people to share their experience<br> and expertise.</h3>
+				<p>In 2010 was the first time we heard about Bitcoin, about cryptocurrency. Trying to investigate and understand the plan, the functions, the technologies behind this new thing, we realised that we had to do a new way of transacting money, a new way to increase your cash.We understand that we talk about an asset with a strong capacity to become something. Globally substantial and famous. The anonymity behind this asset and generally the advantages that were providing this technology, made us try this kind of investment. We were lucky because were a team of people who were working on Forex products. People who knew what trading was and how to survive in such kind of market.Finally, after almost ten (10) years, we are here to provide our knowledge, to offer our services, and to support this technology by launching our cryptocurrency trading, exchange and investment platform Zithex Global.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="icons_Sec">
+	<div class="container">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="icons_text">
+				<a href="#"><i class="fas fa-book"></i></a>
+				<h5>10 Years Experience</h5>
+				<p>Ut turpis ex, elementum ac sapien ac, commodo molestie lectus. Fusce et tempus nisi.</p>
+			</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="icons_text">
+				<a href="#"><i class="fas fa-eye"></i></a>
+				<h5>Long Term Vision</h5>
+				<p>Aliquam ullamcorper feugiat urna ut bibendum. Nulla eu erat sed ipsum eleifend.</p>
+			</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="icons_text">
+				<a href="#"><i class="fas fa-shield-alt"></i></a>
+				<h5>More Secure</h5>
+				<p>Ut turpis ex, elementum ac sapien ac, commodo molestie lectus. Fusce et tempus nisi.</p>
+			</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="icons_text">
+				<a href="#"><i class="fas fa-briefcase"></i></a>
+				<h5>Professional</h5>
+				<p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+	<!--  <h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Crypto Trading Company | Online Currency Exchange – Zithex Global</h1>  -->
+
+
+	<!--<div class="col-sm-12 about_us my-md-5 my-3">
+	<div class="container">
+		@each(about in data.about_us.rows)
+		@if($loop.isOdd)
+		<div class="row justify-content-center align-items-center mb-4">
+			<div class="col-md-6 image1"> 
+
+			<img src="{{ assetsUrl('images/about/' + about.image) }}" class="img-fluid" alt="{{about.alt}}">
+      
+			</div>
+			<div class=" img col-md-6 paragraph1"> 
+				<h3 class="text-md-left text-center">{{{ about.Name }}}</h3>
+				<div class="line">
+				<hr></hr>
+				</div>
+				<p>{{{ about.Description }}}</p>
+			</div>
+		</div>
+
+		@endif
+		@if($loop.isEven)
+		<div class="row justify-content-center align-items-center mb-4">
+			<div class="col-md-6 paragraph2"> 
+				<h3><span style="color:#c4961d;">{{{ about.Name }}}</span></h3>
+				<p>{{{ about.Description }}}</p>
+			</div>
+			<div class="img col-md-6 image2"> 
+				<img src="{{ assetsUrl('images/about/' + about.image) }}" class="img-fluid">
+			</div>
+		</div>
+
+	
+		@endif
+		@endeach
+		<div class="row justify-content-center align-items-center mb-4">
+			<div class="col-md-6 image1"> 
+				<img src="/images/1.jpg" class="img-fluid">
+			</div>
+			<div class=" img col-md-6 paragraph1"> 
+				<h3 class="text-md-left text-center">Some Words About Us</h3>
+				<div class="line">
+				<hr></hr>
+				</div>
+				<p>In 2010 was the first time we heard about Bitcoin, about cryptocurrency. Trying to investigate and understand the plan, the functions, the technologies behind this new ''thing'', we realised that we had to do a new way of transacting money, a new way to increase your cash.We understand that we talk about an asset with a strong capacity to become something. Globally substantial and famous. The anonymity behind this asset and generally the advantages that were providing this technology, made us try this kind of investment. We were lucky because were a team of people who were working on Forex products. People who knew what trading was and how to survive in such kind of market.
+				   Finally, after almost ten (10) years, we are here to provide our knowledge, to offer our services, and to support this technology by launching our cryptocurrency trading, exchange and investment platform Zithex Global or better <span style="color:#c4961d;">https://www.zithex.com.</span></p>
+			</div>
+		</div>
+		
+		<div class="row justify-content-center align-items-center mb-4">
+			<div class="col-md-6 paragraph2"> 
+				<h3><span style="color:#c4961d;">What is Zithex Global and who we are</span></h3>
+				<p>Zithex.com is cryptocurrency trading, exchanging and investment platform, that belongs to Zithex Global company. Zithex Global company is officially registered Public Company in Estonia and based in Tallinn. As all of you know, the last years Estonia become one of the most friendly countries, accepting cryptocurrency companies, officially. Zithex.com is a long term vision project that finally comes true. Our target is to offer a high exchange price for all the cryptocurrencies, with low exchange and trade fees. Zithex.com is here to offer all the necessary services are needed, clients to have more secure, more comfortable and more profitable trading and exchange way. Zithex.com is friendly with all the countries and is here to welcome anyone interested to use our services.</p>
+			</div>
+			<div class="img col-md-6 image2"> 
+				<img src="/images/2.jpg" class="img-fluid">
+			</div>
+		</div>
+		
+		<div class="row justify-content-center align-items-center ">
+			<div class="col-md-6 image3"> 
+				<img src="/images/3.jpg" class="img-fluid">
+			</div>
+			<div class=" img col-md-6 paragraph3"> 
+				<p>Our team well informed with anything connected with the cryptocurrency world, as all the members they have more than seven years experiences on this market. We are in a position to offer, trading services of the most popular cryptocurrencies, exchange services for all the well-known cryptocurrencies. Also, our professional traders are here to advise you the best choice of the crypto market at the current moment, for long or short term according to the market signals. We will be glad to welcome you at any time. Feel free to ask anything you need to know before to trade, to invest or to exchange any cryptocurrency. Our support live chat is 24/7 available for you.<br>
+
+					<span style="color:#c4961d;">Welcome to Zithex.com<br>
+					Kind Regards,<br>
+					The CEO of Zithex.com<br>
+					Natalia Krupenko
+					</span>
+				</p>
+			</div>
+		</div>
+		</div> 
+	</div> -->
+
+	<script type="text/javascript">
+		var x = 'ISHAN';
+		console.log(x);
+		var y = document.getElementById('navbar-default');
+		console.log(y);
+		y.style.backgroundColor = '#0d0934';
+		y.classList.remove('main_header');
+		y.classList.add('main_header_1');
+	</script>
+@endsection

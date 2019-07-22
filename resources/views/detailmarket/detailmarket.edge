@@ -1,0 +1,185 @@
+@layout('layouts.default')
+
+@section('content')
+<style>
+	.pair-name i.fa {
+		color: #a9a9a9;
+		cursor: pointer;
+	}
+	.pair-name i.fa-active {
+		color: #d58c07;
+	}
+	.bjtGUp {
+    box-shadow: rgb(223, 226, 231) 0px 2px 6px 0px;
+    color: rgb(38, 49, 71);
+    height: 950px;
+    overflow-y: scroll;
+    border-radius: 2px;
+}
+.cgpSHN {
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border-bottom: 1px solid rgb(223, 226, 231);
+    padding: 0px 15px;
+}
+</style>
+<section class="trade mt-4 mb-4">
+    <div class="container">
+        <h3 class="text-weight-bold" style="">
+            <span class="h0o2f9-1 bztrIH">Market Cap Zithex</span>
+        </h3>
+        <div class="messages"></div>
+		 <div class="row">
+		<div class="col-sm-12">
+   <!-- TradingView Widget BEGIN -->
+  <div class="tread-view d-inline w-100">
+                    <div id="chart-container"></div>
+                </div>
+</div>
+
+<!-- TradingView Widget END -->
+        </div>
+		<br><br>
+        <div class="row">
+		<div class="col-sm-8">
+   <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://in.tradingview.com/markets/cryptocurrencies/prices-all/" rel="noopener" target="_blank"><span class="blue-text">Cryptocurrency Markets</span></a> by TradingView</div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+  {
+  "width": "100%",
+  "height": "490",
+  "defaultColumn": "overview",
+  "screener_type": "crypto_mkt",
+  "displayCurrency": "USD",
+  "colorTheme": "light",
+  "transparency": true,
+  "symbol": "BITFINEX:BTCUSD",
+  "locale": "in"
+}
+  </script>
+</div>
+
+
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://in.tradingview.com/crypto-screener/" rel="noopener" target="_blank"><span class="blue-text">Crypto Screener</span></a> by TradingView</div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+  {
+  "defaultColumn": "overview",
+  "defaultScreen": "top_gainers",
+  "height": "512",
+  "width": "100%",
+  "showToolbar": true,
+  "locale": "in",
+  "symbol": "BITFINEX:BTCUSD",
+  "market": "crypto"
+}
+  </script>
+</div>
+</div>
+<div class="col-sm-1">
+</div>
+<div class="col-sm-3">
+<h3>News {{ pair_key }}</h3>
+<div class="s1e38t4q-2 bjtGUp news-box-w">
+<div id="newsline">
+</div>
+</div>
+</div>
+<!-- TradingView Widget END -->
+        </div>
+<!-- TradingView Widget END -->
+</div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.2.5/polyfill.min.js"></script>
+<script src="https://unpkg.com/@adonisjs/websocket-client"></script>
+<script>
+window.location.href 
+	var segment_str = window.location.href ;
+	var segment_array = segment_str.split( '/' );
+var last_segment = segment_array.pop();
+   new TradingView.widget({
+        "width": "100%",
+        "height": 300,
+        "symbol": "BITFINEX:" + last_segment,
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "chart-container",
+        "hide_side_toolbar": false,
+        "show_popup_button": true,
+        "popup_width": "1000",
+        "popup_height": "600",
+    });
+</script>
+
+<script>
+
+    $(document).ready(function(){
+	
+	
+	var dmJSON = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN";
+$.getJSON( dmJSON, function(data) {
+console.log(data);
+   $.each(data.Data, function(i, f) {
+   
+   
+  // console.log(data.Data);
+  var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+ // Convert timestamp to milliseconds
+ var date = new Date(f.published_on*1000);
+
+ // Year
+ var year = date.getFullYear();
+
+ // Month
+ var month = months_arr[date.getMonth()];
+
+ // Day
+ var day = date.getDate();
+
+ // Hours
+ var hours = date.getHours();
+
+ // Minutes
+ var minutes = "0" + date.getMinutes();
+
+ // Seconds
+ var seconds = "0" + date.getSeconds();
+
+ // Display date time in MM-dd-yyyy h:m:s format
+ var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+ 
+ if(f.body.length > 100) f.body = f.body.substring(0,100);
+  
+  
+      var tblRow = "<a href="+ f.url +" target=_blank ><div class='news-block'>" + "<img style='width: 30px;' src=" + f.imageurl + ">" + "<div class='s1e38t4q-4 esxufA'>" + f.body + "</div>" +  "<span>" + convdataTime + "</span>" + "</div></a>"
+       $(tblRow).appendTo("#newsline");
+ });
+
+});
+	
+	
+
+	
+	
+	
+	
+	
+
+});
+</script>
+@endsection

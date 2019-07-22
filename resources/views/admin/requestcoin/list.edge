@@ -1,0 +1,157 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'RequestCoin - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Coin Request</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+		   <div class="table-responsive data-table">
+              <table class="table table-hover mb-0" id="data-table">
+				<thead> 
+					<tr>
+						<th>#</th>
+						<th>User Name</th>
+						<th>User Email</th>
+						<th>Coin Name</th>
+						<th>Coin Symbol</th>
+						<th>Coin Value</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(requestcoin in requestcoins.data)
+					<tr id="requestcoin-{{ requestcoin.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ requestcoin.user.name }}</td>
+						<td>{{ requestcoin.user.email }}</td>
+						<td>{{ requestcoin.coinfname }}</td>
+							<td>{{ requestcoin.coinsymbol }}</td>
+								<td>{{ requestcoin.issuedprice }}</td>
+					<td>{{ status(requestcoin.status) }}</td>
+						<td>
+							@if(requestcoin.status == 0)
+									<button class="btn btn-success btn--icon btn-status" data-id="{{ requestcoin.id }}" data-status="1"><i class="zmdi zmdi-check"></i></button>
+							@elseif(requestcoin.status == 1)
+									<button class="btn btn-warning btn--icon btn-status" data-id="{{ requestcoin.id }}" data-status="2"><i class="zmdi zmdi-close"></i></button>
+							@elseif(requestcoin.status == 2)
+									<button class="btn btn-success btn--icon btn-status" data-id="{{ requestcoin.id }}" data-status="0"><i class="zmdi zmdi-check"></i></button>
+							@endif
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ requestcoin.id }}"><i class="zmdi zmdi-delete"></i></button>
+							<a href="{{ route('admin.requestcoin.view', { id : requestcoin.id }) }}" class="btn btn-primary btn--icon"><i class="zmdi zmdi-eye"></i></a>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (requestcoin.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.requestcoin') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (requestcoin.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.requestcoin') }}?page={{ requestcoin.pages.page - 1 }}"></a></li>
+					@each(i in range(requestcoin.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == requestcoin.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.requestcoin') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (requestcoin.pages.lastPage == requestcoin.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.requestcoin') }}?page={{ requestcoin.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (requestcoin.pages.lastPage == requestcoin.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.requestcoin') }}?page={{ requestcoin.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+			</div>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.requestcoin.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var requestcoin = response.requestcoin;
+
+					var status = '';
+					var statusButton = '';
+
+					if(requestcoin.status == 0){
+						status = '<span class="text-warning">inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(requestcoin.status == 1){
+						status = '<span class="text-success">Active</span>';
+						statusButton = '<button class="btn btn-warning btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(requestcoin.status == 2){
+						status = '<span class="text-danger">Inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+ location.reload(); 
+					//$('tr#requestcoin-' + id + ' td:nth-child(5)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+		$(document).on('click', '.btn-remove', function(){
+
+			if( ! confirm('Are you sure to delete this requestcoin?') ){
+				return false;
+			}
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.requestcoin.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#requestcoin-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

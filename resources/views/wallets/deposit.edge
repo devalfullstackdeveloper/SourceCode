@@ -1,0 +1,172 @@
+@layout('layouts.default')
+
+@section('content')
+
+<section class="deposit pt-5 pb-5">
+	<div class="container">
+		<legend class="mb-5 border-bottom pb-3">{{ antl.formatMessage('keywords.deposit') }}</legend>
+		<div class="card shadow">
+			<div class="card-body">
+				@if(flashMessage('error'))
+					<div class="alert alert-danger mb-4">
+						{{ flashMessage('error') }}
+					</div>
+				@endif
+				@if(flashMessage('success'))
+					<div class="alert alert-success mb-4">
+						{{ flashMessage('success') }}
+					</div>
+				@endif
+				<div class="row">
+					<div class="col-sm-6">
+						<select class="custom-select select-currency">
+							@each(pair in pairs.rows)
+							<option value="{{ pair.derive_currency }}" {{ (pair.derive_currency == currency) ? 'selected' : '' }}>{{ pair.coin }}</option>
+							@endeach
+						</select>
+						<ul class="balance-details">
+							<li>
+								<div class="row">
+									<div class="col-sm-6"><p>{{ antl.formatMessage('keywords.total_balance') }}</p></div>
+									<div class="col-sm-6"><p>{{ balance.available + ' ' + currency.toUpperCase() }}</p></div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-sm-6"><p>{{ antl.formatMessage('keywords.in_order') }}</p></div>
+									<div class="col-sm-6"><p>{{ (balance.inOrder).toFixed(8) + ' ' + currency.toUpperCase() }}</p></div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-sm-6"><p>{{ antl.formatMessage('keywords.available_balance') }}</p></div>
+									<div class="col-sm-6"><p>{{ (balance.available).toFixed(8) + ' ' + currency.toUpperCase() }}</p></div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-sm-6">
+						<!-- <div class="address card-body orange lighten-4">
+							<h5 class="text-warning">Important</h5>
+							<ul class="text-warning">
+								<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor.</li>
+							</ul>
+						</div> -->
+						<div class="deposit-address">
+							<div class="form-group">
+								<label for="deposit-address"><h5>{{ (currency).toUpperCase() + ' ' + antl.formatMessage('keywords.deposit_address') }}</h5>
+
+								<small style="margin-top: 8px;color: grey;">Deposit on given address and then click on complete to complete your deposit.</small>
+								</label>
+								<input type="text" id="deposit-address" class="form-control disabled" value="{{ depositWallet.address }}">
+							</div>
+							<button style="padding: 10px;margin-left: 0;" type="button" class="btn btn-dark btn-outline-grey" data-toggle="modal" data-target="#QRModal"><i class="fas fa-qrcode"></i> {{ antl.formatMessage('keywords.show_qr_code') }}</button>
+							<button style="padding: 10px;margin-left: 0;" type="button" class="btn btn-outline-grey btn-copy"><i class="far fa-copy"></i> {{ antl.formatMessage('keywords.copy_ddress') }}</button>
+
+							<button style="padding: 10px;margin-left: 0;" type="button" onclick="$('#orderCompletedModal').modal();" class="btn btn-outline-grey"><i class="far fa-check-circle"></i> Complete</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card shadow mt-5">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<h5>{{ antl.formatMessage('keywords.history') }}</h5>
+					</div>
+					<!-- <div class="col-sm-6 text-right">
+						<a href="#" class="text-warning">Deposite did not arrive <i class="far fa-question-circle"></i></a> | <a href="#" class="text-dark">View All</a>
+					</div> -->
+				</div>
+				<div class="table-responsive mt-3">
+					<table class="table">
+						<thead class="black white-text">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.amount') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.type') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.status') }}</th>
+								<th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@each(order in orders.rows)
+							<tr>
+								<th>{{ $loop.index + 1 }}</th>
+								<td>{{ order.price }}</td>
+								<td>{{ order.amount }}</td>
+								<td>{{ (order.order_type == 0) ? 'Buy' : 'Sell' }}</td>
+								<td>{{ (order.status == 0) ? 'In Order' : 'Fullfilled' }}</td>
+								<td>{{ order.created_at }}</td>
+							</tr>
+							@endeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- QR Modal -->
+<div class="modal" id="orderCompletedModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Complete your deposit</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Please enter the following details in order to complete your deposit.</p>
+				<form method="POST" action="{{ route('wallet.deposit.complete') }}">
+					{{ csrfField() }}
+					<input type="hidden" name="currency" value="{{ currency }}">
+					<div class="form-group">
+						<label>Amount Deposit</label>
+						<input type="number" class="form-control" name="amount" min="0.00000001" step="0.00000001" required>
+					</div>
+					<div class="form-group">
+						<label>Transaction Hash</label>
+						<input type="text" class="form-control" name="hash" required>
+					</div>
+					<input type="submit" value="Submit" class="btn btn-block btn-success">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- QR Modal -->
+<div class="modal" id="QRModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">QR Code</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<img src="https://chart.googleapis.com/chart?cht=qr&chl={{ depositWallet.address }}&choe=UTF-8&chs=300x300" style="display: block; margin : 0 auto;">
+			</div>
+		</div>
+	</div>
+</div>
+
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$('.btn-copy').on('click', function(){
+			$('#deposit-address').select();
+			document.execCommand("copy");
+			$(this).html('<i class="far fa-copy"></i> Copied');
+		});
+	})
+	
+</script>
+
+@endsection

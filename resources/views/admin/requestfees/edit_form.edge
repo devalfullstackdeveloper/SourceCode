@@ -1,0 +1,51 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Fees - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Fees Level</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit Fees</h4>
+					<form method="post" action="{{ route('admin.requestfees.feesedit', {id : requestfees.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('base_currency'), hasErrorFor('base_currency')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Level Type</h3>
+							<label class="custom-control custom-radio pl-0">
+								<input type="text" name="level type" class="custom-control-input"  value="{{ requestfees.user_level }}" readonly>
+							<span>{{ requestfees.user_level }}</span>
+								
+							</label> 
+							
+						</div>  
+						 
+						<div class="input-group">
+							<div class="form-group">
+								<input type="text" class="form-control" name="custom_amount" placeholder="Custom Amount" value="{{ requestfees.amount }}">
+								<i class="form-group__bar"></i>
+							</div>
+							<span class="input-group-addon">%</span>
+						</div>
+					</br>
+						<button type="submit" class="btn btn-success">Edit Fees</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

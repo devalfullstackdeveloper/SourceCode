@@ -1,0 +1,53 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Add Slider - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Add Slider</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Add New Slider</h4>
+					<form method="post" action="{{ route('admin.slider.new') }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="title" placeholder="Title" autofocus="true" value="{{ old('title', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('title'), hasErrorFor('title')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="subtitle" placeholder="Subtitle" value="{{ old('subtitle', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('subtitle'), hasErrorFor('subtitle')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="alt" placeholder=" Alternative information" value="{{ old('alt', '') }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('alt'), hasErrorFor('alt')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Image</h3>
+							<input type="file" class="form-control" name="image">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('image'), hasErrorFor('image')) }}
+						<button type="submit" class="btn btn-success">Add New Slider</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

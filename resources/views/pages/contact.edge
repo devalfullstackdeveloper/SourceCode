@@ -1,0 +1,130 @@
+@layout('layouts.defaultnew')
+@section('title')
+<title> Support | CryptoFxSpace</title>
+
+<meta name="Description" Content=""/>
+
+@endsection
+@section('body')
+<body>
+@endsection
+@section('content')
+  <section class="bg-gradient text-center">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-12">
+          <h6 class="text-uppercase text-white">Contact Us</h6>
+          <h1 class="display-4 text-white mb-0">Get in touch or fill out the form, we'll quickly get back to you.</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <h3 class="mb-4">Please fill out your information.</h3>
+          @if(flashMessage('success'))
+			<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+		  @endif
+		  <form class="contact-form row form-ui-zithex py-4" method="post" action="{{ route('contact') }}">
+		  {{ csrfField() }}
+            <div class="col-12 form-group">
+              <label>{{ antl.formatMessage('keywords.your_name') }}</label>
+              <input type="text" name="name" class="form-control" value="{{ old('name', '') }}" placeholder="{{ antl.formatMessage('keywords.your_name') }}" />
+								{{ elIf('<span class="text-danger">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+            </div>
+
+            <div class="col-12 form-group">
+              <label>{{ antl.formatMessage('keywords.your_number') }}</label>
+				<input type="tel" name="number" class="form-control" value="{{ old('number', '') }}" placeholder="{{ antl.formatMessage('keywords.your_number') }}">
+				{{ elIf('<span class="text-danger">$self</span>', getErrorFor('number'), hasErrorFor('number')) }}
+            </div>
+
+            <div class="col-12 form-group">
+              <label>{{ antl.formatMessage('keywords.your_email') }}</label>
+				<input type="Email" name="email" class="form-control" value="{{ old('email', '') }}" placeholder="{{ antl.formatMessage('keywords.your_email') }}">
+				{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+            </div>
+
+            <div class="col-12 form-group">
+              <label>{{ antl.formatMessage('keywords.your_subject') }}</label>
+				<select name="subject" class="form-control" value="{{ old('subject', '') }}" >
+					<option value="">{{ antl.formatMessage('keywords.choose') }}</option>
+					<option value="Payments support">{{ antl.formatMessage('keywords.payment_support') }}</option>
+					<option value="Withdrawals support">{{ antl.formatMessage('keywords.withdrawal_support') }}</option>
+					<option value="Deposits support">{{ antl.formatMessage('keywords.deposits_support') }}</option>
+					<option value="Account's Technical support">{{ antl.formatMessage('keywords.account_technical_support') }}</option>
+					<option value="Transactions Support">{{ antl.formatMessage('keywords.transaction_support') }}</option>
+					<option value="Security support">{{ antl.formatMessage('keywords.security_support') }}</option>
+					<option value="Other">{{ antl.formatMessage('keywords.other') }}</option>
+				</select>
+				{{ elIf('<span class="text-danger">$self</span>', getErrorFor('subject'), hasErrorFor('subject')) }}
+            </div>
+
+            <div class="col-12 form-group">
+              <label>{{ antl.formatMessage('keywords.your_description') }}</label>
+				<textarea class="form-control" name="description" placeholder="{{ antl.formatMessage('keywords.your_description') }}">{{ old('description', '') }}</textarea>
+				{{ elIf('<span class="text-danger">$self</span>', getErrorFor('description'), hasErrorFor('description')) }}
+            </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-theme waves-effect waves-light">{{ antl.formatMessage('keywords.submit') }}</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-12 col-lg-1"></div>
+
+        <div class="col-12 col-lg-3">
+          <div class="d-flex mb-4">
+            <i class="bx bxs-envelope h3 text-yellow-500"></i>
+
+            <div class="ml-4">
+              <h6 class="text-uppercase mb-0">Email</h6>
+              <a href="mailto:{{ support.email }}" title="" class="d-block mt-1">{{ support.email }}</a>
+              <a href="mailto:{{ support.email2 }}" title="" class="d-block">{{ support.email2 }}</a>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <i class="bx bxs-phone h3 text-yellow-500"></i>
+
+            <div class="ml-4">
+              <h6 class="text-uppercase mb-0">Phone</h6>
+              <a href="tel:{{ support.mobile }}" title="" class="d-block mt-1">{{ support.mobile }}</a>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <i class="bx bxs-map h3 text-yellow-500"></i>
+
+            <div class="ml-4">
+              <h6 class="text-uppercase mb-0">Addresss</h6>
+              <a href="javascript:void(0)" title="" class="d-block mt-1">{{ support.address }}</a>
+            </div>
+          </div>
+
+          <hr class="my-5">
+
+          <h6 class="text-uppercase font-weight-bold">Community</h6>
+          <ul class="list-unstyled h3 mb-0">
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-facebook-square"></i></a>
+            </li>
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-instagram-alt"></i></a>
+            </li>
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-youtube"></i></a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 mt-7">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2029.3408392073136!2d24.80676021615765!3d59.42738981019824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4692eca914d1fcbd%3A0x754ddac2802ae834!2sPeterburi+tee+47%2C+11415+Tallinn%2C+Estonia!5e0!3m2!1sen!2sin!4v1563451835786!5m2!1sen!2sin"
+            class="w-100" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+@endsection

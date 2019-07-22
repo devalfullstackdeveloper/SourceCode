@@ -1,0 +1,56 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Announcement - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Announcement</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit Announcement</h4>
+					<form method="post" action="{{ route('admin.announcement.edit', {id : announcement.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="title" placeholder="Title" autofocus="true" value="{{ old('title', announcement.title) }}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('title'), hasErrorFor('title')) }}
+						<div class="form-group">
+							<textarea type="text" class="form-control wysiwyg-editor" name="description" placeholder="Description" rows="5">{{ old('description', announcement.description) }}</textarea>
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('description'), hasErrorFor('description')) }}
+						<button type="submit" class="btn btn-success">Edit Announcement</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('style')
+
+{{ style('admin/vendors/bower_components/trumbowyg/dist/ui/trumbowyg.min.css') }}
+
+@endsection
+
+@section('script')
+
+{{ script('admin/vendors/bower_components/trumbowyg/dist/trumbowyg.min.js') }}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".wysiwyg-editor").trumbowyg({ autogrow : !0 })
+	})
+</script>
+
+@endsection

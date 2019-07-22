@@ -1,0 +1,310 @@
+@layout('layouts.defaultnew')
+@section('title')
+<title> Support | CryptoFxSpace</title>
+
+<meta name="Description" Content=""/>
+
+@endsection
+@section('content')
+  <section class="bg-gradient text-center">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-12">
+          <h6 class="text-uppercase text-white">Contact Us</h6>
+          <h1 class="display-4 text-white mb-0">Get in touch or fill out the form, we'll quickly get back to you.</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+		  	<h3 class="mb-4">Please fill out your information.</h3>
+		  	@if(flashMessage('success'))
+				<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+			@endif
+
+			<form class="row" action="{{ route('contact') }}" method="POST">\
+				{{ csrfField() }}
+				<div class="col-12 form-group">
+					<label>Full Name</label>
+					<input type="text" class="form-control" placeholder="Enter Your Full Name" value="{{ old('name', '') }}" required>
+					{{ elIf('<span class="text-danger">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+				</div>
+
+				<div class="col-12 form-group">
+					<label>Phone Number</label>
+					<input type="tel" class="form-control" placeholder="Enter Phone Number" value="{{ old('number', '') }}" required>
+					{{ elIf('<span class="text-danger">$self</span>', getErrorFor('number'), hasErrorFor('number')) }}
+				</div>
+
+				<div class="col-12 form-group">
+					<label>Email Address</label>
+					<input type="email" class="form-control" placeholder="Enter Email Address" value="{{ old('email', '') }}" required>
+					{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+				</div>
+
+				<div class="col-12 form-group">
+					<label>Subject</label>
+					<select class="form-control" placeholder="Select Subject" value="{{ old('subject', '') }}" required>
+							<option value="">{{ antl.formatMessage('keywords.choose') }}</option>
+							<option value="Payments support">{{ antl.formatMessage('keywords.payment_support') }}</option>
+							<option value="Withdrawals support">{{ antl.formatMessage('keywords.withdrawal_support') }}</option>
+							<option value="Deposits support">{{ antl.formatMessage('keywords.deposits_support') }}</option>
+							<option value="Account's Technical support">{{ antl.formatMessage('keywords.account_technical_support') }}</option>
+							<option value="Transactions Support">{{ antl.formatMessage('keywords.transaction_support') }}</option>
+							<option value="Security support">{{ antl.formatMessage('keywords.security_support') }}</option>
+							<option value="Other">{{ antl.formatMessage('keywords.other') }}</option>
+					</select>
+				</div>
+
+				<div class="col-12 form-group">
+					<label>Message</label>
+					<textarea class="form-control" placeholder="Write your message here..." rows="4" required>{{ old('description', '') }}</textarea>
+				</div>
+
+				<div class="col-12">
+					<button type="submit" class="btn btn-yellow">Submit</button>
+				</div>
+			</form>
+        </div>
+
+        <div class="col-12 col-lg-1"></div>
+
+        <div class="col-12 col-lg-3">
+          <div class="d-flex mb-4">
+            <i class="bx bxs-envelope h3 text-yellow-500"></i>
+
+            <div class="ml-4">
+              <h6 class="text-uppercase mb-0">Email</h6>
+              <a href="#" title="" class="d-block mt-1">support@zithex.com</a>
+              <a href="#" title="" class="d-block">admin@zithex.com</a>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <i class="bx bxs-phone h3 text-yellow-500"></i>
+
+            <div class="ml-4">
+              <h6 class="text-uppercase mb-0">Phone</h6>
+              <a href="#" title="" class="d-block mt-1">+380681072337</a>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <i class="bx bxs-map h3 text-yellow-500"></i>
+
+            <div class="ml-4">
+              <h6 class="text-uppercase mb-0">Addresss</h6>
+              <a href="#" title="" class="d-block mt-1">Peterburi Tee 47, Tallin - Estonia</a>
+            </div>
+          </div>
+
+          <hr class="my-5">
+
+          <h6 class="text-uppercase font-weight-bold">Community</h6>
+          <ul class="list-unstyled h3 mb-0">
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-facebook-square"></i></a>
+            </li>
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-instagram-alt"></i></a>
+            </li>
+            <li class="list-inline-item"><a href="#" title="" target="_blank"><i class="bx bxl-youtube"></i></a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 mt-7">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2029.3408392073136!2d24.80676021615765!3d59.42738981019824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4692eca914d1fcbd%3A0x754ddac2802ae834!2sPeterburi+tee+47%2C+11415+Tallinn%2C+Estonia!5e0!3m2!1sen!2sin!4v1563451835786!5m2!1sen!2sin"
+            class="w-100" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- <style>
+.page_breadcrumbs:before {
+    content: '';
+  background-color: #fff;
+    width: 50%;
+    height: 150px;
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    -webkit-transform: skewY(3deg);
+    transform: skewY(3deg);
+    z-index: 4;
+}
+.page_breadcrumbs:after {
+    content: '';
+    background-color: #fff;
+    width: 50%;
+    height: 150px;
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    -webkit-transform: skewY(-3deg);
+    transform: skewY(-3deg);
+    z-index: 4;
+}
+</style> -->
+<div class="main-content">
+	<section class="pages-banner-section" style="background-image:url('/images/headerimages/{{{support.headerImage.image}}}')">
+		<h2 class="page-title">{{ antl.formatMessage('keywords.contact_support') }}</h2>
+	</section>
+	<h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Contact - Zithex Global</h1>
+		<section class="contact-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-12">
+				<h2>Add your information</h2>
+					@if(flashMessage('success'))
+						<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+					@endif
+					<form class="contact-form row form-ui-zithex py-4" method="post" action="{{ route('contact') }}">
+						{{ csrfField() }}
+						<div class="col-md-6 col-sm-12">
+							<div class="form-group">
+								<label>{{ antl.formatMessage('keywords.your_name') }}</label>
+								<input type="text" name="name" class="form-control" value="{{ old('name', '') }}">
+								{{ elIf('<span class="text-danger">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="form-group">
+								<label>{{ antl.formatMessage('keywords.your_number') }}</label>
+								<input type="tel" name="number" class="form-control" value="{{ old('number', '') }}">
+								{{ elIf('<span class="text-danger">$self</span>', getErrorFor('number'), hasErrorFor('number')) }}
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="form-group">
+								<label>{{ antl.formatMessage('keywords.your_email') }}</label>
+								<input type="Email" name="email" class="form-control" value="{{ old('email', '') }}">
+								{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="form-group">
+								<label>{{ antl.formatMessage('keywords.your_subject') }}</label>
+								<select name="subject" class="form-control" value="{{ old('subject', '') }}">
+									<option value="">{{ antl.formatMessage('keywords.choose') }}</option>
+									<option value="Payments support">{{ antl.formatMessage('keywords.payment_support') }}</option>
+									<option value="Withdrawals support">{{ antl.formatMessage('keywords.withdrawal_support') }}</option>
+									<option value="Deposits support">{{ antl.formatMessage('keywords.deposits_support') }}</option>
+									<option value="Account's Technical support">{{ antl.formatMessage('keywords.account_technical_support') }}</option>
+									<option value="Transactions Support">{{ antl.formatMessage('keywords.transaction_support') }}</option>
+									<option value="Security support">{{ antl.formatMessage('keywords.security_support') }}</option>
+									<option value="Other">{{ antl.formatMessage('keywords.other') }}</option>
+								</select>
+								{{ elIf('<span class="text-danger">$self</span>', getErrorFor('subject'), hasErrorFor('subject')) }}
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>{{ antl.formatMessage('keywords.your_description') }}</label>
+								<textarea class="form-control" name="description">{{ old('description', '') }}</textarea>
+								{{ elIf('<span class="text-danger">$self</span>', getErrorFor('description'), hasErrorFor('description')) }}
+							</div>
+						</div>
+						<div class="col-sm-12 text-md-right">
+							<button type="submit" class="btn btn-primary btn-theme waves-effect waves-light">{{ antl.formatMessage('keywords.submit') }}</button>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-5 col-sm-12 offset-md-1">
+				<div class="shadow address">
+					<h2 class="address-title">Get in touch</h2>
+					<div class="contact-details-wrap">
+						<p class=""><i class="fas fa-envelope"></i> : 
+							<a href="mailto:{{ support.email }}">{{ support.email }}</a>
+
+							@if( support.email2 )
+								 | <a href="mailto:{{ support.email2 }}">{{ support.email2 }}</a>
+							@endif
+						</p>
+						<p class=""><i class="fas fa-phone"></i> : <a href="tel:{{ support.mobile }}">{{ support.mobile }}</a></p>
+						<p class=""><i class="fas fa-globe"></i> : <a href="{{ support.website }}">{{ support.website }}</a></p>
+						<p class=""<span><i class="fas fa-home"></i></span> : <span class="cmpny-address">{{ support.address }}</span> </p>
+						<ul class="list-inline social-list">
+							<li class="list-inline-item">
+								<a href="skype:live:support_70980?chat" target="_blank" title="support@zithex.com"><i class="fab fa-skype"></i></a>
+							</li>
+
+							<li class="list-inline-item">
+								<a href="https://api.whatsapp.com/send?phone=380681072337" target="_blank" title="@Zithex"><i class="fab fa-whatsapp"></i></a>
+							</li>
+
+							<li class="list-inline-item">
+								<a href="https://twitter.com/zithexglobal" target="_blank" title="@zithexglobal"><i class="fab fa-twitter"></i> </a>
+							</li>
+
+							<li class="list-inline-item">
+								<a href="https://www.linkedin.com/in/alexander-alexandrovich-590126186/" target="_blank" title="Alexander Alexandrovich"><i class="fab fa-linkedin"></i> </a>
+							</li>
+							
+							<li class="list-inline-item">
+								<a href="https://www.facebook.com/zithexglobal/" target="_blank" title="zithexglobal"><i class="fab fa-facebook"></i> </a>
+							</li>
+
+							<li class="list-inline-item">
+								<a href="javascript:void(0);" target="_blank" title="Zithex Global"><i class="fab fa-telegram"></i> </a>
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+					</div>
+		</div>
+	</section>
+	<section class="page_breadcrumbs ls section_padding_40">
+</section>
+	<div class="container">
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2029.3408578052831!2d24.8063022!3d59.4273895!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4692eca914d1fcbd%3A0x754ddac2802ae834!2sPeterburi+tee+47%2C+11415+Tallinn%2C+Estonia!5e0!3m2!1sen!2sin!4v1554810579193!5m2!1sen!2sin" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>				
+
+	</div>
+	<div>
+	
+	<!-- <section class="support-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="feature-title">Support Center</h3>
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<div class="support-wrap text-center shadow">
+						<img src="img/ask-que.svg" alt="image" title="Ask a Question" width="80">
+						<h6>Ask a Question</h6>
+						<p class="mb-0">Get answers fast and solve common problems.</p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<div class="support-wrap text-center shadow">
+						<img src="img/contact-support.svg" alt="image" title="Ask a Question" width="80">
+						<h6>Contact Support</h6>
+						<p class="mb-0">Open a ticket for our helpdesk staff.</p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<div class="support-wrap text-center shadow">
+						<img src="img/deposite.svg" alt="image" title="Ask a Question" width="80">
+						<h6>Deposit / Withdraw</h6>
+						<p class="mb-0">Contact support regarding a deposit or withdrawal.</p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<div class="support-wrap text-center shadow">
+						<img src="img/account-acc.svg" alt="image" title="Ask a Question" width="80">
+						<h6>Account Access</h6>
+						<p class="mb-0">Recover locked or inaccessible accounts.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section> -->
+</div>
+
+@endsection

@@ -1,0 +1,143 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Teams - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Teams</h1>
+		<a href="{{ route('admin.team.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New Team Member</a>
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<div class="table-responsive data-table">
+                 <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Designation</th>
+						<th>Description</th>
+						<th>Image</th>
+						<th>Alternative information</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(team in teams.rows)
+					<tr id="team-{{ team.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ team.name }}</td>
+						<td>{{ team.designation  }}</td>
+						<td>{{ team.description  }}</td>
+						<td>
+							<img src="{{ assetsUrl( 'images/teams/' + team.image ) }}" style="height: 32px;">
+						</td>
+						<td>{{ team.alt  }}</td>
+						<td class="d-flex">
+							<a href="{{ route('admin.team.edit', { id : team.id }) }}" class="btn btn-info btn--icon" data-id="{{ team.id }}" data-toggle="tooltip" title="Edit"><i class="zmdi zmdi-edit"></i></a>
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ team.id }}" data-toggle="tooltip" title="Delete"><i class="zmdi zmdi-delete"></i></button>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (teams.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.teams') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (teams.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.teams') }}?page={{ teams.pages.page - 1 }}"></a></li>
+					@each(i in range(teams.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == teams.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.teams') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (teams.pages.lastPage == teams.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.teams') }}?page={{ teams.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (teams.pages.lastPage == teams.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.teams') }}?page={{ teams.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.team.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var team = response.team;
+
+					var status = '';
+					var statusButton = '';
+
+					if(team.status == 1){
+						status = '<span class="text-success">Active</span>';
+						statusButton = '<button class="btn btn-warning btn--icon btn-status" data-id="' + team.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(team.status == 2){
+						status = '<span class="text-danger">Inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + team.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+					$('tr#team-' + id + ' td:nth-child(8)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+					
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.team.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#team-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

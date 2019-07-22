@@ -1,0 +1,91 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Contacts - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Contacts</h1>
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<div class="table-responsive data-table">
+               <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Number</th>
+						<th>Email</th>
+						<th>Subject</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(contact in contacts.rows)
+					<tr id="contact-{{ contact.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ contact.name }}</td>
+						<td>{{ contact.number  }}</td>
+						<td>{{ contact.email  }}</td>
+						<td>{{ contact.subject  }}</td>
+						<td>{{ contact.description  }}</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item pagination-first {{ (contacts.pages.page == 1) ? 'disabled' : '' }}"><a class="page-link" href="{{ route('admin.contacts') }}?page=1"></a></li>
+					<li class="page-item pagination-prev {{ (contacts.pages.page == 1) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.contacts') }}?page={{ contacts.pages.page - 1 }}"></a></li>
+					@each(i in range(contacts.pages.lastPage))
+					<li class="page-item {{ (( i + 1 ) == contacts.pages.page ) ? 'active' : '' }}"><a class="page-link" href="{{ route('admin.contacts') }}?page={{ i + 1 }}">{{ i + 1 }}</a></li>
+					@endeach
+					<li class="page-item pagination-next {{ (contacts.pages.lastPage == contacts.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.contacts') }}?page={{ contacts.pages.page + 1 }}"></a></li>
+					<li class="page-item pagination-last {{ (contacts.pages.lastPage == contacts.pages.page) ? 'disabled' : '' }}""><a class="page-link" href="{{ route('admin.contacts') }}?page={{ contacts.pages.lastPage }}"></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+</section>
+@endsection
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.sponsors.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#sponsor-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

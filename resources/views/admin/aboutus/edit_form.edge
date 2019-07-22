@@ -1,0 +1,67 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Edit About - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Edit About</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit About</h4>
+					<form method="post" action="{{ route('admin.aboutus.edit', {id : about.id}) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="Name" placeholder="Title" autofocus="true" value="{{ old('Name',  about.Name )}}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('Name'), hasErrorFor('Name')) }}
+						<div class="form-group">
+							<input type="text" class="form-control" name="alt" placeholder="Alternative information" autofocus="true" value="{{ old('alt',  about.alt )}}">
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('alt'), hasErrorFor('alt')) }}
+							<div class="form-group">
+							<textarea type="text" class="form-control wysiwyg-editor" name="Description" placeholder="Description" value="{{ old('Description', about.Description) }}" rows="5">{{ about.Description }}</textarea>
+							<i class="form-group__bar"></i>
+						</div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('Description'), hasErrorFor('Description')) }}
+						<div class="form-group">
+							<h3 class="card-body__title">Icon</h3>
+							<img src="{{ assetsUrl('images/about/' + about.image) }}" style="width: 100%;height: 300px;">
+							<input type="file" class="form-control" name="image">
+							<i class="form-group__bar"></i>
+						</div>
+						<button type="submit" class="btn btn-success">Edit About</button>
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('style')
+
+{{ style('admin/vendors/bower_components/trumbowyg/dist/ui/trumbowyg.min.css') }}
+
+@endsection
+
+@section('script')
+
+{{ script('admin/vendors/bower_components/trumbowyg/dist/trumbowyg.min.js') }}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".wysiwyg-editor").trumbowyg({ autogrow : !0 })
+	})
+</script>
+
+@endsection

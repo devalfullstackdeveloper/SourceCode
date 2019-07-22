@@ -1,0 +1,96 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Feedbacks - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1 class="float-left">Review</h1>
+		<a href="{{ route('admin.feedback.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New Review</a>
+	</header>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<div class="table-responsive data-table">
+             <table class="table table-hover mb-0" id="data-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>feedback</th>
+						<th>Url</th>
+						<th>SocialMedia</th>
+						<th>Image</th>
+						<th>Alt Tag</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(feedback in feedbacks.rows)
+					<tr id="feedback-{{ feedback.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ feedback.title }}</td>
+						<td>{{ feedback.feedback }}</td>
+						<td>{{feedback.url}}</td>
+						<td>{{feedback.mediaName}}</td>
+						<td>
+							<img src="{{ assetsUrl( 'images/feedbacks/' + feedback.image ) }}" style="height: 32px; width:106px">
+						</td>
+						<td>
+						{{{feedback.alt_tag}}}
+						</td>
+						<td>
+							<a href="{{ route('admin.feedback.edit', { id : feedback.id }) }}" class="btn btn-info btn--icon" data-id="{{ feedback.id }}"><i class="zmdi zmdi-edit"></i></a>
+							<button class="btn btn-danger btn--icon btn-remove" data-id="{{ feedback.id }}"><i class="zmdi zmdi-delete"></i></button>
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	
+
+		
+
+		$(document).on('click', '.btn-remove', function(){
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.feedback.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#feedback-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+
+</script>
+@endsection

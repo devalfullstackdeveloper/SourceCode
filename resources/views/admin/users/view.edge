@@ -1,0 +1,594 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', user.name + ' - Zithex')
+@endsection
+
+@section('content')
+<style>
+#userUsdBalance[readonly], #userEuroBalance[readonly], .cryptoBalance[readonly] {
+    background: transparent;
+    border-color:transparent;
+}
+
+#userUsdBalance, #userEuroBalance, .cryptoBalance {
+    width: 200px;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+</style>
+
+<section class="content">
+
+	<header class="content__title">
+		<h1>User Detail</h1>
+	</header>
+    
+    <div class="card">
+		<div class="card-body scrolled-table">
+			<table class="table table-hover mb-0">
+				<tbody>
+					<tr>
+						<th>USD Balance</th>
+						<td>
+						    <input type="text" id="userUsdBalance" class="form-control" value="{{ user.usd_balance }}" readonly>
+						    <button class="btn btn-primary" 
+						        id="editUsdBalance" 
+						        onclick="
+						            document.getElementById('userUsdBalance').removeAttribute('readonly');
+						            document.getElementById('updateUsdBalance').style.display='inline-block';
+						            this.style.display='none';
+						    ">Edit Balance</button>
+						    <button style="display:none;" 
+						        id="updateUsdBalance" 
+						        class="btn btn-success" 
+						        onclick="updateUserUsdBalance({{ user.id }})">Update</button>
+						</td>
+					</tr>
+					<tr>
+						<th>EURO Balance</th>
+						<td>
+						    <input type="text" id="userEuroBalance" class="form-control" value="{{ user.euro_balance }}" readonly>
+						    <button class="btn btn-primary" 
+						        id="editEuroBalance" 
+						        onclick="
+						            document.getElementById('userEuroBalance').removeAttribute('readonly');
+						            document.getElementById('updateEuroBalance').style.display='inline-block';
+						            this.style.display='none';
+						    ">Edit Balance</button>
+						    <button style="display:none;" 
+						        id="updateEuroBalance" 
+						        class="btn btn-success" 
+						        onclick="updateUserEuroBalance({{ user.id }})">Update</button>
+						</td>
+					</tr>
+
+					@if( userBalances.rows.length )
+						@each(userBalance in userBalances.rows)
+							<tr>
+								<th>{{ (userBalance.currency).toUpperCase() }} Balance</th>
+								<td>
+								    <input type="text" class="form-control cryptoBalance" data-crypto-balance="{{ userBalance.currency }}" value="{{ userBalance.balance }}" readonly>
+								    <button class="btn btn-primary editCryptoBalance" data-crypto-balance="{{ userBalance.currency }}">Edit Balance</button>
+								    <button style="display:none;" 
+								        class="btn btn-success updateCrptoBalance" 
+								        data-crypto-balance="{{ userBalance.currency }}"
+								        onclick="updateUserBalance({{ user.id }}, '{{ userBalance.currency }}')">Update</button>
+								</td>
+							</tr>
+						@endeach
+					@endif
+				</tbody>
+			</table>
+		</div>
+	</div>
+    
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<table class="table table-hover mb-0">
+				<tbody>
+					<tr>
+						<th>Name</th>
+						<td>{{ user.name }}</td>
+					</tr>
+					<tr>
+						<th>Email</th>
+						<td>{{ user.email }}</td>
+					</tr>
+					<tr>
+						<th>Mobile</th>
+						<td>{{ (user.mobile == null) ? 'NA' : user.mobile }}</td>
+					</tr>
+					<tr>
+						<th>SMS Auth</th>
+						<td>{{ (user.sms_auth == 0) ? 'Disable' : 'Enable' }}</td>
+					</tr>
+					<tr>
+						<th>2FA Status</th>
+						<td>{{ (user.tfa_status == 0) ? 'Disable' : 'Enable' }}</td>
+					</tr>
+					<tr>
+						<th>2FA Code</th>
+						<td>{{ user.tfa_code }}</td>
+					</tr>
+					<tr>
+						<th>Anti-Phishing Code</th>
+						<td>{{ (user.anti_phishing_code == null) ? 'NA' : user.anti_phishing_code }}</td>
+					</tr>
+					<tr>
+						<th>Registered On</th>
+						<td>{{ user.created_at }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Wallet Details</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+					<th>Coin Name</th>
+						<th>Cureency Symbol</th>
+						<th>Public Address</th>
+						<th>Private Address</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+			
+					@each(pair in pairs.rows)
+					<tr>
+						<td class="coin">{{ pair.coin }}</td>
+						<td class="coin">{{ pair.derive_currency }}</td>
+						<td class="deposit-address" {{{ ( ! pair.public_key ) ? 'style="display: none;"' : '' }}} >{{ pair.public_key }}</td>
+						<td class="deposit-address" {{{ (  pair.public_key ) ? 'style="display: none;"' : '' }}} >N/A</td>
+						<td class="deposit-address" {{{ ( ! pair.private_key ) ? 'style="display: none;"' : '' }}} >{{ pair.private_key }}</td>
+						<td class="deposit-address" {{{ (  pair.private_key ) ? 'style="display: none;"' : '' }}} >N/A</td>
+						<td>
+						@if(!pair.id)
+						<a href="{{ route('admin.user.new', { id : user.id }) }}" class="btn btn-info btn--icon" style="width: 80%;border-radius: unset;" data-id="{{ pair.id }}">Add new</i></a>
+						@else
+						<a href="{{ route('admin.user.edita', { id : pair.id }) }}" class="btn btn-info btn--icon" data-id="{{ pair.id }}" data-toggle="tooltip" title="Edit"><i class="zmdi zmdi-edit"></i></a>
+					@endif
+					</td>
+					</tr>
+					@endeach 
+					
+				</tbody> 
+			</table>
+		</div>
+	</div>
+
+
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Open Orders</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Pair</th>
+						<th>Type</th>
+						<th>Price</th>
+						<th>Amount</th>
+						<th>Fees</th>
+						<th>Filled(%)</th>
+						<th>Total</th>
+						<th>Placed At</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(open in opens.rows)
+					<tr>
+						<th>{{ $loop.index + 1 }}</th>
+						<td style="text-transform: uppercase;">{{ open.pair }}</td>
+						<td>{{ (open.order_type == 1) ? 'Sell' : 'Buy' }}</td>
+						<td>{{ open.price }}</td>
+						<td>{{ open.amount }}</td>
+						<td>{{ open.fees }}</td>
+						<td>{{ round( ( ( ( open.amount - open.remain ) * 100 ) / open.amount ), 2 ) }}</td>
+						<td>{{ open.total }}</td>
+						<td>{{ open.created_at }}</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Orders</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Pair</th>
+						<th>Type</th>
+						<th>Price</th>
+						<th>Amount</th>
+						<th>Fees</th>
+						<th>Total</th>
+						<th>Placed At</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(history in histories.rows)
+					<tr>
+						<th>{{ $loop.index + 1 }}</th>
+						<td style="text-transform: uppercase;">{{ history.pair }}</td>
+						<td>{{ (history.order_type == 1) ? 'Sell' : 'Buy' }}</td>
+						<td>{{ history.price }}</td>
+						<td>{{ history.amount }}</td>
+						<td>{{ history.fees }}</td>
+						<td>{{ history.total }}</td>
+						<td>{{ history.created_at }}</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Deposits</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Currency</th>
+						<th>Amount</th>
+						<th>Deposited At</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(tx in depositeTxs.rows)
+					<tr>
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ tx.currency }}</td>
+						<td>{{ tx.amount }}</td>
+						<td>{{ tx.created_at }}</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Withdrawals</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Bank Name</th>
+						<th>Branch Name</th>
+						<th>A/C Holder</th>
+						<th>A/C No</th>
+						<th>Swift Code</th>
+						<th>IBAN Number</th>
+						<th>Mobile</th>
+						<th>Address</th>
+						<th>City</th>
+						<th>Country</th>
+						<th>Amount</th>
+						<th>Currency</th>
+						<th>Deposited At</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(tx in withdrawTxs.rows)
+					<tr id="tx-{{ tx.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ tx.bank_name }}</td>
+						<td>{{ tx.branch_name }}</td>
+						<td>{{ tx.ac_holder }}</td>
+						<td>{{ tx.ac_no }}</td>
+						<td>{{ tx.swift_code }}</td>
+						<td>{{ tx.iban_number }}</td>
+						<td>{{ tx.mobile }}</td>
+						<td>{{ tx.address }}</td>
+						<td>{{ tx.city }}</td>
+						<td>{{ tx.country }}</td>
+						<td>{{ tx.amount }}</td>
+						<td>{{ tx.currency }}</td>
+						<td>{{ tx.created_at }}</td>
+						<td>
+							@if( tx.status == 1 )
+							<span class="text-success">Approved</span>
+							@elseif( tx.status == 2 )
+							<span class="text-danger">Rejected</span>
+							@else
+							<span class="text-warning">Pending</span>
+							@endif
+						</td>
+						<td class="d-flex">
+							@if(tx.status == 0)
+								<button class="btn btn-success btn--icon btn-status" data-id="{{ tx.id }}" data-status="1" data-toggle="tooltip"  title="Approve"><i class="zmdi zmdi-check"></i></button>
+								<button class="btn btn-warning btn--icon btn-status" data-id="{{ tx.id }}" data-status="2" data-toggle="tooltip"  title="Decline"><i class="zmdi zmdi-close"></i></button>
+							@endif
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<h4 class="card-title">Crypto Withdraw Requests</h4>
+			<table class="table table-hover mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Coin</th>
+						<th>Request Address</th>
+						<th>Request Amount</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@each(cwr in cryptoWithdrawRequestByUserId.rows)
+					<tr id="cwr-{{ cwr.id }}">
+						<td>{{ ($loop.index + 1) }}</td>
+						<td>{{ cwr.currency }}</td>
+						<td>{{ cwr.walletaddress }}</td>
+						<td>{{ cwr.walletamount }}</td>
+						<td>
+							@if( cwr.status == 1 )
+							<span class="text-success">Approved</span>
+							@elseif( cwr.status == 2 )
+							<span class="text-danger">Rejected</span>
+							@elseif( cwr.status == 0 )
+							<span class="text-warning">Pending</span>
+							
+							@elseif( cwr.status == 3 )
+							<span class="text-success">Complete</span>
+							@else
+							<span class="text-warning">Pending</span>
+							@endif
+							
+						</td>
+						<td>
+							@if(cwr.status == 0)
+								<button class="btn btn-success btn--icon check-btn-status" data-id="{{ cwr.id }}" data-status="1"><i class="zmdi zmdi-check"></i></button>
+								<button class="btn btn-warning btn--icon check-btn-status" data-id="{{ cwr.id }}" data-status="2"><i class="zmdi zmdi-close"></i></button>
+							@endif
+						</td>
+					</tr>
+					@endeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</section>
+@endsection
+
+
+@section('script')
+<script>
+
+    function updateUserUsdBalance(user) {
+        $('#updateUsdBalance').prop('disabled', true);
+        $.post('{{ route('admin.users.balance.update') }}', {
+            currency: 'usd',
+            user: user,
+            _csrf: csrf,
+            balance: $('#userUsdBalance').val()
+        }, function(response){
+            $('#updateUsdBalance').prop('disabled', false);
+            document.getElementById('userUsdBalance').setAttribute('readonly', '');
+            document.getElementById('updateUsdBalance').style.display='none';
+		    document.getElementById('editUsdBalance').style.display='inline-block';
+            notify('success', 'User balance updated');
+        }).fail(function(err){
+            notify('danger', 'OOPS');
+            $('#updateUsdBalance').prop('disabled', false);
+        })
+    }
+
+    function updateUserEuroBalance(user) {
+        $('#updateEuroBalance').prop('disabled', true);
+        $.post('{{ route('admin.users.balance.update') }}', {
+            currency: 'euro',
+            _csrf: csrf,
+            user: user,
+            balance: $('#userEuroBalance').val()
+        }, function(response){
+            $('#updateEuroBalance').prop('disabled', false);
+            document.getElementById('userEuroBalance').setAttribute('readonly', '');
+            document.getElementById('updateEuroBalance').style.display='none';
+		    document.getElementById('editEuroBalance').style.display='inline-block';
+            notify('success', 'User balance updated');
+        }).fail(function(err){
+            notify('danger', 'OOPS');
+            $('#updateEuroBalance').prop('disabled', false);
+        })
+    }
+    
+    function updateUserBalance(user, crypto) {
+        $('.updateCrptoBalance[data-crypto-balance="'+crypto+'"]').prop('disabled', true);
+        $.post('{{ route('admin.users.balance.update') }}', {
+            currency: crypto,
+            _csrf: csrf,
+            user: user,
+            balance: $('input[data-crypto-balance="'+crypto+'"]').val()
+        }, function(response){
+            $('.updateCrptoBalance[data-crypto-balance="'+crypto+'"]').prop('disabled', false);
+
+            $('input[data-crypto-balance="'+crypto+'"]').attr('readonly', '');
+			$('.editCryptoBalance[data-crypto-balance="'+crypto+'"]').show()
+			$('.updateCrptoBalance[data-crypto-balance="'+crypto+'"]').hide()
+
+            notify('success', 'User balance updated');
+        }).fail(function(err){
+            notify('danger', 'OOPS');
+             $('.updateCrptoBalance[data-crypto-balance="'+crypto+'"]').prop('disabled', false);
+        })
+    }
+	
+	$(document).ready(function(){
+
+		$('.editCryptoBalance').on('click', function(){
+			var el = $(this);
+			$('input[data-crypto-balance="'+el.attr('data-crypto-balance')+'"]').removeAttr('readonly');
+			el.hide();
+			$('.updateCrptoBalance[data-crypto-balance="'+el.attr('data-crypto-balance')+'"]').show();
+		});
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.tx.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var tx = response.tx;
+
+					var status = '';
+					var statusButton = '';
+
+					if(tx.status == 0){
+						status = '<span class="text-warning">Pending</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + tx.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon btn-status" data-id="' + tx.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(tx.status == 1){
+						status = '<span class="text-success">Approved</span>';
+					} else if(tx.status == 2){
+						status = '<span class="text-danger">Rejected</span>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+					$('tr#tx-' + id + ' td:nth-child(15)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+
+	// var id = $(this).attr('data-id');
+	// $.ajax({
+	// 	url 	: "{{ route('admin.user.balance', { id : user.id }) }}", 
+	// 	type 	: "GET",
+	// 	data	: { id : id },
+	// 	success : function(response){
+
+	// 		if( ! response.success ){
+	// 			$('.message').html('<div class="alert alert-danger mt-4">' + response.message + '</div>');
+	// 			return;
+	// 		}
+
+	// 		var data = response.data;
+	// 		var len = response.data.length;
+
+	// 		for (var key in data) {
+	// 			if( ! data[key].error ){
+	// 				var balance = (data[key].balance).toFixed(8);
+	// 				$('#' + key).text(balance);
+	// 				var kkh = $("#btc").text();
+	// 				$("#btcmain").text(kkh);
+					
+	// 			} else {
+	// 				console.log(data[key].message);
+	// 			}
+	// 		}
+
+	// 		$('#worth-btc').text((response.btcBalance).toFixed(8));
+	// 		$('#worth-usd').text((response.in_usd).toFixed(2));
+	// 		$('#worth-euro').text((response.in_euro).toFixed(2));
+	// 	}
+	// });
+
+
+		$(document).ready(function(){
+
+		$('.editCryptoBalance').on('click', function(){
+			var el = $(this);
+			$('input[data-crypto-balance="'+el.attr('data-crypto-balance')+'"]').removeAttr('readonly');
+			el.hide();
+			$('.updateCrptoBalance[data-crypto-balance="'+el.attr('data-crypto-balance')+'"]').show();
+		});
+
+		$(document).on('click', '.check-btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.withdrawrequest.changeStatus') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					
+
+					var cwr = response.tx;
+
+					var status = '';
+					var statusButton = '';
+
+					if(cwr.status == 0){
+						status = '<span class="text-warning">Pending</span>';
+						statusButton = '<button class="btn btn-success btn--icon check-btn-status" data-id="' + cwr.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon check-btn-status" data-id="' + cwr.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(cwr.status == 1){
+						status = '<span class="text-success">Approved</span>';
+					} else if(cwr.status == 2){
+						status = '<span class="text-danger">Rejected</span>';
+					 
+					} else if(cwr.status == 3){
+						status = '<span class="text-success">Completed</span>';
+					}
+					else {
+						status = '<span class="text-danger">Error</span>';
+					}
+					
+
+					$('tr#cwr-' + id + ' td:nth-child(5)').html(status);
+					td.find('.check-btn-status').replaceWith(statusButton);
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+
+</script>
+
+@endsection

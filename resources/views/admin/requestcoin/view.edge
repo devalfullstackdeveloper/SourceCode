@@ -1,0 +1,199 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'RequestCoin - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Coin Request</h1>
+	</header>
+<div class="card">
+		<div class="card-body scrolled-table">
+		<table class="table table-hover mb-0">
+				<tbody> 
+					<tr>
+						<th>Projectname</th>
+						<td>{{ requestcoins.projectname }}</td>
+					</tr>
+					<tr>
+						<th>tokenname</th>
+						<td>{{ requestcoins.tokenname }}</td>
+					</tr>
+					<tr>
+						<th>coinsymbol</th>
+						<td>{{ requestcoins.coinsymbol }}</td>
+					</tr>
+					<tr>
+						<th>coinname</th>
+						<td>{{ requestcoins.coinfname }}</td>
+					</tr>
+					
+					<tr>
+						<th>issuedate</th>
+						<td>{{ requestcoins.issuedate }}</td>
+					</tr>
+					<tr>
+						<th>issuedprice</th>
+					<td>{{ requestcoins.issuedprice }}</td>
+					</tr>
+					<tr>
+						<th>totalsupply</th>
+						<td>{{ requestcoins.totalsupply }}</td>
+					</tr>
+					<tr>
+						<th>maxsupply</th>
+						<td>{{ requestcoins.maxsupply }}</td>
+					</tr>
+					<tr>
+						<th>circulsupply</th>
+						<td>{{ requestcoins.circulsupply }}</td>
+					</tr>
+					<tr>
+						<th>prooftype</th>
+						<td>{{ requestcoins.prooftype }}</td>
+					</tr>
+					<tr>
+						<th>algoritham</th>
+						<td>{{ requestcoins.ealgo }}</td>
+					</tr>
+					<tr>
+						<th>website</th>
+						<td>{{ requestcoins.website }}</td>
+					</tr>
+					<tr>
+						<th>explorer</th>
+						<td>{{ requestcoins.explorer }}</td>
+					</tr>
+					<tr>
+						<th>sourcecode</th>
+						<td>{{ requestcoins.sourcecode }}</td>
+					</tr>
+					<tr>
+						<th>intro</th>
+						<td>{{ requestcoins.intro }}</td>
+					</tr>
+					<tr>
+						<th>iconimage</th>
+						<td>{{ requestcoins.iconimage }}</td>
+					</tr>
+					<tr>
+						<th>whitepaper</th>
+						<td>{{ requestcoins.whitep }}</td>
+					</tr>
+					<tr>
+						<th>email</th>
+						<td>{{ requestcoins.email }}</td>
+					</tr>
+					<tr>
+						<th>fullname</th>
+						<td>{{ requestcoins.fullname }}</td>
+					</tr>
+					<tr>
+						<th>companyname</th>
+						<td>{{ requestcoins.companyname }}</td>
+					</tr>
+					<tr>
+						<th>Icon Image</th>
+						<td>
+						@if( requestcoins.iconimage )
+							<a href="/images/requestcoin/{{ requestcoins.iconimage }}" target="_blank"><img src="/images/requestcoin/{{ requestcoins.iconimage }}" width="100" height="100" style="object-fit: cover;"></a>
+						@else
+							NA
+						@endif
+
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</section>
+@endsection
+
+@section('script')
+<script>
+	$(document).ready(function(){
+
+		$(document).on('click', '.btn-status', function(){
+
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+
+			$.ajax({
+				url		: "{{ route('admin.requestcoin.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var requestcoin = response.requestcoin;
+
+					var status = '';
+					var statusButton = '';
+
+					if(requestcoin.status == 0){
+						status = '<span class="text-warning">inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button><button class="btn btn-warning btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(requestcoin.status == 1){
+						status = '<span class="text-success">Active</span>';
+						statusButton = '<button class="btn btn-warning btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(requestcoin.status == 2){
+						status = '<span class="text-danger">Inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + requestcoin.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+ location.reload(); 
+					//$('tr#requestcoin-' + id + ' td:nth-child(5)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+		$(document).on('click', '.btn-remove', function(){
+
+			if( ! confirm('Are you sure to delete this requestcoin?') ){
+				return false;
+			}
+
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				url		: "{{ route('admin.requestcoin.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					$('tr#requestcoin-' + id).remove();
+
+					notify('success', response.message );
+
+				}
+			});
+
+		});
+
+	});
+</script>
+@endsection

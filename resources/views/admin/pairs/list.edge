@@ -1,0 +1,128 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Pairs - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+	<header class="content__title">
+		<h1 class="float-left">Pairs</h1>
+		<a href="{{ route('admin.pair.new') }}" class="btn btn-success float-right"><i class="zmdi zmdi-plus"></i> Add New Pair</a>
+	</header>
+	<div class="card">
+		<div class="card-body scrolled-table">
+			<div class="table-responsive data-table">
+				<table class="table table-hover mb-0" id="data-table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Coin</th>
+							<!--<th>Icon</th>-->
+							<th>Pair</th>
+							<th>Currency</th>
+							<th>Currency Type</th>
+							<th>Custom Amount(%)</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@each(pair in pairs.rows)
+						<tr id="pair-{{ pair.id }}">
+							<td>{{ ($loop.index + 1) }}</td>
+							<td class="pair-name">{{ pair.coin }}</td>
+							<!--<td>
+								<img src="{{ assetsUrl( 'images/coins/' + pair.icon ) }}" style="height: 32px;">
+							</td>-->
+							<td class="coin">{{ pair.pair_name }}</td>
+							<td>{{ (pair.base_currency).toUpperCase() }}</td>
+							<td>{{ (pair.is_token == 1) ? 'Token' : 'Coin' }}</td>
+							<td>{{ pair.custom_amount }}%</td>
+							<td>{{ status(pair.status) }}</td>
+							<td>
+								@if(pair.status == 0)
+										<button class="btn btn-success btn--icon btn-status" data-id="{{ pair.id }}" data-status="1" data-toggle="tooltip" title="Decline"><i class="zmdi zmdi-check"></i></button>
+										<button class="btn btn-warning btn--icon btn-status" data-id="{{ pair.id }}" data-status="2" data-toggle="tooltip" title="Decline"><i class="zmdi zmdi-close"></i></button>
+								@elseif(pair.status == 1)
+										<button class="btn btn-warning btn--icon btn-status" data-id="{{ pair.id }}" data-status="2" data-toggle="tooltip" title="Decline"><i class="zmdi zmdi-close"></i></button>
+								@elseif(pair.status == 2)
+										<button class="btn btn-success btn--icon btn-status" data-id="{{ pair.id }}" data-status="1" data-toggle="tooltip" title="Approve"><i class="zmdi zmdi-check"></i></button>
+								@endif
+								<a href="{{ route('admin.pair.edit', { id : pair.id }) }}" class="btn btn-info btn--icon" data-id="{{ pair.id }}" data-toggle="tooltip" title="Edit"><i class="zmdi zmdi-edit"></i></a>
+								<button class="btn btn-danger btn--icon btn-remove" data-id="{{ pair.id }}" data-toggle="tooltip" title="Delete"><i class="zmdi zmdi-delete"></i></button>
+							</td>
+						</tr>
+						@endeach
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section> 
+@endsection
+
+@section('script')
+{{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
+{{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}
+<script>
+	$(document).ready(function(){
+		$(document).on('click', '.btn-status', function(){
+			var status = $(this).attr('data-status');
+			var id = $(this).attr('data-id');
+			var td = $(this).parent('td');
+			$.ajax({
+				url		: "{{ route('admin.pair.status') }}",
+				type	: 'GET',
+				data	: { status : status, id : id },
+				success : function(response){
+
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+
+					var pair = response.pair;
+
+					var status = '';
+					var statusButton = '';
+
+					if(pair.status == 1){
+						status = '<span class="text-success">Active</span>';
+						statusButton = '<button class="btn btn-warning btn--icon btn-status" data-id="' + pair.id + '" data-status="2"><i class="zmdi zmdi-close"></i></button>';
+					} else if(pair.status == 2){
+						status = '<span class="text-danger">Inactive</span>';
+						statusButton = '<button class="btn btn-success btn--icon btn-status" data-id="' + pair.id + '" data-status="1"><i class="zmdi zmdi-check"></i></button>';
+					} else {
+						status = '<span class="text-danger">Error</span>';
+					}
+
+					$('tr#pair-' + id + ' td:nth-child(7)').html(status);
+					td.find('.btn-status').replaceWith(statusButton);
+					
+					notify('success', response.message );
+				}
+			});
+		});
+
+		$(document).on('click', '.btn-remove', function(){
+			var id = $(this).attr('data-id');
+			$.ajax({
+				url		: "{{ route('admin.pair.remove') }}",
+				type	: 'GET',
+				data	: { id : id },
+				success : function(response){
+					if( ! response.success ){
+						notify('danger', response.message );
+						return;
+					}
+					$('tr#pair-' + id).remove();
+					notify('success', response.message );
+				}
+			});
+		});
+	});
+</script>
+@endsection

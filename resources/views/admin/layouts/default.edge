@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{{ (title) ? title : 'Admin - Zithex' }}</title>
+
+        {{ style('admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}
+        {{ style('admin/vendors/bower_components/animate.css/animate.min.css') }}
+        {{ style('admin/vendors/bower_components/jquery.scrollbar/jquery.scrollbar.css') }}
+        {{ style('admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css') }}
+
+        @!section('style')
+
+        {{ style('admin/css/app.min.css') }}
+
+        <script type="text/javascript">
+            let csrf = "{{ csrfToken }}";
+        </script>
+
+    </head>
+
+    <body data-sa-theme="8">
+        <main class="main" style="min-height: 85vh;">
+            <div class="page-loader">
+                <div class="page-loader__spinner">
+                    <svg viewBox="25 25 50 50">
+                        <circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                    </svg>
+                </div>
+            </div>
+
+            <header class="header">
+                <div class="navigation-trigger hidden-xl-up" data-sa-action="aside-open" data-sa-target=".sidebar">
+                    <i class="zmdi zmdi-menu"></i>
+                </div>
+
+                <div class="logo hidden-sm-down">
+                    <h1><a href="{{ route('admin.dashboard') }}"><img src="{{ assetsUrl('images/logo-white.png') }}"></a></h1>
+                </div>
+
+                <ul class="top-nav">
+                </ul>
+
+                <div class="clock hidden-md-down">
+                    <div class="date"></div>
+                    <div class="time">
+                        <span class="time__hours"></span>
+                        <span class="time__min"></span>
+                        <span class="time__sec"></span>
+                    </div>
+                </div>
+            </header>
+
+            <aside class="sidebar">
+                <div class="scrollbar-inner">
+
+                    <div class="user">
+                        <div class="user__info" data-toggle="dropdown">
+                            <img class="user__img" src="{{ assetsUrl('admin/images/profile-pic.jpg') }}" alt="">
+                            <div>
+                                <div class="user__name">{{ auth.user.name }}</div>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('admin.change_password') }}">Change Password</a>
+                            <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
+                        </div>
+                    </div>
+
+                    <ul class="navigation">
+
+                        <li class=""><a href="{{ route('admin.dashboard') }}"><i class="zmdi zmdi-home"></i> Home</a></li>
+                        <li><a href="{{ route('admin.hiretraders') }}"><i class="zmdi zmdi-receipt"></i> Hire Trader Requests</a></li>
+                        <li class=""><a href="{{ route('admin.users') }}"><i class="zmdi zmdi-accounts"></i> Users</a></li>
+                        <li class=""><a href="{{ route('admin.pairs') }}"><i class="zmdi zmdi-money-box"></i> Pairs</a></li>
+                        <li class=""><a href="{{ route('admin.deposits') }}"><i class="zmdi zmdi-account-add"></i>Deposite Wallet's</a></li>
+                        <li class=""><a href="{{ route('admin.deposit.request') }}"><i class="zmdi zmdi-balance-wallet"></i>Deposite Request's</a></li>
+
+						<!--<li class=""><a href="{{ route('admin.details') }}"><i class="zmdi zmdi-money-box"></i> Wallet Details</a></li>-->
+						  
+                        <li class=""><a href="{{ route('admin.withdrawLimits.index') }}"><i class="zmdi zmdi-money-box"></i> Withdraw Limits</a></li>
+                        <li class=""><a href="{{ route('admin.withdrawrequest') }}"><i class="zmdi zmdi-money-box"></i> Crypto Withdraw Requests</a></li>
+                        <li class=""><a href="{{ route('admin.fiatwithdrawrequest') }}"><i class="zmdi zmdi-money-box"></i> Fiat Withdraw Requests</a></li>
+						<li class=""><a href="{{ route('admin.requestcoin') }}"><i class="zmdi zmdi-case"></i> Coin Requests</a></li>
+						<li class=""><a href="{{ route('admin.requestfees') }}"><i class="zmdi zmdi-share"></i> Fee Percentage</a></li>
+
+                        <!-- <li class="navigation__sub navigation__sub--toggled">
+                            <a href="javascript:void(0);"><i class="zmdi zmdi-group-work"></i> Deposits</a>
+                            <ul class="navigation__sub">
+                                <li><a href="{{ route('admin.deposits', { currency : 'USD' }) }}">USD</a></li>
+                                <li><a href="{{ route('admin.deposits', { currency : 'EUR' }) }}">EURO</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="navigation__sub navigation__sub--toggled">
+                            <a href="javascript:void(0);"><i class="zmdi zmdi-group-work"></i> Withdrawals</a>
+                            <ul class="navigation__sub">
+                                <li><a href="{{ route('admin.withdrawals', { currency : 'USD' }) }}">USD</a></li>
+                                <li><a href="{{ route('admin.withdrawals', { currency : 'EUR' }) }}">EURO</a></li>
+                            </ul>
+                        </li> -->
+
+                        <li class="navigation__sub navigation__sub--toggled">
+                            <a href="javascript:void(0);"><i class="zmdi zmdi-group-work"></i> CMS</a>
+                            <ul class="navigation__sub">
+                                <li><a href="{{ route('admin.faqs') }}">FAQs</a></li>                                
+                                <li><a href="{{ route('admin.sliders') }}">Sliders</a></li>
+                                <li><a href="{{ route('admin.headerimage.new') }}">Header Images</a></li>
+                                <li><a href="{{ route('admin.feedbacks') }}">Manage Reviews</a></li>
+                                <li><a href="{{route('admin.socialmedia')}}">Manage Social Media</a></li>
+                                <li><a href="{{ route('admin.teams') }}">Teams</a></li>
+                                <!--<li><a href="{{ route('admin.cms', { cms_key : 'privacy_policy' }) }}">Privacy Policies</a></li>-->
+                                <li><a href="{{ route('admin.cms', { cms_key : 'terms_conditions' }) }}">Terms and Conditions</a></li>
+                                <!--<li><a href="{{ route('admin.cms', { cms_key : 'terms_service' }) }}">Terms Of Service</a></li>-->
+                                <!--<li><a href="{{ route('admin.cms', { cms_key : 'api_terms_service' }) }}">API Terms Service</a></li>-->
+                                <li><a href="{{ route('admin.cms', { cms_key : 'rrt_token_terms' }) }}">RRT Token Terms</a></li>
+                                <li><a href="{{ route('admin.cms', { cms_key : 'cst_token_term' }) }}">CST Token Terms</a></li>
+                                <li><a href="{{ route('admin.cms', { cms_key : 'risk_disclosure_statement' }) }}">Risk Disclosure Statement</a></li>
+                                <li><a href="{{ route('admin.cms', { cms_key : 'cookies_policy' }) }}">Cookies Policy</a></li>
+                                <li><a href="{{ route('admin.cms', { cms_key : 'law_enforcement_request_policy' }) }}">Law Enforcement Request Policy</a></li>
+                                <li><a href="{{ route('admin.cms', { cms_key : 'trademark_notices' }) }}">Trademark Notice</a></li>
+                                <li><a href="{{ route('admin.cms', { cms_key : 'anti_spam_policy' }) }}">Anti-Spam Policy</a></li>
+                                <li><a href="{{ route('admin.aboutus') }}">About</a></li>
+                                <li><a href="{{ route('admin.whoweare') }}">Who We Are</a></li>
+                                {{--  <li><a href="{{ route('admin.cms', { cms_key : 'security' }) }}">Security</a></li>  --}}
+                                <li><a href="{{ route('admin.cms', { cms_key : 'fees' }) }}">Fees</a></li>
+                                <!--<li><a href="{{ route('admin.cms', { cms_key : 'how_to_deposit' }) }}">How to deposit</a></li>-->
+                                <!--<li><a href="{{ route('admin.cms', { cms_key : 'how_to_withdraw' }) }}">How to withdraw</a></li>-->
+                                <li><a href="{{ route('admin.support') }}">Support</a></li>
+                                <li><a href="{{ route('admin.sponsors') }}">Sponsors</a></li>
+                                <li><a href="{{ route('admin.sitemap') }}">Sitemap</a></li>
+                            </ul>
+                        </li>
+                        <li class=""><a href="{{ route('admin.contacts') }}"><i class="zmdi zmdi-phone"></i> Contacts</a></li>
+                        <li class=""><a href="{{ route('admin.features') }}"><i class="zmdi zmdi-fullscreen"></i> Features</a></li>
+                        <li class=""><a href="{{ route('admin.announcements') }}"><i class="zmdi zmdi-notifications-none"></i> Announcements</a></li>
+                        <li class=""><a href="{{ route('admin.blogs') }}"><i class="zmdi zmdi-blogger"></i> Blogs</a></li>
+                        <!--<li class=""><a href="{{ route('admin.jobs') }}"><i class="zmdi zmdi-case"></i> Jobs</a></li>-->
+                        <li class=""><a href="{{ route('admin.orders.index') }}"><i class="zmdi zmdi-shopping-cart-plus"></i> All Orders</a></li>
+                    </ul>
+                </div>
+            </aside>
+            @!section('content')
+        </main>
+
+        <footer class="footer hidden-xs-down">
+            <p>&copy; Zithex. All rights reserved.</p>
+        </footer>
+
+        {{ script('admin/vendors/bower_components/jquery/dist/jquery.min.js') }}
+        {{ script('admin/vendors/bower_components/popper.js/dist/umd/popper.min.js') }}
+        {{ script('admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
+        {{ script('admin/vendors/bower_components/jquery.scrollbar/jquery.scrollbar.min.js') }}
+        {{ script('admin/vendors/bower_components/jquery-scrollLock/jquery-scrollLock.min.js') }}
+        {{ script('admin/vendors/bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js') }}
+        <script type="text/javascript">
+            function notify(type, message){
+                $.notify({
+                    icon: 'fa fa-check',
+                    title: '',
+                    message: message,
+                    url: ''
+                },{
+                    element: 'body',
+                    type: type,
+                    allow_dismiss: true,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    },
+                    offset: {
+                        x: 20,
+                        y: 20
+                    },
+                    spacing: 10,
+                    z_index: 1031,
+                    delay: 2500,
+                    timer: 1000,
+                    url_target: '_blank',
+                    mouse_over: false,
+                    animate: {
+                        enter: 'animated bounceIn',
+                        exit: 'animated bounceOu'
+                    },
+                    template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
+                                '<span data-notify="icon"></span> ' +
+                                '<span data-notify="title">{1}</span> ' +
+                                '<span data-notify="message">{2}</span>' +
+                                '<div class="progress" data-notify="progressbar">' +
+                                '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                                '</div>' +
+                                '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                                '<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
+                                '</div>'
+                });
+            }
+
+            $(document).ready(function(){
+                @if(flashMessage('success'))
+                        notify('success', "{{ flashMessage('success') }}")
+                @elseif(flashMessage('error'))
+                        notify('danger', "{{ flashMessage('error') }}")
+                @endif
+
+                var now = new Date();
+
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+                $('.date').html( now.getFullYear() + ' ' + monthNames[now.getMonth()] + ' ' + now.getDate() + ' ' + days[now.getDay()] );
+                    
+                for (var i = 0; i < document.links.length; i++) {
+                    var thisNode = document.links[i];
+                    if (thisNode.href == document.URL) {
+                        thisNode.parentElement.classList.add('navigation__active');
+                        if( $('li.navigation__active').parents('ul').hasClass('navigation__sub') ) {
+                            $('li.navigation__active').parents('ul').show();
+                            ($('li.navigation__active').parents('ul')).parents('li').addClass('navigation__active');
+                        } 
+                    }
+                }
+            });
+        </script>
+        @!section('script')
+        {{ script('admin/js/app.min.js') }}
+    </body>
+</html>

@@ -1,0 +1,90 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Support Details - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+	<header class="content__title">
+		<h1>Support Details</h1>
+	</header>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form method="post" action="{{ route('admin.support') }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						<div class="form-group">
+							<label>Email</label>
+							<input type="text" class="form-control" name="email" value="{{ support.email ? support.email : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Email2</label>
+							<input type="text" class="form-control" name="email2" value="{{ support.email2 ? support.email2 : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Mobile</label>
+							<input type="text" class="form-control" name="mobile" value="{{ support.mobile ? support.mobile : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Website</label>
+							<input type="text" class="form-control" name="website" value="{{ support.website ? support.website : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Address</label>
+							<textarea class="form-control" name="address">{{ support.address ? support.address : '' }}</textarea>
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Facebook Link</label>
+							<input type="text" class="form-control" name="facebook" value="{{ support.facebook ? support.facebook : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>LinkedIn Link</label>
+							<input type="text" class="form-control" name="linkedin" value="{{ support.linkedin ? support.linkedin : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>LinkedIn2 Link</label>
+							<input type="text" class="form-control" name="linkedin2" value="{{ support.linkedin2 ? support.linkedin2 : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Twitter Link</label>
+							<input type="text" class="form-control" name="twitter" value="{{ support.twitter ? support.twitter : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Skype Link</label>
+							<input type="text" class="form-control" name="skype" value="{{ support.skype ? support.skype : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Telegram Link</label>
+							<input type="text" class="form-control" name="telegram" value="{{ support.telegram ? support.telegram : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>Instagram Link</label>
+							<input type="text" class="form-control" name="instagram" value="{{ support.instagram ? support.instagram : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<label>WhatsApp Link</label>
+							<input type="text" class="form-control" name="whatsapp" value="{{ support.whatsapp ? support.whatsapp : '' }}">
+							<i class="form-group__bar"></i>
+						</div>
+						<button type="submit" class="btn btn-success">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+@endsection

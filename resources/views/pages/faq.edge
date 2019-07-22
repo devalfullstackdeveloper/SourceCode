@@ -1,0 +1,62 @@
+@layout('layouts.defaultnew')
+@section('title')
+<title> Frequently Asked Questions - Zithex Global</title>
+
+<meta name="Description" Content=" Checkout how you can signup, Login, access your account ,get your bitcoins etc. at Frequently asked section of our website."/>
+
+@endsection
+@section('body')
+<body class="bg-gradient">
+@endsection
+@section('content')
+
+<title> FAQs | CryptoFxSpace</title>
+
+<meta name="Description" Content=" Checkout how you can signup, Login, access your account ,get your bitcoins etc. at Frequently asked section of our website."/>
+
+
+	<section class="text-center">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h6 class="text-uppercase text-white">FAQs</h6>
+                    <h1 class="display-4 text-white">We are here to help you.</h1>
+                    <p class="lead text-white opacity-70 mb-0">Browse through the most frequently asked questions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="flush-with-above">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8 offset-lg-2">
+                    <div class="accordion">
+                    	@each(faq in faqs.rows)
+                        <div class="card bg-transparent {{ ( $loop.index != 0 ) ? 'mt-3' : '' }} ">
+                            <div class="card-header d-flex justify-content-between align-items-center bg-transparent" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="h4 bg-transparent border-0 text-white mb-2" type="button"
+                                        data-toggle="collapse"
+                                        data-target="#faqCollapse{{ $loop.index + 1 }}" aria-expanded="true" aria-controls="faqCollapse{{ $loop.index + 1 }}">
+                                        {{ faq.question }}
+                                    </button>
+                                </h2>
+                                <i class="bx bx-chevron-down h4 text-white mb-0"></i>
+                            </div>
+
+                            <div id="faqCollapse{{ $loop.index + 1 }}" class="collapse" aria-labelledby="faqCollapse{{ $loop.index + 1 }}">
+                                <div class="card-body">
+                                    <p class="text-white">{{ faq.answer }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endeach
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+@endsection

@@ -1,0 +1,75 @@
+@layout('layouts.default')
+
+@section('content')
+
+<div class="main-content">
+	<section class="pages-banner-section">
+		<h2 class="page-title">{{ antl.formatMessage('keywords.apply_now') }}</h2>
+	</section>
+	<section class="apply-job-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<form class="apply-form form-ui-zithex shadow" method="post" action="{{ route('apply', { id : job_id }) }}" enctype="multipart/form-data">
+						{{ csrfField() }}
+						@if(flashMessage('success'))
+							<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+						@endif
+						@if(flashMessage('error'))
+							<div class="alert alert-danger"> {{ flashMessage('error') }} </div>
+						@endif
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="feature-title">{{ antl.formatMessage('keywords.personal_information') }}</h3>
+								<h6 class="grey-text sub-title">{{ antl.formatMessage('keywords.tell_about_yourself') }}</h6>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<div class="form-group">
+									<label>{{ antl.formatMessage('keywords.name') }} <span class="red-text">*</span></label>
+									<input type="text" name="name" class="form-control" required="" value="{{ old('name', '') }}">
+									{{ elIf('<span class="text-danger">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<div class="form-group">
+									<label>{{ antl.formatMessage('keywords.email') }} <span class="red-text">*</span></label>
+									<input type="text" name="email" class="form-control" required="" value="{{ old('email', '') }}">
+									{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+								</div>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-md-6 col-sm-12">
+								<div class="form-group">
+									<label>{{ antl.formatMessage('keywords.mobile') }} <span class="red-text">*</span></label>
+									<input type="text" name="mobile" class="form-control" required="" value="{{ old('mobile', '') }}">
+									{{ elIf('<span class="text-danger">$self</span>', getErrorFor('mobile'), hasErrorFor('mobile')) }}
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-12">
+								<div class="row">
+									<div class="col-sm-12">
+										<h6 class="grey-text sub-title">{{ antl.formatMessage('keywords.upload_cv') }}</h6>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group upload-wrap">
+											<label for="upload_resume" class="upload-label">{{ antl.formatMessage('keywords.choose') }}</label>
+											<input type="file" name="resume" class="form-control" id="upload_resume" style="" required="">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-block btn-theme waves-effect waves-light">{{ antl.formatMessage('keywords.apply_now') }}</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+@endsection

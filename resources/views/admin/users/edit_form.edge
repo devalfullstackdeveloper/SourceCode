@@ -1,0 +1,98 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', user.name + ' - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>User Detail</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form method="post" action="{{ route('admin.user.edit', {id : user.id}) }}">
+						{{ csrfField() }}
+						<div class="form-group">
+							<label for="name">Name</label>
+							<input type="text" name="name" class="form-control" value="{{ user.name }}">
+							<i class="form-group__bar"></i>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+						</div>
+						<div class="form-group">
+							<label for="name">Email</label>
+							<input type="text" name="email" class="form-control" value="{{ user.email }}">
+							<i class="form-group__bar"></i>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+						</div>
+						<div class="form-group">
+							<label for="name">Mobile</label>
+							<input type="text" name="mobile" class="form-control" value="{{ (user.mobile == null) ? '' : user.mobile }}">
+							<i class="form-group__bar"></i>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('mobile'), hasErrorFor('mobile')) }}
+						</div>
+						<div class="form-group">
+							<label for="name">Anti-Phishing Code</label>
+							<input type="text" name="anti_phishing_code" class="form-control" value="{{ (user.anti_phishing_code == null) ? '' : user.anti_phishing_code }}">
+							<i class="form-group__bar"></i>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('anti_phishing_code'), hasErrorFor('anti_phishing_code')) }}
+						</div>
+						<div class="form-group">
+							<h3 class="card-body__title">SMS Authentication</h3>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="sms_auth" class="custom-control-input" value="0" {{ (user.sms_auth == 0) ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">Disable</span>
+							</label>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="sms_auth" class="custom-control-input" value="1" {{ (user.sms_auth == 1) ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">Enable</span>
+							</label>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('sms_auth'), hasErrorFor('sms_auth')) }}
+						</div>
+						<div class="form-group">
+							<h3 class="card-body__title">2FA Status</h3>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="tfa_status" class="custom-control-input" value="0" {{ (user.tfa_status == 0) ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">Disable</span>
+							</label>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="tfa_status" class="custom-control-input" value="1" {{ (user.tfa_status == 1) ? 'checked' : '' }}>
+								<span class="custom-control-indicator"></span>
+								<span class="custom-control-description">Enable</span>
+							</label>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('tfa_status'), hasErrorFor('tfa_status')) }}
+						</div>
+						<button type="submit" class="btn btn-success">Update User</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form method="post" action="{{ route('admin.user.password', {id : user.id}) }}">
+						{{ csrfField() }}
+						<div class="form-group">
+							<input type="password" class="form-control" name="password" placeholder="Password">
+							<i class="form-group__bar"></i>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
+							<i class="form-group__bar"></i>
+						</div>
+						<button type="submit" class="btn btn-success">Update Password</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+@endsection

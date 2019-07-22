@@ -1,0 +1,1586 @@
+@layout('layouts.default')
+
+@section('content')
+<style>
+    select[name="countryCode"] {
+        width: 150px;
+        background: #fff;
+        border-right: 0;
+        outline: none !important;
+        border-color: #cdd4d9;
+    }
+</style>
+<section class="myaccount">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-header-classic mb-5">
+                <div class="form-wizard-steps form-wizard-tolal-steps-4">
+                    <div class="form-wizard-progress">
+                        <div class="form-wizard-progress-line" style="width: {{ ( user.level == 1 ) ? '16.25' : ( user.level == 2 ) ? '50' : '100'; }}%;"></div>
+                    </div>
+                    <div class="form-wizard-step {{ ( user.level >= 1 ) ? 'active' : '' }}">
+                        <div class="form-wizard-step-icon"><i class="fa fa-unlock-alt" aria-hidden="true"></i></div>
+                        <p class="step-level">{{ antl.formatMessage('keywords.level1') }}</p>
+                        <p>{{ antl.formatMessage('keywords.24_hour_limit') }} <b>{{ withdrawLimits.level_one }}</b> BTC</p>
+                    </div>
+                    <div class="form-wizard-step {{ ( user.level >= 2 ) ? 'active' : '' }}"">
+                        <div class="form-wizard-step-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+                        <p class="step-level">{{ antl.formatMessage('keywords.level2') }}</p>
+                        <p>{{ antl.formatMessage('keywords.24_hour_limit') }}<b class="ont-weight-bold">{{ withdrawLimits.level_two }}</b> BTC</p>
+                        @if( ! kyc )
+                        <p class="step-message"><a href="{{ route('personal_info') }}">{{ antl.formatMessage('keywords.submit_document') }}</a></p>
+                        @elseif( kyc.status == 0 )
+                        <p class="step-message"><span class="text-warning">{{ antl.formatMessage('keywords.pending') }}</span></p>
+                        @elseif( kyc.status == 2 )
+                        <p class="step-message"><span class="text-danger">{{ antl.formatMessage('keywords.rejected') }}</span> | <a href="{{ route('personal_info') }}" style="color: #d58c07;">{{ antl.formatMessage('keywords.submit_again') }}</a></p>
+                        @elseif( kyc.status == 1 )
+                        <p class="step-message"><span class="text-success">{{ antl.formatMessage('keywords.verified') }}</span></p>
+                        @endif
+                    </div>
+                    <div class="form-wizard-step {{ ( user.level >= 3 ) ? 'active' : '' }}"">
+                        <div class="form-wizard-step-icon"><i class="fa fa-university" aria-hidden="true"></i></div>
+                        <p class="step-level">{{ antl.formatMessage('keywords.level3') }}</p>
+                        <p>{{ antl.formatMessage('keywords.24_hour_limit') }}<b class="ont-weight-bold">{{ withdrawLimits.level_three }} BTC</b></p>
+                        @if( kyc.status == 1 )
+                            @if( ! addressKyc )
+                            <p class="step-message"><a href="{{ route('address_kyc') }}">{{ antl.formatMessage('keywords.submit_document') }}</a></p>
+                            @elseif( addressKyc.status == 0 )
+                            <p class="step-message"><span class="text-warning">{{ antl.formatMessage('keywords.pending') }}</span></p>
+                            @elseif( addressKyc.status == 2 )
+                            <p class="step-message"><span class="text-danger">{{ antl.formatMessage('keywords.rejected') }}</span> | <a href="{{ route('address_kyc') }}">{{ antl.formatMessage('keywords.submit_again') }}</a></p>
+                            @elseif( addressKyc.status == 1 )
+                            <p class="step-message"><span class="text-success">{{ antl.formatMessage('keywords.verified') }}</span></p>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="row">    
+            <div class="col-md-4 col-sm-12">
+                <div class="card card-body rounded-0 shadow border height-fl">
+                    <center class="user-img-page-wrap">
+                        <div class="profile-relative">
+                        <img id="user-profile" src="{{ (user.profile != '' && user.profile != null) ? assetsUrl('images/users/'+user.profile) : assetsUrl('images/user.png') }}">
+                        <label for="profile_pic" class="profile-pic-btn"><i class="fa fa-camera" aria-hidden="true"></i></label>
+                        <!--<button id="remove-profile" class="remove-profile-btn" style="display: {{ (user.profile != '' && user.profile != null) ? 'block' : 'none' }};"><i class="fa fa-times" aria-hidden="true"></i></button>-->
+                        </div>
+                        <form method="post" enctype="multipart/form-data" action="{{ route('profile-pic') }}" id="profileForm">
+                            {{ csrfField() }}
+                            <input type="file" name="profile" id="profile_pic">
+                        </form>
+                        <div id="profileMsg"></div>
+                    </center>
+                    <div class="text-center mt-4">
+                   
+                        <h6 class="mt-4">{{user.name}}</h6>
+                        <h6 class="mt-4">{{user.email}}</h6>
+                        <p class="small grey-text"> {{ antl.formatMessage('keywords.last_login_time') }} : {{ histories.rows[0].created_at }} | {{ antl.formatMessage('keywords.ip') }} : {{ histories.rows[0].ip_address }} </p>
+                    </div>
+                    <div class="d-flex flex-row mt-2">
+                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--left" role="navigation">
+                            <li class="nav-item waves-effect waves-light" style="display: none;">
+                                <a href="#change-password-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="change-password-tab">{{ antl.formatMessage('keywords.change_password') }}<span class="float-right absolute"><i class="fas fa-chevron-right absolute"></i></span></a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a href="#anti-phishing-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="anti-phishing-tab">{{ antl.formatMessage('keywords.anti_phishing_code') }}<span class="float-right absolute"><i class="fas fa-chevron-right absolute"></i></span></a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a href="#sms-auth-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="sms-auth-tab">{{ antl.formatMessage('keywords.sms_authentication') }}<span class="float-right absolute"><i class="fas fa-chevron-right absolute"></i></span></a>
+                            </li>
+          <!--<li class="nav-item waves-effect waves-light">
+                                <a href="#request-auth-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="request-auth-tab">Request For Add Coin<span class="float-right absolute"><i class="fas fa-chevron-right absolute"></i></span></a>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12">
+                <div class="card rounded-0 shadow border tab-section">
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade information active show" id="info-tab" role="tabpanel">
+                                <div class="col-sm-12 p-4 shadow  mt-4">
+                                    <div class="row">
+                                        <div class="col-sm-8">  
+                                            <h4>{{ antl.formatMessage('keywords.login_password') }}</h4>
+                                            <p class="grey-text">{{ antl.formatMessage('keywords.login_password_hint') }}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <span class="btn btn-success btn-block btn-change-password" style="padding: .84rem 1.5rem;">{{ antl.formatMessage('keywords.change_password') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 p-4 shadow  mt-4">
+                                    <div class="row">
+                                        <div class="col-sm-8">    
+                                            <h4>{{ antl.formatMessage('keywords.anti_phishing_code') }}</h4>
+                                            <p class="grey-text">{{ antl.formatMessage('keywords.anti_phishing_hint') }}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                             @if( auth.user.anti_phishing_code ) 
+                                          <span class="btn btn-warning btn-block btn-anti-phishing-status">{{ antl.formatMessage('keywords.click_to_disable') }}</span>
+                        @else 
+                                           <span class="btn btn-success btn-block btn-anti-phishing-status" style="margin-bottom: 1rem;">{{ antl.formatMessage('keywords.click_to_enabled') }}</span>
+                                           @endif 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 p-4 shadow ">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <h4>{{ antl.formatMessage('keywords.sms_authentication') }}</h4>
+                                            <p class="grey-text">{{ antl.formatMessage('keywords.sms_authentication_hint') }}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @if( auth.user.sms_auth == 0 ) 
+                                            <span class="btn btn-success btn-block btn-sms-auth-status" style="margin-bottom: 1rem;">{{ antl.formatMessage('keywords.click_to_enabled') }}</span>
+                                           @else 
+                                            <span class="btn btn-warning btn-block btn-sms-auth-status">{{ antl.formatMessage('keywords.click_to_disable') }}</span>
+                                          @endif 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 p-4 shadow ">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <h4>{{ antl.formatMessage('keywords.google_authentication') }}</h4>
+                                            <p class="grey-text">{{ antl.formatMessage('keywords.google_authentication_hint') }}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                             @if( auth.user.tfa_status == 0 ) 
+                                            <span class="btn btn-success btn-block btn-tfa-status" style="margin-bottom: 1rem;">{{ antl.formatMessage('keywords.click_to_enabled') }}</span>
+                                             @else
+                                            <span class="btn btn-warning btn-block btn-tfa-status">{{ antl.formatMessage('keywords.click_to_disable') }}</span>
+                                             @endif 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="change-password-tab" role="tabpanel">
+                                <h4 class="ml-5 mr-5 border-bottom pb-2 mt-2 mb-4">{{ antl.formatMessage('keywords.change_password') }}</h4>
+                                <div class="col-sm-12 pl-md-5  pr-md-r">
+                                    <div class="change-password-sms-message"></div>
+                                    <div class="password-sms-message"></div>
+                                    <form id="change-password-sms-form" method="post" action="{{ route('change-password-sms') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont">
+                                           <!-- <p class="">{{ antl.formatMessage('keywords.otp') }}</p>
+                                            <div class="input-group form-group">
+                                                <input type="password" class="form-control" name="otp">
+                                                <div class="input-group-append">
+                                                    <button class="my-btn send-password-sms-button" type="button">{{ antl.formatMessage('keywords.send_sms') }}</button>
+                                                </div>
+                                            </div>-->
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.old_password') }}</label>
+                                                <input type="password" class="form-control" name="old_password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.new_password') }}</label>
+                                                <input type="password" class="form-control" name="new_password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.password_confirmation') }}</label>
+                                                <input type="password" class="form-control" name="new_password_confirmation">
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="my-btn2" value="{{ antl.formatMessage('keywords.change_password') }}">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-sm-12 pl-md-5  pr-md-r">
+                                    <div class="change-password-2fa-message"></div>
+                                    <div class="password-2fa-message"></div>
+                                    <form id="change-password-2fa-form" method="post" action="{{ route('change-password-2fa') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont">
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.2fa_code') }}</label>
+                                                <input type="password" class="form-control" name="otp">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.old_password') }}</label>
+                                                <input type="password" class="form-control" name="old_password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.new_password') }}</label>
+                                                <input type="password" class="form-control" name="new_password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="">{{ antl.formatMessage('keywords.password_confirmation') }}</label>
+                                                <input type="password" class="form-control" name="new_password_confirmation">
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="my-btn2" value="{{ antl.formatMessage('keywords.change_password') }}">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="anti-phishing-tab" role="tabpanel">
+                                <h4 class="ml-md-5 mr-md-5 border-bottom pb-2 mt-2 mb-4">{{ antl.formatMessage('keywords.anti_phishing_code') }}</h4>
+                                <div class="col-sm-12 pl-md-5  pr-md-r">
+                                    <div class="anti-phishing-message"></div>
+                  @if( auth.user.anti_phishing_code)
+                               <form id="disableanti-phishing-form" method="post" action="{{ route('anti-phishing') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont"> 
+                                         
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="my-btn2" value="Disable phishing">
+                                            </div>
+                                        </div>
+                                    </form>
+                  @else
+                           <form id="anti-phishing-form" method="post" action="{{ route('anti-phishing') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont">
+                                            <div class="form-group">
+                                                <label for="code" class="">{{ antl.formatMessage('keywords.anti_phishing_code') }}</label>
+                                                <input class="form-control" type="text" name="code" id="code" minlength="4" maxlength="20">
+                                                <small class="form-text text-muted">{{ antl.formatMessage('keywords.anti_phishing_suggestion') }}</small> 
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="my-btn2" value="{{ antl.formatMessage('keywords.submit') }}">
+                                            </div>
+                                        </div>
+                                    </form>
+                  @endif
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="sms-auth-tab" role="tabpanel">
+                                <h4 class="ml-5 mr-5 border-bottom pb-2 mt-2 mb-4">{{ antl.formatMessage('keywords.enable_sms_authentication') }}</h4>
+                                <div class="col-sm-12 pl-md-5 pr-md-5">
+                                    <div class="sms-auth-message"></div>
+                                    @if(user.sms_auth == 0)
+                                    <form id="enable-sms-auth-form" method="post" action="{{ route('enable-sms-auth') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont">
+                                            <p for="phone_number" class="">{{ antl.formatMessage('keywords.phone_number') }}</p>
+                                            <div class="input-group form-group">
+                                                <div class="input-group-append">
+                                                    <select name="countryCode" id="">
+    <option data-countryCode="GB" value="44" Selected>UK (+44)</option>
+    <option data-countryCode="US" value="1">USA (+1)</option>
+    <optgroup label="Other countries">
+        <option data-countryCode="DZ" value="213">Algeria (+213)</option>
+        <option data-countryCode="AD" value="376">Andorra (+376)</option>
+        <option data-countryCode="AO" value="244">Angola (+244)</option>
+        <option data-countryCode="AI" value="1264">Anguilla (+1264)</option>
+        <option data-countryCode="AG" value="1268">Antigua &amp; Barbuda (+1268)</option>
+        <option data-countryCode="AR" value="54">Argentina (+54)</option>
+        <option data-countryCode="AM" value="374">Armenia (+374)</option>
+        <option data-countryCode="AW" value="297">Aruba (+297)</option>
+        <option data-countryCode="AU" value="61">Australia (+61)</option>
+        <option data-countryCode="AT" value="43">Austria (+43)</option>
+        <option data-countryCode="AZ" value="994">Azerbaijan (+994)</option>
+        <option data-countryCode="BS" value="1242">Bahamas (+1242)</option>
+        <option data-countryCode="BH" value="973">Bahrain (+973)</option>
+        <option data-countryCode="BD" value="880">Bangladesh (+880)</option>
+        <option data-countryCode="BB" value="1246">Barbados (+1246)</option>
+        <option data-countryCode="BY" value="375">Belarus (+375)</option>
+        <option data-countryCode="BE" value="32">Belgium (+32)</option>
+        <option data-countryCode="BZ" value="501">Belize (+501)</option>
+        <option data-countryCode="BJ" value="229">Benin (+229)</option>
+        <option data-countryCode="BM" value="1441">Bermuda (+1441)</option>
+        <option data-countryCode="BT" value="975">Bhutan (+975)</option>
+        <option data-countryCode="BO" value="591">Bolivia (+591)</option>
+        <option data-countryCode="BA" value="387">Bosnia Herzegovina (+387)</option>
+        <option data-countryCode="BW" value="267">Botswana (+267)</option>
+        <option data-countryCode="BR" value="55">Brazil (+55)</option>
+        <option data-countryCode="BN" value="673">Brunei (+673)</option>
+        <option data-countryCode="BG" value="359">Bulgaria (+359)</option>
+        <option data-countryCode="BF" value="226">Burkina Faso (+226)</option>
+        <option data-countryCode="BI" value="257">Burundi (+257)</option>
+        <option data-countryCode="KH" value="855">Cambodia (+855)</option>
+        <option data-countryCode="CM" value="237">Cameroon (+237)</option>
+        <option data-countryCode="CA" value="1">Canada (+1)</option>
+        <option data-countryCode="CV" value="238">Cape Verde Islands (+238)</option>
+        <option data-countryCode="KY" value="1345">Cayman Islands (+1345)</option>
+        <option data-countryCode="CF" value="236">Central African Republic (+236)</option>
+        <option data-countryCode="CL" value="56">Chile (+56)</option>
+        <option data-countryCode="CN" value="86">China (+86)</option>
+        <option data-countryCode="CO" value="57">Colombia (+57)</option>
+        <option data-countryCode="KM" value="269">Comoros (+269)</option>
+        <option data-countryCode="CG" value="242">Congo (+242)</option>
+        <option data-countryCode="CK" value="682">Cook Islands (+682)</option>
+        <option data-countryCode="CR" value="506">Costa Rica (+506)</option>
+        <option data-countryCode="HR" value="385">Croatia (+385)</option>
+        <option data-countryCode="CU" value="53">Cuba (+53)</option>
+        <option data-countryCode="CY" value="90392">Cyprus North (+90392)</option>
+        <option data-countryCode="CY" value="357">Cyprus South (+357)</option>
+        <option data-countryCode="CZ" value="42">Czech Republic (+42)</option>
+        <option data-countryCode="DK" value="45">Denmark (+45)</option>
+        <option data-countryCode="DJ" value="253">Djibouti (+253)</option>
+        <option data-countryCode="DM" value="1809">Dominica (+1809)</option>
+        <option data-countryCode="DO" value="1809">Dominican Republic (+1809)</option>
+        <option data-countryCode="EC" value="593">Ecuador (+593)</option>
+        <option data-countryCode="EG" value="20">Egypt (+20)</option>
+        <option data-countryCode="SV" value="503">El Salvador (+503)</option>
+        <option data-countryCode="GQ" value="240">Equatorial Guinea (+240)</option>
+        <option data-countryCode="ER" value="291">Eritrea (+291)</option>
+        <option data-countryCode="EE" value="372">Estonia (+372)</option>
+        <option data-countryCode="ET" value="251">Ethiopia (+251)</option>
+        <option data-countryCode="FK" value="500">Falkland Islands (+500)</option>
+        <option data-countryCode="FO" value="298">Faroe Islands (+298)</option>
+        <option data-countryCode="FJ" value="679">Fiji (+679)</option>
+        <option data-countryCode="FI" value="358">Finland (+358)</option>
+        <option data-countryCode="FR" value="33">France (+33)</option>
+        <option data-countryCode="GF" value="594">French Guiana (+594)</option>
+        <option data-countryCode="PF" value="689">French Polynesia (+689)</option>
+        <option data-countryCode="GA" value="241">Gabon (+241)</option>
+        <option data-countryCode="GM" value="220">Gambia (+220)</option>
+        <option data-countryCode="GE" value="7880">Georgia (+7880)</option>
+        <option data-countryCode="DE" value="49">Germany (+49)</option>
+        <option data-countryCode="GH" value="233">Ghana (+233)</option>
+        <option data-countryCode="GI" value="350">Gibraltar (+350)</option>
+        <option data-countryCode="GR" value="30">Greece (+30)</option>
+        <option data-countryCode="GL" value="299">Greenland (+299)</option>
+        <option data-countryCode="GD" value="1473">Grenada (+1473)</option>
+        <option data-countryCode="GP" value="590">Guadeloupe (+590)</option>
+        <option data-countryCode="GU" value="671">Guam (+671)</option>
+        <option data-countryCode="GT" value="502">Guatemala (+502)</option>
+        <option data-countryCode="GN" value="224">Guinea (+224)</option>
+        <option data-countryCode="GW" value="245">Guinea - Bissau (+245)</option>
+        <option data-countryCode="GY" value="592">Guyana (+592)</option>
+        <option data-countryCode="HT" value="509">Haiti (+509)</option>
+        <option data-countryCode="HN" value="504">Honduras (+504)</option>
+        <option data-countryCode="HK" value="852">Hong Kong (+852)</option>
+        <option data-countryCode="HU" value="36">Hungary (+36)</option>
+        <option data-countryCode="IS" value="354">Iceland (+354)</option>
+        <option data-countryCode="IN" value="91">India (+91)</option>
+        <option data-countryCode="ID" value="62">Indonesia (+62)</option>
+        <option data-countryCode="IR" value="98">Iran (+98)</option>
+        <option data-countryCode="IQ" value="964">Iraq (+964)</option>
+        <option data-countryCode="IE" value="353">Ireland (+353)</option>
+        <option data-countryCode="IL" value="972">Israel (+972)</option>
+        <option data-countryCode="IT" value="39">Italy (+39)</option>
+        <option data-countryCode="JM" value="1876">Jamaica (+1876)</option>
+        <option data-countryCode="JP" value="81">Japan (+81)</option>
+        <option data-countryCode="JO" value="962">Jordan (+962)</option>
+        <option data-countryCode="KZ" value="7">Kazakhstan (+7)</option>
+        <option data-countryCode="KE" value="254">Kenya (+254)</option>
+        <option data-countryCode="KI" value="686">Kiribati (+686)</option>
+        <option data-countryCode="KP" value="850">Korea North (+850)</option>
+        <option data-countryCode="KR" value="82">Korea South (+82)</option>
+        <option data-countryCode="KW" value="965">Kuwait (+965)</option>
+        <option data-countryCode="KG" value="996">Kyrgyzstan (+996)</option>
+        <option data-countryCode="LA" value="856">Laos (+856)</option>
+        <option data-countryCode="LV" value="371">Latvia (+371)</option>
+        <option data-countryCode="LB" value="961">Lebanon (+961)</option>
+        <option data-countryCode="LS" value="266">Lesotho (+266)</option>
+        <option data-countryCode="LR" value="231">Liberia (+231)</option>
+        <option data-countryCode="LY" value="218">Libya (+218)</option>
+        <option data-countryCode="LI" value="417">Liechtenstein (+417)</option>
+        <option data-countryCode="LT" value="370">Lithuania (+370)</option>
+        <option data-countryCode="LU" value="352">Luxembourg (+352)</option>
+        <option data-countryCode="MO" value="853">Macao (+853)</option>
+        <option data-countryCode="MK" value="389">Macedonia (+389)</option>
+        <option data-countryCode="MG" value="261">Madagascar (+261)</option>
+        <option data-countryCode="MW" value="265">Malawi (+265)</option>
+        <option data-countryCode="MY" value="60">Malaysia (+60)</option>
+        <option data-countryCode="MV" value="960">Maldives (+960)</option>
+        <option data-countryCode="ML" value="223">Mali (+223)</option>
+        <option data-countryCode="MT" value="356">Malta (+356)</option>
+        <option data-countryCode="MH" value="692">Marshall Islands (+692)</option>
+        <option data-countryCode="MQ" value="596">Martinique (+596)</option>
+        <option data-countryCode="MR" value="222">Mauritania (+222)</option>
+        <option data-countryCode="YT" value="269">Mayotte (+269)</option>
+        <option data-countryCode="MX" value="52">Mexico (+52)</option>
+        <option data-countryCode="FM" value="691">Micronesia (+691)</option>
+        <option data-countryCode="MD" value="373">Moldova (+373)</option>
+        <option data-countryCode="MC" value="377">Monaco (+377)</option>
+        <option data-countryCode="MN" value="976">Mongolia (+976)</option>
+        <option data-countryCode="MS" value="1664">Montserrat (+1664)</option>
+        <option data-countryCode="MA" value="212">Morocco (+212)</option>
+        <option data-countryCode="MZ" value="258">Mozambique (+258)</option>
+        <option data-countryCode="MN" value="95">Myanmar (+95)</option>
+        <option data-countryCode="NA" value="264">Namibia (+264)</option>
+        <option data-countryCode="NR" value="674">Nauru (+674)</option>
+        <option data-countryCode="NP" value="977">Nepal (+977)</option>
+        <option data-countryCode="NL" value="31">Netherlands (+31)</option>
+        <option data-countryCode="NC" value="687">New Caledonia (+687)</option>
+        <option data-countryCode="NZ" value="64">New Zealand (+64)</option>
+        <option data-countryCode="NI" value="505">Nicaragua (+505)</option>
+        <option data-countryCode="NE" value="227">Niger (+227)</option>
+        <option data-countryCode="NG" value="234">Nigeria (+234)</option>
+        <option data-countryCode="NU" value="683">Niue (+683)</option>
+        <option data-countryCode="NF" value="672">Norfolk Islands (+672)</option>
+        <option data-countryCode="NP" value="670">Northern Marianas (+670)</option>
+        <option data-countryCode="NO" value="47">Norway (+47)</option>
+        <option data-countryCode="OM" value="968">Oman (+968)</option>
+        <option data-countryCode="PW" value="680">Palau (+680)</option>
+        <option data-countryCode="PA" value="507">Panama (+507)</option>
+        <option data-countryCode="PG" value="675">Papua New Guinea (+675)</option>
+        <option data-countryCode="PY" value="595">Paraguay (+595)</option>
+        <option data-countryCode="PE" value="51">Peru (+51)</option>
+        <option data-countryCode="PH" value="63">Philippines (+63)</option>
+        <option data-countryCode="PL" value="48">Poland (+48)</option>
+        <option data-countryCode="PT" value="351">Portugal (+351)</option>
+        <option data-countryCode="PR" value="1787">Puerto Rico (+1787)</option>
+        <option data-countryCode="QA" value="974">Qatar (+974)</option>
+        <option data-countryCode="RE" value="262">Reunion (+262)</option>
+        <option data-countryCode="RO" value="40">Romania (+40)</option>
+        <option data-countryCode="RU" value="7">Russia (+7)</option>
+        <option data-countryCode="RW" value="250">Rwanda (+250)</option>
+        <option data-countryCode="SM" value="378">San Marino (+378)</option>
+        <option data-countryCode="ST" value="239">Sao Tome &amp; Principe (+239)</option>
+        <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
+        <option data-countryCode="SN" value="221">Senegal (+221)</option>
+        <option data-countryCode="CS" value="381">Serbia (+381)</option>
+        <option data-countryCode="SC" value="248">Seychelles (+248)</option>
+        <option data-countryCode="SL" value="232">Sierra Leone (+232)</option>
+        <option data-countryCode="SG" value="65">Singapore (+65)</option>
+        <option data-countryCode="SK" value="421">Slovak Republic (+421)</option>
+        <option data-countryCode="SI" value="386">Slovenia (+386)</option>
+        <option data-countryCode="SB" value="677">Solomon Islands (+677)</option>
+        <option data-countryCode="SO" value="252">Somalia (+252)</option>
+        <option data-countryCode="ZA" value="27">South Africa (+27)</option>
+        <option data-countryCode="ES" value="34">Spain (+34)</option>
+        <option data-countryCode="LK" value="94">Sri Lanka (+94)</option>
+        <option data-countryCode="SH" value="290">St. Helena (+290)</option>
+        <option data-countryCode="KN" value="1869">St. Kitts (+1869)</option>
+        <option data-countryCode="SC" value="1758">St. Lucia (+1758)</option>
+        <option data-countryCode="SD" value="249">Sudan (+249)</option>
+        <option data-countryCode="SR" value="597">Suriname (+597)</option>
+        <option data-countryCode="SZ" value="268">Swaziland (+268)</option>
+        <option data-countryCode="SE" value="46">Sweden (+46)</option>
+        <option data-countryCode="CH" value="41">Switzerland (+41)</option>
+        <option data-countryCode="SI" value="963">Syria (+963)</option>
+        <option data-countryCode="TW" value="886">Taiwan (+886)</option>
+        <option data-countryCode="TJ" value="7">Tajikstan (+7)</option>
+        <option data-countryCode="TH" value="66">Thailand (+66)</option>
+        <option data-countryCode="TG" value="228">Togo (+228)</option>
+        <option data-countryCode="TO" value="676">Tonga (+676)</option>
+        <option data-countryCode="TT" value="1868">Trinidad &amp; Tobago (+1868)</option>
+        <option data-countryCode="TN" value="216">Tunisia (+216)</option>
+        <option data-countryCode="TR" value="90">Turkey (+90)</option>
+        <option data-countryCode="TM" value="7">Turkmenistan (+7)</option>
+        <option data-countryCode="TM" value="993">Turkmenistan (+993)</option>
+        <option data-countryCode="TC" value="1649">Turks &amp; Caicos Islands (+1649)</option>
+        <option data-countryCode="TV" value="688">Tuvalu (+688)</option>
+        <option data-countryCode="UG" value="256">Uganda (+256)</option>
+        <!-- <option data-countryCode="GB" value="44">UK (+44)</option> -->
+        <option data-countryCode="UA" value="380">Ukraine (+380)</option>
+        <option data-countryCode="AE" value="971">United Arab Emirates (+971)</option>
+        <option data-countryCode="UY" value="598">Uruguay (+598)</option>
+        <!-- <option data-countryCode="US" value="1">USA (+1)</option> -->
+        <option data-countryCode="UZ" value="7">Uzbekistan (+7)</option>
+        <option data-countryCode="VU" value="678">Vanuatu (+678)</option>
+        <option data-countryCode="VA" value="379">Vatican City (+379)</option>
+        <option data-countryCode="VE" value="58">Venezuela (+58)</option>
+        <option data-countryCode="VN" value="84">Vietnam (+84)</option>
+        <option data-countryCode="VG" value="84">Virgin Islands - British (+1284)</option>
+        <option data-countryCode="VI" value="84">Virgin Islands - US (+1340)</option>
+        <option data-countryCode="WF" value="681">Wallis &amp; Futuna (+681)</option>
+        <option data-countryCode="YE" value="969">Yemen (North)(+969)</option>
+        <option data-countryCode="YE" value="967">Yemen (South)(+967)</option>
+        <option data-countryCode="ZM" value="260">Zambia (+260)</option>
+        <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
+    </optgroup>
+</select>
+                                                </div>
+                                                <input class="form-control" type="text" name="phone_number" value="{{ ( user.mobile != null ) ? user.mobile : '' }}" {{ (user.mobile != '' && user.mobile != null) ? 'readonly' : '' }}>
+                                                <div class="input-group-append">
+                                                    <button class="my-btn send-sms-button" type="button">{{ antl.formatMessage('keywords.send_sms') }}</button>
+                                                </div>
+                                            </div>
+                                            <p>{{ antl.formatMessage('keywords.sms_authentication_code') }}</p>
+                                            <div class="input-group mb-3">
+                                                <input name="otp" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="btn btn-success" value="{{ antl.formatMessage('keywords.enable') }}">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    @else
+                                    <form id="disable-sms-auth-form" method="post" action="{{ route('disable-sms-auth') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont">
+                                            <p for="phone_number" class="">{{ antl.formatMessage('keywords.phone_number') }}</p>
+                                            <div class="input-group form-group">
+                                                <div class="input-group-append">
+    <select name="countryCode" id="" readonly><option data-countryCode="GB" value="44">UK (+44)</option>
+    <option data-countryCode="US" value="1">USA (+1)</option>
+    <optgroup label="Other countries">
+        <option data-countryCode="DZ" value="213">Algeria (+213)</option>
+        <option data-countryCode="AD" value="376">Andorra (+376)</option>
+        <option data-countryCode="AO" value="244">Angola (+244)</option>
+        <option data-countryCode="AI" value="1264">Anguilla (+1264)</option>
+        <option data-countryCode="AG" value="1268">Antigua &amp; Barbuda (+1268)</option>
+        <option data-countryCode="AR" value="54">Argentina (+54)</option>
+        <option data-countryCode="AM" value="374">Armenia (+374)</option>
+        <option data-countryCode="AW" value="297">Aruba (+297)</option>
+        <option data-countryCode="AU" value="61">Australia (+61)</option>
+        <option data-countryCode="AT" value="43">Austria (+43)</option>
+        <option data-countryCode="AZ" value="994">Azerbaijan (+994)</option>
+        <option data-countryCode="BS" value="1242">Bahamas (+1242)</option>
+        <option data-countryCode="BH" value="973">Bahrain (+973)</option>
+        <option data-countryCode="BD" value="880">Bangladesh (+880)</option>
+        <option data-countryCode="BB" value="1246">Barbados (+1246)</option>
+        <option data-countryCode="BY" value="375">Belarus (+375)</option>
+        <option data-countryCode="BE" value="32">Belgium (+32)</option>
+        <option data-countryCode="BZ" value="501">Belize (+501)</option>
+        <option data-countryCode="BJ" value="229">Benin (+229)</option>
+        <option data-countryCode="BM" value="1441">Bermuda (+1441)</option>
+        <option data-countryCode="BT" value="975">Bhutan (+975)</option>
+        <option data-countryCode="BO" value="591">Bolivia (+591)</option>
+        <option data-countryCode="BA" value="387">Bosnia Herzegovina (+387)</option>
+        <option data-countryCode="BW" value="267">Botswana (+267)</option>
+        <option data-countryCode="BR" value="55">Brazil (+55)</option>
+        <option data-countryCode="BN" value="673">Brunei (+673)</option>
+        <option data-countryCode="BG" value="359">Bulgaria (+359)</option>
+        <option data-countryCode="BF" value="226">Burkina Faso (+226)</option>
+        <option data-countryCode="BI" value="257">Burundi (+257)</option>
+        <option data-countryCode="KH" value="855">Cambodia (+855)</option>
+        <option data-countryCode="CM" value="237">Cameroon (+237)</option>
+        <option data-countryCode="CA" value="1">Canada (+1)</option>
+        <option data-countryCode="CV" value="238">Cape Verde Islands (+238)</option>
+        <option data-countryCode="KY" value="1345">Cayman Islands (+1345)</option>
+        <option data-countryCode="CF" value="236">Central African Republic (+236)</option>
+        <option data-countryCode="CL" value="56">Chile (+56)</option>
+        <option data-countryCode="CN" value="86">China (+86)</option>
+        <option data-countryCode="CO" value="57">Colombia (+57)</option>
+        <option data-countryCode="KM" value="269">Comoros (+269)</option>
+        <option data-countryCode="CG" value="242">Congo (+242)</option>
+        <option data-countryCode="CK" value="682">Cook Islands (+682)</option>
+        <option data-countryCode="CR" value="506">Costa Rica (+506)</option>
+        <option data-countryCode="HR" value="385">Croatia (+385)</option>
+        <option data-countryCode="CU" value="53">Cuba (+53)</option>
+        <option data-countryCode="CY" value="90392">Cyprus North (+90392)</option>
+        <option data-countryCode="CY" value="357">Cyprus South (+357)</option>
+        <option data-countryCode="CZ" value="42">Czech Republic (+42)</option>
+        <option data-countryCode="DK" value="45">Denmark (+45)</option>
+        <option data-countryCode="DJ" value="253">Djibouti (+253)</option>
+        <option data-countryCode="DM" value="1809">Dominica (+1809)</option>
+        <option data-countryCode="DO" value="1809">Dominican Republic (+1809)</option>
+        <option data-countryCode="EC" value="593">Ecuador (+593)</option>
+        <option data-countryCode="EG" value="20">Egypt (+20)</option>
+        <option data-countryCode="SV" value="503">El Salvador (+503)</option>
+        <option data-countryCode="GQ" value="240">Equatorial Guinea (+240)</option>
+        <option data-countryCode="ER" value="291">Eritrea (+291)</option>
+        <option data-countryCode="EE" value="372">Estonia (+372)</option>
+        <option data-countryCode="ET" value="251">Ethiopia (+251)</option>
+        <option data-countryCode="FK" value="500">Falkland Islands (+500)</option>
+        <option data-countryCode="FO" value="298">Faroe Islands (+298)</option>
+        <option data-countryCode="FJ" value="679">Fiji (+679)</option>
+        <option data-countryCode="FI" value="358">Finland (+358)</option>
+        <option data-countryCode="FR" value="33">France (+33)</option>
+        <option data-countryCode="GF" value="594">French Guiana (+594)</option>
+        <option data-countryCode="PF" value="689">French Polynesia (+689)</option>
+        <option data-countryCode="GA" value="241">Gabon (+241)</option>
+        <option data-countryCode="GM" value="220">Gambia (+220)</option>
+        <option data-countryCode="GE" value="7880">Georgia (+7880)</option>
+        <option data-countryCode="DE" value="49">Germany (+49)</option>
+        <option data-countryCode="GH" value="233">Ghana (+233)</option>
+        <option data-countryCode="GI" value="350">Gibraltar (+350)</option>
+        <option data-countryCode="GR" value="30">Greece (+30)</option>
+        <option data-countryCode="GL" value="299">Greenland (+299)</option>
+        <option data-countryCode="GD" value="1473">Grenada (+1473)</option>
+        <option data-countryCode="GP" value="590">Guadeloupe (+590)</option>
+        <option data-countryCode="GU" value="671">Guam (+671)</option>
+        <option data-countryCode="GT" value="502">Guatemala (+502)</option>
+        <option data-countryCode="GN" value="224">Guinea (+224)</option>
+        <option data-countryCode="GW" value="245">Guinea - Bissau (+245)</option>
+        <option data-countryCode="GY" value="592">Guyana (+592)</option>
+        <option data-countryCode="HT" value="509">Haiti (+509)</option>
+        <option data-countryCode="HN" value="504">Honduras (+504)</option>
+        <option data-countryCode="HK" value="852">Hong Kong (+852)</option>
+        <option data-countryCode="HU" value="36">Hungary (+36)</option>
+        <option data-countryCode="IS" value="354">Iceland (+354)</option>
+        <option data-countryCode="IN" value="91">India (+91)</option>
+        <option data-countryCode="ID" value="62">Indonesia (+62)</option>
+        <option data-countryCode="IR" value="98">Iran (+98)</option>
+        <option data-countryCode="IQ" value="964">Iraq (+964)</option>
+        <option data-countryCode="IE" value="353">Ireland (+353)</option>
+        <option data-countryCode="IL" value="972">Israel (+972)</option>
+        <option data-countryCode="IT" value="39">Italy (+39)</option>
+        <option data-countryCode="JM" value="1876">Jamaica (+1876)</option>
+        <option data-countryCode="JP" value="81">Japan (+81)</option>
+        <option data-countryCode="JO" value="962">Jordan (+962)</option>
+        <option data-countryCode="KZ" value="7">Kazakhstan (+7)</option>
+        <option data-countryCode="KE" value="254">Kenya (+254)</option>
+        <option data-countryCode="KI" value="686">Kiribati (+686)</option>
+        <option data-countryCode="KP" value="850">Korea North (+850)</option>
+        <option data-countryCode="KR" value="82">Korea South (+82)</option>
+        <option data-countryCode="KW" value="965">Kuwait (+965)</option>
+        <option data-countryCode="KG" value="996">Kyrgyzstan (+996)</option>
+        <option data-countryCode="LA" value="856">Laos (+856)</option>
+        <option data-countryCode="LV" value="371">Latvia (+371)</option>
+        <option data-countryCode="LB" value="961">Lebanon (+961)</option>
+        <option data-countryCode="LS" value="266">Lesotho (+266)</option>
+        <option data-countryCode="LR" value="231">Liberia (+231)</option>
+        <option data-countryCode="LY" value="218">Libya (+218)</option>
+        <option data-countryCode="LI" value="417">Liechtenstein (+417)</option>
+        <option data-countryCode="LT" value="370">Lithuania (+370)</option>
+        <option data-countryCode="LU" value="352">Luxembourg (+352)</option>
+        <option data-countryCode="MO" value="853">Macao (+853)</option>
+        <option data-countryCode="MK" value="389">Macedonia (+389)</option>
+        <option data-countryCode="MG" value="261">Madagascar (+261)</option>
+        <option data-countryCode="MW" value="265">Malawi (+265)</option>
+        <option data-countryCode="MY" value="60">Malaysia (+60)</option>
+        <option data-countryCode="MV" value="960">Maldives (+960)</option>
+        <option data-countryCode="ML" value="223">Mali (+223)</option>
+        <option data-countryCode="MT" value="356">Malta (+356)</option>
+        <option data-countryCode="MH" value="692">Marshall Islands (+692)</option>
+        <option data-countryCode="MQ" value="596">Martinique (+596)</option>
+        <option data-countryCode="MR" value="222">Mauritania (+222)</option>
+        <option data-countryCode="YT" value="269">Mayotte (+269)</option>
+        <option data-countryCode="MX" value="52">Mexico (+52)</option>
+        <option data-countryCode="FM" value="691">Micronesia (+691)</option>
+        <option data-countryCode="MD" value="373">Moldova (+373)</option>
+        <option data-countryCode="MC" value="377">Monaco (+377)</option>
+        <option data-countryCode="MN" value="976">Mongolia (+976)</option>
+        <option data-countryCode="MS" value="1664">Montserrat (+1664)</option>
+        <option data-countryCode="MA" value="212">Morocco (+212)</option>
+        <option data-countryCode="MZ" value="258">Mozambique (+258)</option>
+        <option data-countryCode="MN" value="95">Myanmar (+95)</option>
+        <option data-countryCode="NA" value="264">Namibia (+264)</option>
+        <option data-countryCode="NR" value="674">Nauru (+674)</option>
+        <option data-countryCode="NP" value="977">Nepal (+977)</option>
+        <option data-countryCode="NL" value="31">Netherlands (+31)</option>
+        <option data-countryCode="NC" value="687">New Caledonia (+687)</option>
+        <option data-countryCode="NZ" value="64">New Zealand (+64)</option>
+        <option data-countryCode="NI" value="505">Nicaragua (+505)</option>
+        <option data-countryCode="NE" value="227">Niger (+227)</option>
+        <option data-countryCode="NG" value="234">Nigeria (+234)</option>
+        <option data-countryCode="NU" value="683">Niue (+683)</option>
+        <option data-countryCode="NF" value="672">Norfolk Islands (+672)</option>
+        <option data-countryCode="NP" value="670">Northern Marianas (+670)</option>
+        <option data-countryCode="NO" value="47">Norway (+47)</option>
+        <option data-countryCode="OM" value="968">Oman (+968)</option>
+        <option data-countryCode="PW" value="680">Palau (+680)</option>
+        <option data-countryCode="PA" value="507">Panama (+507)</option>
+        <option data-countryCode="PG" value="675">Papua New Guinea (+675)</option>
+        <option data-countryCode="PY" value="595">Paraguay (+595)</option>
+        <option data-countryCode="PE" value="51">Peru (+51)</option>
+        <option data-countryCode="PH" value="63">Philippines (+63)</option>
+        <option data-countryCode="PL" value="48">Poland (+48)</option>
+        <option data-countryCode="PT" value="351">Portugal (+351)</option>
+        <option data-countryCode="PR" value="1787">Puerto Rico (+1787)</option>
+        <option data-countryCode="QA" value="974">Qatar (+974)</option>
+        <option data-countryCode="RE" value="262">Reunion (+262)</option>
+        <option data-countryCode="RO" value="40">Romania (+40)</option>
+        <option data-countryCode="RU" value="7">Russia (+7)</option>
+        <option data-countryCode="RW" value="250">Rwanda (+250)</option>
+        <option data-countryCode="SM" value="378">San Marino (+378)</option>
+        <option data-countryCode="ST" value="239">Sao Tome &amp; Principe (+239)</option>
+        <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
+        <option data-countryCode="SN" value="221">Senegal (+221)</option>
+        <option data-countryCode="CS" value="381">Serbia (+381)</option>
+        <option data-countryCode="SC" value="248">Seychelles (+248)</option>
+        <option data-countryCode="SL" value="232">Sierra Leone (+232)</option>
+        <option data-countryCode="SG" value="65">Singapore (+65)</option>
+        <option data-countryCode="SK" value="421">Slovak Republic (+421)</option>
+        <option data-countryCode="SI" value="386">Slovenia (+386)</option>
+        <option data-countryCode="SB" value="677">Solomon Islands (+677)</option>
+        <option data-countryCode="SO" value="252">Somalia (+252)</option>
+        <option data-countryCode="ZA" value="27">South Africa (+27)</option>
+        <option data-countryCode="ES" value="34">Spain (+34)</option>
+        <option data-countryCode="LK" value="94">Sri Lanka (+94)</option>
+        <option data-countryCode="SH" value="290">St. Helena (+290)</option>
+        <option data-countryCode="KN" value="1869">St. Kitts (+1869)</option>
+        <option data-countryCode="SC" value="1758">St. Lucia (+1758)</option>
+        <option data-countryCode="SD" value="249">Sudan (+249)</option>
+        <option data-countryCode="SR" value="597">Suriname (+597)</option>
+        <option data-countryCode="SZ" value="268">Swaziland (+268)</option>
+        <option data-countryCode="SE" value="46">Sweden (+46)</option>
+        <option data-countryCode="CH" value="41">Switzerland (+41)</option>
+        <option data-countryCode="SI" value="963">Syria (+963)</option>
+        <option data-countryCode="TW" value="886">Taiwan (+886)</option>
+        <option data-countryCode="TJ" value="7">Tajikstan (+7)</option>
+        <option data-countryCode="TH" value="66">Thailand (+66)</option>
+        <option data-countryCode="TG" value="228">Togo (+228)</option>
+        <option data-countryCode="TO" value="676">Tonga (+676)</option>
+        <option data-countryCode="TT" value="1868">Trinidad &amp; Tobago (+1868)</option>
+        <option data-countryCode="TN" value="216">Tunisia (+216)</option>
+        <option data-countryCode="TR" value="90">Turkey (+90)</option>
+        <option data-countryCode="TM" value="7">Turkmenistan (+7)</option>
+        <option data-countryCode="TM" value="993">Turkmenistan (+993)</option>
+        <option data-countryCode="TC" value="1649">Turks &amp; Caicos Islands (+1649)</option>
+        <option data-countryCode="TV" value="688">Tuvalu (+688)</option>
+        <option data-countryCode="UG" value="256">Uganda (+256)</option>
+        <!-- <option data-countryCode="GB" value="44">UK (+44)</option> -->
+        <option data-countryCode="UA" value="380">Ukraine (+380)</option>
+        <option data-countryCode="AE" value="971">United Arab Emirates (+971)</option>
+        <option data-countryCode="UY" value="598">Uruguay (+598)</option>
+        <!-- <option data-countryCode="US" value="1">USA (+1)</option> -->
+        <option data-countryCode="UZ" value="7">Uzbekistan (+7)</option>
+        <option data-countryCode="VU" value="678">Vanuatu (+678)</option>
+        <option data-countryCode="VA" value="379">Vatican City (+379)</option>
+        <option data-countryCode="VE" value="58">Venezuela (+58)</option>
+        <option data-countryCode="VN" value="84">Vietnam (+84)</option>
+        <option data-countryCode="VG" value="84">Virgin Islands - British (+1284)</option>
+        <option data-countryCode="VI" value="84">Virgin Islands - US (+1340)</option>
+        <option data-countryCode="WF" value="681">Wallis &amp; Futuna (+681)</option>
+        <option data-countryCode="YE" value="969">Yemen (North)(+969)</option>
+        <option data-countryCode="YE" value="967">Yemen (South)(+967)</option>
+        <option data-countryCode="ZM" value="260">Zambia (+260)</option>
+        <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
+    </optgroup>
+</select>
+                                                </div>
+                                                <input class="form-control" type="text" name="phone_number" value="{{ ( user.mobile != null ) ? user.mobile : '' }}" readonly>
+                                                <div class="input-group-append">
+                                                    <button class="my-btn send-sms-button" type="button">{{ antl.formatMessage('keywords.send_sms') }}</button>
+                                                </div>
+                                            </div>
+                                            <p>{{ antl.formatMessage('keywords.sms_authentication_code') }}</p>
+                                            <div class="input-group mb-3">
+                                                <input name="otp" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="btn btn-warning" value="{{ antl.formatMessage('keywords.disable') }}">
+                                            </div>
+                                        </div>
+                                    </form>                                    
+                                    @endif
+                                </div>
+                            </div>
+              <!-- <div class="tab-pane fade" id="request-auth-tab" role="tabpanel">
+                                <h4 class="ml-5 mr-5 border-bottom pb-2 mt-2 mb-4">Request For Adding Your Coin</h4>
+                                <div class="col-sm-12 pl-md-5  pr-md-r">
+                                    <div class="request-auth-message"></div>
+                  
+                                    <form id="enable-request-auth-form" method="post" action="{{ route('enable-request-auth') }}">
+                                        {{ csrfField() }}
+                                        <div class="createapi-cont">
+                                         
+                                            <p>Coin Name</p>
+                                            <div class="input-group mb-3">
+                                                <input name="coin_name" id="coin_name" class="form-control" type="text">
+                                            </div>
+                        <p>Coin Symbol</p>
+                                            <div class="input-group mb-3">
+                                                <input name="coin_symbol" id="coin_symbol" class="form-control" type="text">
+                                            </div>
+                        <p>Coin Value</p> 
+                                            <div class="input-group mb-3">
+                                                <input name="coin_value" id="coin_value" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" class="btn btn-success" value="Submit Request">
+                                            </div>
+                                        </div>
+                                    </form>
+                  
+                                    
+                                </div>
+                            </div>-->
+              
+           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tfa-block" class="googleauthentication shadow w-100 mt-5">
+            <div class="row">
+                <div class="col-sm-12">
+                    @if(user.tfa_status == 0)
+                    <ul class="nav nav-tabs p-1" id="myTab" role="tablist">
+                        <li class="nav-item waves-effect waves-light">
+                            <a class="nav-link active show" id="download-tab" data-toggle="tab" href="#download" role="tab" aria-controls="download" aria-selected="true">{{ antl.formatMessage('keywords.download_app') }}</a>
+                        </li>
+                        <li class="nav-item waves-effect waves-light">
+                            <a class="nav-link" id="scan-tab" data-toggle="tab" href="#scan" role="tab" aria-controls="scan" aria-selected="false">{{ antl.formatMessage('keywords.scan_qr') }}</a>
+                        </li>
+                        <li class="nav-item waves-effect waves-light">
+                            <a class="nav-link" id="backup-tab" data-toggle="tab" href="#backup" role="tab" aria-controls="backup" aria-selected="false">{{ antl.formatMessage('keywords.backup_key') }}</a>
+                        </li>
+                        <li class="nav-item waves-effect waves-light">
+                            <a class="nav-link" id="enable-tab" data-toggle="tab" href="#enable" role="tab" aria-controls="enable" aria-selected="false">{{ antl.formatMessage('keywords.enable_2fa') }}</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content card-body text-center" id="myTabContent">
+                        <div class="tab-pane fade active show" id="download" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="bg-white">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-sm-2" style="position: relative;">
+                                            <div class="back">
+                                                <div class="menu-back">
+                                                    <ul class="nav-history">
+                                                        <li><a href="javascript:void(0);">{{ antl.formatMessage('keywords.step1') }}</a></li>
+                                                        <li class="active"><a href="javascript:void(0);">{{ antl.formatMessage('keywords.step2') }}</a></li>
+                                                        <li class="active"><a href="javascript:void(0);">{{ antl.formatMessage('keywords.step3') }}</a></li>
+                                                        <li class="active"><a href="javascript:void(0);">{{ antl.formatMessage('keywords.step4') }}</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 card-body">
+                                            <center>
+                                                <h5>{{ antl.formatMessage('messages.download_2fa') }}</h5>
+                                                <div class="mt-4">
+                                                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank"><img src="{{ assetsUrl('images/2fa-android.png') }}"></a>
+                                                    <a href="https://itunes.apple.com/in/app/google-authenticator/id388497605?mt=8" target="_blank"><img src="{{ assetsUrl('images/2fa-ios.png') }}"></a>
+                                                </div>
+                                            </center>
+                                        </div> 
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-warning btn-sm float-right btn-next">{{ antl.formatMessage('keywords.next') }} >> </button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="scan" role="tabpanel" aria-labelledby="scan-tab">
+                            <div class="bg-white">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-sm-2" style="position: relative;">
+                                            <div class="back">
+                                                <div class="menu-back">
+                                                    <ul class="nav-history">
+                                                        <li><a href="#">{{ antl.formatMessage('keywords.step1') }}</a></li>
+                                                        <li class=""><a href="#">{{ antl.formatMessage('keywords.step2') }}</a></li>
+                                                        <li class="active"><a href="#">{{ antl.formatMessage('keywords.step3') }}</a></li>
+                                                        <li class="active"><a href="#">{{ antl.formatMessage('keywords.step4') }}</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 card-body qr-code mt-3">
+                                            <center>
+                                                <h5>{{ antl.formatMessage('messages.2fa_code_menually') }}</h5>
+                                                <div class="mt-4">
+                                                    <div class=""> 
+                                                        <img src="https://chart.googleapis.com/chart?cht=qr&choe=UTF-8&chs=200x200&chl={{ qrcode }}">
+                                                        <small class="w-100 grey-text mt-4 d-block">{{ antl.formatMessage('messages.scan_in_2fa') }}</small>
+                                                    </div>
+                                                    <h5 class="mt-3"><span> {{ antl.formatMessage('messages.qr_code_number') }} </span> <span class="text-white"> {{ user.tfa_code }}</span></h5>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-default btn-sm float-left btn-prev"><< {{ antl.formatMessage('keywords.prev') }} </button>
+                                            <button class="btn btn-warning btn-sm float-right btn-next">{{ antl.formatMessage('keywords.next') }} >> </button>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="backup" role="tabpanel" aria-labelledby="backup-tab">
+                            <div class="bg-white">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-2" style="position: relative;">
+                                            <div class="back">
+                                                <div class="menu-back">
+                                                    <ul class="nav-history">
+                                                        <li><a href="#">{{ antl.formatMessage('keywords.step1') }}</a></li>
+                                                        <li class=""><a href="#">{{ antl.formatMessage('keywords.step2') }}</a></li>
+                                                        <li class=""><a href="#">{{ antl.formatMessage('keywords.step3') }}</a></li>
+                                                        <li class="active"><a href="#">{{ antl.formatMessage('keywords.step4') }}</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 card-body qr-code mt-3">
+                                            <center>
+                                                <p>{{ antl.formatMessage('messages.save_2fa_key') }}</p>
+                                                <div class="mt-4 border p-5 shadow">
+                                                    <div class="">
+                                                        <img width="114px" src="{{ assetsUrl('images/backup-key.png') }}">
+                                                        <small class="w-100 grey-text mt-4 d-block">{{ antl.formatMessage('messages.2fa_reset') }}</small>
+                                                    </div>
+                                                    <h5 class="mt-3"><span> {{ antl.formatMessage('messages.qr_code_number') }} </span> <span class="text-white"> {{ user.tfa_code }}</span></h5>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-default btn-sm float-left btn-prev"><< {{ antl.formatMessage('keywords.prev') }} </button>
+                                            <button class="btn btn-warning btn-sm float-right btn-next">{{ antl.formatMessage('keywords.next') }} >> </button>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="enable" role="tabpanel" aria-labelledby="enable-tab">
+                            <div class="bg-white">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-sm-2" style="position: relative;">
+                                            <div class="back">
+                                                <div class="menu-back">
+                                                    <ul class="nav-history">
+                                                        <li><a href="#">{{ antl.formatMessage('keywords.step1') }}</a></li>
+                                                        <li class=""><a href="#">{{ antl.formatMessage('keywords.step2') }}</a></li>
+                                                        <li class=""><a href="#">{{ antl.formatMessage('keywords.step3') }}</a></li>
+                                                        <li class=""><a href="#">{{ antl.formatMessage('keywords.step4') }}</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 card-body googleauthen">
+                                            <div class="col-sm-7 text-left border shadow p-4 offset-2">
+                                                <div class="tfa-message"></div>
+                                                <form method="post" id="enable-2fa-code">
+                                                    {{ csrfField() }}
+                                                    <div class="form-group">
+                                                        <label for="login-password" class="active">{{ antl.formatMessage('keywords.login_password') }}</label>
+                                                        <input type="password" name="password" class="form-control" id="login-password">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="totp" class="active">{{ antl.formatMessage('keywords.2fa_code') }} </label>
+                                                        <input type="password" name="totp" class="form-control" id="totp">
+                                                    </div>
+                                                    <div class="form-group p-4 text-center">
+                                                        <input type="submit" class="my-btn2" value="{{ antl.formatMessage('keywords.enable_google_auth') }}">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-default btn-sm float-left btn-prev"><< {{ antl.formatMessage('keywords.prev') }} </button>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
+                    <div class="bg-white">
+                        <div class="card-header">
+                            <h5>{{ antl.formatMessage('keywords.disable_google_auth') }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 googleauthen">
+                                    <div class="col-sm-6 offset-md-3">
+                                        <div class="tfa-message"></div>
+                                        <form method="post" id="disable-2fa-code">
+                                            {{ csrfField() }}
+                                            <div class="form-group">
+                                                <label for="login-password" class="active">{{ antl.formatMessage('keywords.login_password') }}</label>
+                                                <input type="password" name="password" class="form-control" id="login-password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="totp" class="active">{{ antl.formatMessage('keywords.2fa_code') }} </label>
+                                                <input type="password" name="totp" class="form-control" id="totp">
+                                            </div>
+                                            <div class="form-group p-4 text-center">
+                                                <input type="submit" class="my-btn2" value="{{ antl.formatMessage('keywords.disable_google_auth') }}">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="device-management w-100 mb-0">
+            <legend class="pb-0 mt-4 border-bottom"> {{ antl.formatMessage('keywords.device_management') }} <p class="grey-text small">{{ antl.formatMessage('keywords.allowed_devices') }}</p> </legend>
+            <div class="card  mt-4 shadow ">
+                <div class="device-management-mesaage"></div>
+                <div class="table-scroll mb-0">
+                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                    <thead>
+                        <tr class="grey-text">
+                            <th scope="col">{{ antl.formatMessage('keywords.device') }}</th>
+                            <th scope="col">{{ antl.formatMessage('keywords.location') }}</th>
+                            <th scope="col">{{ antl.formatMessage('keywords.recent_activity') }}</th>
+                            <th scope="col">{{ antl.formatMessage('keywords.ip_address') }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="scroll-body table_accounts_body common-tbody">
+                        @each(device in devices.rows)
+                        <tr>
+                            <td>{{ device.device }}</td>
+                            <td>{{ device.location }}</td>
+                            <td>{{ device.created_at }}</td>
+                            <td>{{ device.ip_address }}</td>
+                            <td>
+                                <button class="btn btn-warning btn-action btn-device-remove" data-id="{{ device.id }}" style="margin-top: -5px;"><i class="fas fa-times"></i></button>
+                            </td>
+                        </tr>
+                        @endeach
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+ <div class="device-management w-100 mb-0">
+            <legend class="pb-0 mt-4 border-bottom"> Requested Coins </legend>
+            <div class="card  mt-4 shadow ">
+                <div class="device-management-mesaage"></div>
+                <div class="table-scroll mb-0">
+                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                    <thead>
+                        <tr class="grey-text">
+                            <th scope="col">Coin Name</th>
+                            <th scope="col">Coin Symbol</th>
+                            <th scope="col">Coin Value</th>
+                            <th scope="col">Approval Status</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody class="scroll-body table_accounts_body common-tbody">
+                       @each(requestcoin in requestcoins.rows)
+                        <tr>
+                            <td>{{ requestcoin.tokenname }}</td>
+                            <td>{{ requestcoin.coinsymbol }}</td>
+                            <td>{{ requestcoin.issuedprice }}</td>
+                            @if( requestcoin.status == 1 )
+                              <td>Approved</td>
+                            @elseif( requestcoin.status == 2 )
+                              <td>Un Approved</td>
+                            @else
+                              <td>Pending</td>
+                            @endif
+                              </tr>
+                            @endeach
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        <div class="login-list w-100 mb-0">
+            <legend class="pb-4 mt-4 border-bottom">{{ antl.formatMessage('keywords.last_login') }}</legend>
+            <div class="card  mt-4 shadow ">
+                <div class="table-scroll mb-0">
+                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                    <thead>
+                        <tr class="grey-text">
+                            <th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
+                            <th scope="col">{{ antl.formatMessage('keywords.ip_address') }}</th>
+                            <th scope="col">{{ antl.formatMessage('keywords.location') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="scroll-body table_accounts_body common-tbody">
+                        @each(history in histories.rows)
+                        <tr>
+                            <td>{{ history.created_at }}</td>
+                            <td>{{ history.ip_address }}</td>
+                            <td>{{ history.location }}</td>
+                        </tr>
+                        @endeach
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+
+        <div class="orders-list w-100 mb-0">
+            <legend class="pb-4 mt-4 border-bottom">Order Histories</legend>
+            <div class="card  mt-4 shadow ">
+                <div class="table-scroll mb-0">
+                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                    <thead>
+                      <tr class="grey-text">
+                          <th scope="col">Date</th>
+                          <th scope="col">Pair</th>
+                          <th scope="col">Type</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Stop Limit</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Fees</th>
+                          <th scope="col">Filled%</th>
+                          <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody class="scroll-body table_accounts_body common-tbody">
+                        @if( orders.rows.length )
+                            @each(order in orders.rows)
+                            <tr>
+                                <td style="padding:0;">{{ order.created_at }}</td>
+                                <td>{{ (order.pair).toUpperCase() }}</td>
+                                <td>
+                                    @if( order.order_type == 0 )
+                                        Buy
+                                    @elseif( order.order_type == 1 )
+                                        Sell
+                                    @elseif( order.order_type == 3 )
+                                        Buy
+                                    @elseif( order.order_type == 4 )
+                                        Sell
+                                    @else
+                                        Exchange
+                                    @endif
+                                </td>
+                                <td>{{ order.price }}</td>
+                                <td>{{ order.stop_amout }}</td>
+                                <td>{{ order.amount }}</td>
+                                <td>{{ order.fees }}</td>
+                                <td>{{ ( ( ( (order.amount - order.remain) * 100 ) / order.amount ) ).toFixed(2) }}</td>
+                                <td>{{ (order.total).toFixed(2) }}</td>
+                            </tr>
+                            @endeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+<div class="modal" id="walletMessagePopup">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <h6 class="text-danger">ACTIVE THE WALLETS FROM YOUR PROFILE, BEFORE TO PROCEED IN ANY DEPOSIT OR TRADE</h6>
+                <hr>
+                <a href="{{ route('wallets') }}">Go to Wallets</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .btn-action {
+        padding: .5rem 1rem;
+    }
+    .table td,
+    .table th {
+        vertical-align: middle;
+    }
+</style>
+
+<script type="text/javascript">
+ $(document).ready(function(){
+$('#coin_value').keypress(function(event) {
+  if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+    event.preventDefault();
+    $('.request-auth-message').html('<div class="alert alert-danger">Allow Numeric Value Only</div>');
+  
+  }
+  else
+  {
+  $('.request-auth-message').html('');
+  
+  }
+});
+   }); 
+    $(document).ready(function(){
+
+
+        $('select[name="countryCode"] option[value="{{auth.user.mobile_country_code}}"]').attr('selected', 'selected');
+
+        @if( walletsCount == 0 )
+            $('#walletMessagePopup').modal('show');
+        @endif
+
+        setTimeout(function(){
+            $('#walletMessagePopup').modal('hide');
+        }, 8000)
+
+        $('#change-password-sms-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('change-password-sms') }}",
+                type : 'post',
+                data : $('#change-password-sms-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.change-password-sms-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.change-password-sms-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#change-password-sms-form').trigger('reset');
+
+                }
+            });
+
+        });
+
+        $(document).find('.send-password-sms-button').on('click', function(){
+
+            $.ajax({
+                url : "{{ route('send-password-sms') }}",
+                type : 'get',
+                success : function(response){
+                    
+                    if(response.error){
+                        $('.password-sms-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.password-sms-message').html('<div class="alert alert-success">' + response.message.otp + '</div>');
+                }
+            });
+
+        });
+
+        $('#change-password-2fa-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('change-password-2fa') }}",
+                type : 'post',
+                data : $('#change-password-2fa-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.change-password-2fa-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.change-password-2fa-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#change-password-2fa-form').trigger('reset');
+
+                }
+            });
+
+        });
+
+        $(document).find('.send-sms-button').on('click', function(){
+
+            $.ajax({
+                url : "{{ route('send-sms') }}",
+                type : 'post',
+                data : $(this).closest('form').serialize(),
+                success : function(response){
+                    
+                    if(response.error){
+                        $('.sms-auth-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.sms-auth-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                }
+            });
+
+        });
+
+        $('#enable-sms-auth-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('enable-sms-auth') }}",
+                type : 'post',
+                data : $('#enable-sms-auth-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.sms-auth-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.sms-auth-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#enable-sms-auth-form').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+
+        $('#disable-sms-auth-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('disable-sms-auth') }}",
+                type : 'post',
+                data : $('#disable-sms-auth-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.sms-auth-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.sms-auth-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#disable-sms-auth-form').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+    
+    
+  $('#enable-request-auth-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('enable-request-auth') }}",
+                type : 'post',
+                data : $('#enable-request-auth-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.request-auth-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.request-auth-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#enable-request-auth-form').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+    
+        $('#enable-2fa-code').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('enable-2fa') }}",
+                type : 'post',
+                data : $('#enable-2fa-code').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.tfa-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.tfa-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#enable-2fa-code').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+
+        $('#disable-2fa-code').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('disable-2fa') }}",
+                type : 'post',
+                data : $('#disable-2fa-code').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.tfa-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.tfa-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#disable-2fa-code').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+
+        $(document).find('.btn-next').on('click', function(){
+
+            var id = $(this).closest('.tab-pane').attr('id');
+
+            $(this).closest('.tab-pane').removeClass('active').removeClass('show');
+            $(this).closest('.tab-pane').next('.tab-pane').addClass('active').addClass('show');
+            $('#' + id + '-tab').removeClass('active').removeClass('show');
+            $('#' + id + '-tab').closest('.nav-item').next('.nav-item').find('a').addClass('active').addClass('show');
+
+        });
+
+        $(document).find('.btn-prev').on('click', function(){
+
+            var id = $(this).closest('.tab-pane').attr('id');
+
+            $(this).closest('.tab-pane').removeClass('active').removeClass('show');
+            $(this).closest('.tab-pane').prev('.tab-pane').addClass('active').addClass('show');
+            $('#' + id + '-tab').removeClass('active').removeClass('show');
+            $('#' + id + '-tab').closest('.nav-item').prev('.nav-item').find('a').addClass('active').addClass('show');
+
+        });
+
+        $('#anti-phishing-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('anti-phishing') }}",
+                type : 'post',
+                data : $('#anti-phishing-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.anti-phishing-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.anti-phishing-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#anti-phishing-form').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+    
+    $('#disableanti-phishing-form').submit(function(event){
+
+            event.preventDefault();
+
+            $.ajax({
+                url : "{{ route('disableanti-phishing') }}",
+                type : 'post',
+                data : $('#disableanti-phishing-form').serialize(),
+                success: function(response){
+                    
+                    if(response.error){
+                        $('.disableanti-phishing-message').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('.anti-phishing-message').html('<div class="alert alert-success">' + response.message + '</div>');
+                    $('#disableanti-phishing-form').trigger('reset');
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+
+                }
+            });
+
+        });
+
+        $(document).find('.btn-device-remove').on('click', function(){
+
+            var device_id = $(this).attr('data-id');
+
+            $.ajax({
+                url : "{{ url + '/remove-device/' }}" + device_id,
+                success : function(response){
+                    window.location.reload();
+                }
+            });
+
+        });
+
+        $('.btn-tfa-status').click(function(){
+            $('html, body').animate({
+                scrollTop: ( $('#tfa-block').offset().top - 40)
+            }, 1000);
+        });
+
+        $('.btn-change-password').click(function(){
+            $('a[href="#change-password-tab"]').trigger('click');
+        });
+
+        $('.btn-anti-phishing-status').click(function(){
+            $('a[href="#anti-phishing-tab"]').trigger('click');
+        });
+
+        $('.btn-sms-auth-status').click(function(){
+            $('a[href="#sms-auth-tab"]').trigger('click');
+        });
+
+        $('#profile_pic').on('change', function(){
+
+            if (this.files && this.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#user-profile').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            }
+
+            $('#profileForm').submit();
+
+        });
+
+        $('#profileForm').on('submit', function(event){
+
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            var _token = $(this).find('input[name="_csrf"]').val()
+
+            $.ajax({
+                url : "{{ route('profile-pic') }}",
+                type : "post",
+                data : formData,
+                processData: false,
+                cache:false,
+                contentType: false,
+                headers : {
+                    'X-CSRF-TOKEN' : _token
+                },
+                success : function(result) {
+
+                    if( result.error ){
+                        $('#profileMsg').html('<div class="alert alert-danger">' + result.message + '</div>');
+                        setTimeout(function(){ $('#profileMsg').find('.alert').remove() }, 3000);
+                        return;
+                    }
+
+                    $('#profileMsg').html('<div class="alert alert-success">' + result.message + '</div>');
+                    $('#remove-profile').css('display', 'block');
+                    setTimeout(function(){ $('#profileMsg').find('.alert').remove() }, 3000);
+                }
+            });
+        })
+
+        $('#remove-profile').on('click', function(){
+            $.ajax({
+                url : "{{ route('remove-profile') }}",
+                type : 'get',
+                success : function(response){
+                    
+                    if(response.error){
+                        $('#profileMsg').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        return;
+                    }
+
+                    $('#user-profile').attr('src', "{{ assetsUrl('images/user.png') }}");
+                    $('#remove-profile').css('display', 'none');
+                    $('#profileMsg').html('<div class="alert alert-success">' + response.message + '</div>');
+                }
+            });
+        });
+    });
+</script>
+
+@endsection

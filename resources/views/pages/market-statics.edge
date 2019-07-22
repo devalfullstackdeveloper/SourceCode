@@ -1,0 +1,141 @@
+@layout('layouts.default')
+
+@section('content')
+<div class="main-content">
+    <section class="pages-banner-section">
+        <h2 class="page-title">{{ antl.formatMessage('keywords.market_statics') }}</h2>
+    </section>
+    <section class="stats-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="d-md-flex align-items-center mt-5">
+                       <h3 class="feature-title">{{ antl.formatMessage('keywords.currency_pairs') }}</h3>
+                        <div class="col-md-2 searchnew mb-3 mt-3" style="margin-left: auto;">
+                        <input type="text" name="search" id="search" class="form-control" placeholder="search here..">
+                         <i class="fa fa-search active"></i>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive-lg table-stats text-center mt-3">
+                        <table class="table table-striped table-bordered trade-ui--table">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="white-text">{{ antl.formatMessage('keywords.pair') }}</th>
+                                    <th class="white-text">{{ antl.formatMessage('keywords.coin') }}</th>
+                                    <th class="white-text">{{ antl.formatMessage('keywords.last_price') }}</th>
+                                    <th class="white-text">{{ antl.formatMessage('keywords.24h_change') }}</th>
+                                    <th class="white-text">{{ antl.formatMessage('keywords.24h_high') }}</th>
+                                    <th class="white-text">{{ antl.formatMessage('keywords.24h_low') }}</th>
+                                    <th class="white-text">{{ antl.formatMessage('keywords.24h_volume') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @each(pair in pairs.usd.rows)
+                                <tr id="{{ pair.pair_key }}">
+                                    <td>{{ pair.pair_name }}</td>
+                                    <td class="text-left">
+                                        <img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                @endeach
+                                @each(pair in pairs.euro.rows)
+                                <tr id="{{ pair.pair_key }}">
+                                    <td>{{ pair.pair_name }}</td>
+                                    <td class="text-left">
+                                        <img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                @endeach
+                                @each(pair in pairs.btc.rows)
+                                <tr id="{{ pair.pair_key }}">
+                                    <td>{{ pair.pair_name }}</td>
+                                    <td class="text-left">
+                                        <img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                @endeach
+                                @each(pair in pairs.eth.rows)
+                                <tr id="{{ pair.pair_key }}">
+                                    <td>{{ pair.pair_name }}</td>
+                                    <td class="text-left">
+                                        <img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                @endeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    isArray = function(a) {
+        return (!!a) && (a.constructor === Array);
+    };
+</script>
+
+<script type="text/javascript">
+
+var pair = '{{ pairs.allPairs }}';
+var custRates = {{{ pairs.custRates }}};
+
+function tickerInfos() {
+    $.get('{{ route("api.ticker") }}?symbols='+ pair, function(response){
+
+        console.log(response);
+
+        if( ! response[0] ) {
+            console.error('Sorry unable to get pair data.');
+            return;
+        }
+
+        response.forEach(function(pair) {
+
+            var pairID = (pair[0]).replace('t', '').toLowerCase();
+
+            var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat(custRates[pairID]) ) / 100 );
+
+            $('#'+pairID+' td:nth-child(3)').text(price.toFixed(6));
+            if(parseFloat(pair[5]) >= 0){
+                $('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-success');
+            } else {
+                $('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-danger');
+            }
+            $('#'+pairID+' td:nth-child(4)').text( parseFloat( ( pair[6] ) * 100 ).toFixed(1) + '%' );
+            $('#'+pairID+' td:nth-child(5)').text(pair[9]);
+            $('#'+pairID+' td:nth-child(6)').text(pair[10]);
+            $('#'+pairID+' td:nth-child(7)').text(pair[8]);
+        });
+    });
+}
+
+setInterval(tickerInfos, 5000);
+
+</script>
+
+@endsection

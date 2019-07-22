@@ -1,0 +1,97 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', 'Edit Slider - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Edit URL</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Edit URL</h4>
+					<form method="post" action="{{ route('admin.Sitemap.edit', {id : SitemapData.id}) }}" enctype="multipart/form-data">
+                        {{ csrfField() }}
+                        <div class="form-group row">
+                   
+                              <div class="col-md-3">
+                                  <label style="padding-top:8px;">
+                                      Parent:
+                                  </label>
+                                  </div> 
+                                  <div class="col-md-9">
+                                        <select required class="form-control" name="parent" autofocus="true" value="{{ old('Parent', '') }}">
+                                      
+                                                <option value="0" style="color:black;">-- Select Parent --</option>
+                                                @each(Data in allData.rows)
+                                                   @if(Data.id == parentID)
+                                                    <option selected value="{{Data.id}}" style="color:black;">{{ Data.title }}</option>  
+                                                  @else
+                                               <option value="{{ Data.id }}" style="color:black;">{{ Data.title }}</option>
+                                               @endif
+                                                @endeach
+                                               
+                                              
+                                               
+                                              </select>
+                                      </div>                           
+                              <i class="form-group__bar"></i>
+                          </div>
+                          <div class="form-group row">
+                            
+                                <div class="col-md-3">
+                                    <label style="padding-top:8px;">
+                                        Title:
+                                    </label>
+                                    </div> 
+                                    <div class="col-md-9">
+							<input type="text" class="form-control" name="title" placeholder="Title" autofocus="true" value="{{ old('title', SitemapData.title) }}">
+							<i class="form-group__bar"></i>
+                        </div>
+                    </div>
+						{{ elIf('<p class="text-danger">$self</p>', getErrorFor('title'), hasErrorFor('title')) }}
+						<div class="form-group row">
+                            
+                                <div class="col-md-3">
+                                    <label style="padding-top:8px;">
+                                            Description:
+                                    </label>
+                                    </div> 
+                                    <div class="col-md-9">
+							<input type="text" class="form-control" name="Description" placeholder="Description" value="{{ old('Description', SitemapData.description) }}">
+							<i class="form-group__bar"></i>
+						</div></div>
+                        {{ elIf('<p class="text-danger">$self</p>', getErrorFor('Description'), hasErrorFor('Description')) }}
+                        <div class="form-group row">
+                            
+                                <div class="col-md-3">
+                                    <label style="padding-top:8px;">
+                                            URL:
+                                    </label>
+                                    </div> 
+                                    <div class="col-md-9">
+                                <input type="text" class="form-control" name="URL" placeholder="URL" value="{{ old('URL', SitemapData.URL) }}">
+                                <i class="form-group__bar"></i>
+                            </div></div>
+                            {{ elIf('<p class="text-danger">$self</p>', getErrorFor('URL'), hasErrorFor('URL')) }}
+						
+					
+                            <button type="submit" class="btn btn-success">Save URL</button>
+                      
+					</form>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</section>
+@endsection
+
+@section('script')
+@endsection

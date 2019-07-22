@@ -1,0 +1,49 @@
+@layout('admin.layouts.default')
+
+@section('vars')
+	@set('title', user.coin + ' - Zithex')
+@endsection
+
+@section('content')
+<section class="content">
+
+	<header class="content__title">
+		<h1>Withdraw  Request</h1>
+	</header>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+				@each(users in user.rows)
+					<form method="post" action="{{ route('admin.withdrawfund.edit', {id : users.id}) }}">
+						{{ csrfField() }}
+						<div class="form-group">
+							<label for="name">Coin</label>
+							<input type="text" name="coin" class="form-control" value="{{ users.currency }}" readonly>
+							<i class="form-group__bar"></i> 
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('coin'), hasErrorFor('coin')) }}
+						</div>
+						<div class="form-group">
+							<label for="name">Address</label>
+							<input type="text" name="publickey" class="form-control" value="{{ users.waddress }}" readonly> 
+							<i class="form-group__bar"></i>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('public_address'), hasErrorFor('public_address')) }}
+						</div>
+							<div class="form-group">
+							<label for="name">Request Amount</label>
+							<input type="text" name="requestamount" class="form-control" value="{{ users.wamount }}" readonly>
+							<i class="form-group__bar"></i>
+							{{ elIf('<span class="text-danger">$self</span>', getErrorFor('public_address'), hasErrorFor('public_address')) }}
+						</div>
+					@endeach
+						<button type="submit" class="btn btn-success">Transfer Fund</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</section>
+@endsection

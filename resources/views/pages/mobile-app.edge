@@ -1,0 +1,22 @@
+@layout('layouts.default')
+
+@section('content')
+<div class="main-content">
+    <section class="pages-banner-section">
+        <h2 class="page-title">{{ antl.formatMessage('keywords.our_application') }}</h2>
+    </section>
+    <h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Mobile Apps - Zithex Global</h1>
+    <section class="mobile-section">
+        <div class="container">
+            <div class="row">
+                <div class="offset-md-4 col-md-4 col-sm-12">
+                    <div class="app-feature shadow aos-init" data-aos="flip-down" data-aos-duration="500">
+                        <img src="{{ assetsUrl('images/notification.svg') }}" alt="Image" title="Stay Connected" width="100">
+                        <h5>{{ antl.formatMessage('keywords.coming_soon') }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@endsection

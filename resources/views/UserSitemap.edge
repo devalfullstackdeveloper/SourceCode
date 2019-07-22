@@ -1,0 +1,121 @@
+@layout('layouts.default')
+@section('title')
+<title>User Sitemap – Zithex Global</title>
+
+
+@endsection
+@section('style')
+{{ style('css/sitemap.css') }}
+@endsection
+@section('content')
+
+<div class="container" style="margin-top:50px;">
+ <h1 class="text-center">Sitemap</h1>
+ <div class="row" style="margin-top:20px;">
+     <div class=""></div>
+     <div class="col-md-12">
+        <div class="shadow mt-md-5 mt-4  p-md-5 p-2 sitemap-links">
+         <div class="text-center pb-4">
+            <i class="fas fa-sitemap shadow"></i>
+        </div>
+                <ol id="test" class="dont">
+                    </ol>
+        </div>
+        </div>
+ </div>
+</div>
+          @section("script")
+        <script>
+
+$(document).ready(function(){
+var mainData;
+
+$.ajax({
+    url		: "{{ route('sitemap.Data') }}",
+    type	: 'GET',
+    success : function(response){
+
+        if( ! response.success ){
+
+            alert(response.message);
+            return;
+        }
+      
+     data = response.message;
+     window.mainData = data;
+    
+       
+         console.log(data);
+         var testData = [];
+         var div = document.getElementById("test");
+        data.forEach(i => {
+          
+
+            
+            var temp = "";
+            var t = 0;
+          data.forEach(j => {
+                   
+             if(i.id != j.id )
+             {
+                 if(i.id == j.parentID)
+                 { 
+                     t=1;
+                 temp = temp  + "<li class='"+ j.title +"'><a href='"+ j.URL +"'  >"+ j.title +"</a></li>";
+                 testData.push(j.title);
+                 }
+             }
+        
+       
+          } );
+          if(t == 1)
+          {
+          var UL = "<li class='no' id='"+i.title+"' ><a href='"+ i.URL +"' >"+ i.title +"</a><ul class='"+ i.title +"'>" + temp + "</ul></li>";
+          }
+          else{
+            var UL = "<li class='no' id='"+i.title+"'> <a href='"+ i.URL +"'  > " + i.title + "</a></li>";
+          }
+     
+          div.innerHTML = div.innerHTML + UL;
+          console.log(UL);
+          
+
+        });
+         
+         var ul =  document.getElementsByTagName("UL");
+         var li = document.getElementsByTagName("LI");
+
+         for (let i = 0; i < ul.length; i++) {
+            
+            for (let j = 0; j < li.length; j++) {
+            
+                 if(ul[i].className == li[j].className && ul[i].className != "dont"){
+                     li[j].appendChild(ul[i]);
+                   
+                    break;
+                     
+                 }
+        }
+             
+         }
+       console.log(div);
+       console.log(testData);
+
+    testData.forEach(element => {
+
+        $("#"+element).remove();
+    });
+  
+
+
+    }
+});
+
+
+
+
+});
+        </script>
+      
+@endsection
+@endsection
