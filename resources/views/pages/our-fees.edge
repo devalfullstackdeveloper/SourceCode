@@ -1,8 +1,8 @@
-@layout('layouts.default')
+@layout('layouts.defaultnew')
 
 @section('content')
 
-<div class="main-content">
+<!--<div class="main-content">
 	<section class="pages-banner-section">
 		<h2 class="page-title">{{ antl.formatMessage('keywords.our_fees') }}</h2>
 	</section>
@@ -15,6 +15,49 @@
 			</div>
 		</div>
 	</section>
-</div>
+</div>-->
+<section class="space-md bg-gradient">
+    <div class="container">
+      <div class="row mt-5 text-center">
+        <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+          <h1 class="display-4 text-white">The Lowest Fees Ever!</h1>
+          <p class="lead text-white opacity-70 mb-0">Zithex Global is here to offer the lowest fees of the market.
+            You can see our fees below, based on user's level:</p>
+        </div>
+      </div>
+
+      <div class="row mt-7">
+        <div class="col-12 col-md-4">
+          <div class="card card-fees text-center">
+            <div class="card-body">
+              <h4>Level 1</h4>
+              <h1 class="display-4">0,04%</h1>
+              <h6 class="text-uppercase font-weight-bold mb-0">Per Trade / Exchange</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 mt-3 mt-md-0">
+          <div class="card card-fees text-center">
+            <div class="card-body">
+              <h4>Level 2</h4>
+              <h1 class="display-4">0,035%</h1>
+              <h6 class="text-uppercase font-weight-bold mb-0">Per Trade / Exchange</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 mt-3 mt-md-0">
+          <div class="card card-fees text-center">
+            <div class="card-body">
+              <h4>Level 3</h4>
+              <h1 class="display-4">0,03%</h1>
+              <h6 class="text-uppercase font-weight-bold mb-0">Per Trade / Exchange</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 @endsection
