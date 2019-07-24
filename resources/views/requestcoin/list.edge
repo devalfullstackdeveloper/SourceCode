@@ -1,22 +1,31 @@
-@layout('layouts.default')
+@layout('layouts.defaultnew')
 
 @section('vars')
-	@set('title', 'RequestCoin - Zithex')
+	@set('title', 'List Your Coin | CryptoFxSpace')
 @endsection
 
 @section('content')
-<div class="main-content">
 
-<!-- banner -->
-<section class="pages-banner-section" style="background-image:url('/images/headerimages/{{{coins.headerImage.image}}} ">
-	<h2 class="page-title">Listing a Coin on Zithex.com</h2>
-</section>
-<!-- FAQ section -->
-<section class="faq-section">
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-	@if(flashMessage('error'))
+
+<section class="bg-gradient text-center">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-12">
+          <h6 class="text-uppercase text-white">List Your Coin</h6>
+          <h1 class="display-4 text-white mb-0">Please fill out the information to list your coin.</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+    <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6 mx-auto">
+
+
+        @if(flashMessage('error'))
                             <div class="alert alert-danger mb-4">
                                 {{ flashMessage('error') }}
                             </div>
@@ -26,496 +35,404 @@
                                 {{ flashMessage('success') }}
                             </div>
                         @endif
-	<div class="request-auth-message text-center">
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname'), hasErrorFor('projectname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('tokenname'), hasErrorFor('tokenname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('tokenname'), hasErrorFor('tokenname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol'), hasErrorFor('coinsymbol')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('email'), hasErrorFor('email')) }}
+  <div class="request-auth-message text-center">
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname'), hasErrorFor('projectname')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('tokenname'), hasErrorFor('tokenname')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('tokenname'), hasErrorFor('tokenname')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol'), hasErrorFor('coinsymbol')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('email'), hasErrorFor('email')) }}
     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('emailaddress'), hasErrorFor('emailaddress')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('fullname'), hasErrorFor('fullname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('companyname'), hasErrorFor('companyname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}  
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('onesentence'), hasErrorFor('onesentence')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname2'), hasErrorFor('projectname2')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol2'), hasErrorFor('coinsymbol2')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinname2'), hasErrorFor('coinname2')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('officialweb'), hasErrorFor('officialweb')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('permalink'), hasErrorFor('permalink')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinfname'), hasErrorFor('coinfname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinaname'), hasErrorFor('coinaname')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedate'), hasErrorFor('issuedate')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedprice'), hasErrorFor('issuedprice')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('totalsupply'), hasErrorFor('totalsupply')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('maxsupply'), hasErrorFor('maxsupply')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('circulsupply'), hasErrorFor('circulsupply')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('prooftype'), hasErrorFor('prooftype')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('ealgo'), hasErrorFor('ealgo')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('website'), hasErrorFor('website')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('explorer'), hasErrorFor('explorer')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('sourcecode'), hasErrorFor('sourcecode')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('whitep'), hasErrorFor('whitep')) }}
-	{{ elIf('<p class="text-danger">$self</p>', getErrorFor('intro'), hasErrorFor('intro')) }}
-	</div>
-       <!-- multistep form -->
-	
-		<form id="msform" class="form-ui-zithex"  method="post" action="{{ route('enable-request') }}" enctype="multipart/form-data">
-          <!-- fieldsets -->
-		   {{ csrfField() }}
-          <fieldset>
-                <h4 class="col-sm-12 form-sec-head">Fill Out Basic Information</h4>
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Project Name</label>
-                       <input type="text" name="projectname" placeholder="Enter Project Name" class="form-control">
-                   </div>
-               </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname'), hasErrorFor('projectname')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Token/Coin Full Name</label>
-                       <input type="text" name="tokenname" placeholder="Enter Token/Coin Full Name" class="form-control">
-                   </div>
-               </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('tokenname'), hasErrorFor('tokenname')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Token/Coin Symbol</label>
-                       <input type="text" name="coinsymbol" placeholder="Enter Token/Coin Symbol" class="form-control">
-                   </div>
-               </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol'), hasErrorFor('coinsymbol')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Email</label>
-                       <input type="email" name="email" placeholder="Enter Email" class="form-control">
-                   </div>
-               </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('email'), hasErrorFor('email')) }}
-			   
-                <input type="button" name="next" class="next action-button" value="Next" /> 
-          </fieldset>
-		  <fieldset>
-                <h4 class="col-sm-12 form-sec-head">Listing Application</h4>
-                <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Email Address</label>
-                       <input type="text" name="emailaddress" placeholder="text@yopmail.com" class="form-control">
-                   </div>
-               </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('emailaddress'), hasErrorFor('emailaddress')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide your full Name </label>
-                       <input type="text" name="fullname" placeholder="testuser" class="form-control">
-                   </div>
-               </div>
-			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('fullname'), hasErrorFor('fullname')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide the name of  your company </label>
-                       <input type="text" name="companyname" placeholder="testcmp" class="form-control">
-                   </div>
-               </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('fullname'), hasErrorFor('fullname')) }}
   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('companyname'), hasErrorFor('companyname')) }}
-               <div class="col-sm-12">
-                   <div class="form-group d-inline-block">
-                        <label>Plese Confirm your position  with the company
-                            <br>
-                            <small>Tick all that apply. if other" . please specify.</small>
-                         </label>
-                        <ul class="zithex--ui-check" id="group5">
-                          <li>
-                            <label style="padding-left: 0;padding-top: 7px;" for="ceo"><input type="checkbox" id="ceo" name="group5" checked="">
-                            CEO</label>
-                            <div class="checkbox"></div>
-                          </li>
-                          <li>
-                            <label style="padding-left: 0;padding-top: 7px;" for="founder"><input type="checkbox" id="founder" name="group5">
-                            Founder /CoFounder</label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                          </li>
-                          <li>
-                           <label style="padding-left: 0;padding-top: 7px;" for="other"> <input type="checkbox" id="other" name="group5">
-                            other </label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                           
-                          </li>
-                          <li class="w-25">
-                           
-                            <input type="text" name="otherposition" class="form-control">
-                          </li>
-                        </ul>
-                    </div>
-                </div>
-
-               <div class="col-sm-12">
-                <div class="form-group">
-                    <label>ICON Image</label>
-                   <input type="file"  placeholder="Enter Project Name" class="form-control" id="iconimage" name="iconimage" accept="image/*">
-                </div>
-                       {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}  
-                   
-               </div>
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please give us  your best one-sentence pitch for the token /coin the "Project"
-                            <br>
-                            <small>E.g. Ripple "enterprise payment sattlement network"</small></label>
-                       <input type="text" name="onesentence" placeholder="xxx coin" class="form-control">
-                   </div>
-               </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}  
   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('onesentence'), hasErrorFor('onesentence')) }}
-               <div class=" col-sm-12">
-               <div class="form-group">
-                    <label>Have you previously submittted a listing application for the token / coin?</label>
-                    <ul class="zithex--ui-check" id="group4">
-                      <li>
-                        <input type="radio" id="last-application" name="group4" checked="">
-                        <label for="last-application">You I have update since last application that I would like to share</label>
-                        <div class="check"></div>
-                      </li>
-                      <li>
-                        <input type="radio" id="first-listing" name="group4">
-                        <label for="first-listing">No This is my first listing application</label>
-                        <div class="check"><div class="inside"></div></div>
-                      </li>
-                    </ul>
-                </div>
-            </div>
-
-                 <input type="button" name="previous" class="previous action-button" value="Previous" />
-                <input type="button" name="next" class="next action-button" value="Next" /> 
-          </fieldset>
-		  <fieldset>
-                <h4 class="col-sm-12 form-sec-head">Project Overview</h4>
-                <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide the Project Name </label>
-                       <input type="text" name="projectname2" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>
-			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname2'), hasErrorFor('projectname2')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide the token/coin name  </label>
-                       <input type="text" name="coinname2" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname2'), hasErrorFor('projectname2')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol2'), hasErrorFor('coinsymbol2')) }}
   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinname2'), hasErrorFor('coinname2')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide the token/coin symbol  </label>
-                       <input type="text" name="coinsymbol2" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>
-			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol2'), hasErrorFor('coinsymbol2')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide the project's official  website  </label>
-                       <input type="text" name="officialweb" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>
-			     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('officialweb'), hasErrorFor('officialweb')) }}
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please Provide a permanent link to the project's Whitepaper </label>
-                       <input type="text" name="permalink" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('permalink'), hasErrorFor('permalink')) }}
-
-              <!-- <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>What is the nature of  the Project?
-                           
-                         </label>
-                        <ul class="zithex--ui-check d-inline-block" id="group5">
-                          <li>
-                            <input type="checkbox" id="currency" name="group2" checked="">
-                            <label for="currency">Currency</label>
-                            <div class="checkbox"></div>
-                          </li>
-                          <li>
-                            <input type="checkbox" id="dapp" name="group2">
-                            <label for="dapp">Dapp</label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                          </li>
-                          <li>
-                            <input type="checkbox" id="payment-token" name="group5">
-                            <label for="payment-token">Payments Token</label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                           
-                          </li>
-
-                          <li>
-                            <input type="checkbox" id="protocol" name="group2" checked="">
-                            <label for="protocol">Protocol</label>
-                            <div class="checkbox"></div>
-                          </li>
-                          <li>
-                            <input type="checkbox" id="platform" name="group2">
-                            <label for="platform">Platform</label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                          </li>
-                          <li>
-                            <input type="checkbox" id="stable-coin" name="group2">
-                            <label for="stable-coin">Stable Coin </label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                           
-                          </li>
-                          <li>
-                            <input type="checkbox" id="other1" name="group2">
-                            <label for="other1">Other </label>
-                            <div class="checkbox"><div class="inside"></div></div>
-                           
-                          </li>
-
-                          <li class="w-100">
-                           
-                            <input type="text" name="othernature" class="form-control">
-                          </li>
-                          
-                        </ul>
-                    </div>
-                </div>-->
-
-            
-               <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>What is the main application of the Project?
-                            <br>
-                            <small>e.g. cloud computing file storage , marketplace and anti-counterfeiting, etc.</small></label>
-                       <input type="text" name="mainapp" placeholder="Your answer" class="form-control">
-                   </div>
-               </div> 
-
-                <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>What is the target industry of the Project?
-                            <br>
-                            <small>(e.g. finance, healthcare, supply chain, social media and energy, etc.)</small></label>
-                       <input type="text" name="targetind" placeholder="Your answer" class="form-control">
-                   </div> 
-               </div>
-
-                <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Who are the Project's competitors (crypto and non-crypto)? How does the Project plan to differentiate itself?
-                            </label>
-                       <input type="text" name="competitors" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>
-
-                <div class="col-sm-12">
-                   <div class="form-group">
-                        <label>Please provide any other information you would like to share.
-                        </label>
-                       <input type="text" name="anyotherinfp" placeholder="Your answer" class="form-control">
-                   </div>
-               </div>
-               <input type="button" name="previous" class="previous action-button" value="Previous" />
-               <input type="button" name="next" class="next action-button" value="Next" /> 
-                
-          </fieldset>
-		   <fieldset>
-		     <h4 class="col-sm-12 form-sec-head">Please Add</h4>
-        <!--   <div class="col-sm-12">
-               <div class="form-group" id="iconimage">
-                    <label>Icon Picture</label>
-                   <input type="file" name="upload-icon" placeholder="Enter Project Name" class="form-control" id="upload-icon" style="display: none;">
-                   <label for="upload-icon" class="upload-icon-lab">Upload</label>
-              
-               </div>
-           </div>-->
-		      {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}
-           <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Coin Full Name(is Required)</label>
-                    <input type="text" name="coinfname" class="form-control">
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinfname'), hasErrorFor('coinfname')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Coin Abbreviation(is Required)</label>
-                    <input type="text" name="coinaname" class="form-control">
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinaname'), hasErrorFor('coinaname')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Issue Date</label>
-                    <input type="date" name="issuedate" class="form-control">
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedate'), hasErrorFor('issuedate')) }}
-            <div class="col-sm-12">
-               <div class="form-group">
-                    <label>Issue Price</label>
-                    <input type="Number" name="issuedprice" class="form-control" placeholder="$">
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedprice'), hasErrorFor('issuedprice')) }}
-            <div class="col-sm-12">
-               <div class="form-group">
-                    <input type="Number" name="issuebprice" class="form-control" placeholder="B">
-                </div>
-            </div> 
-              {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuebprice'), hasErrorFor('issuebprice')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Total Supply</label>
-                    <input type="Number" name="totalsupply" class="form-control">
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('totalsupply'), hasErrorFor('totalsupply')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Max Supply</label>
-                    <input type="Number" name="maxsupply" class="form-control">
-                </div>
-            </div> 
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('maxsupply'), hasErrorFor('maxsupply')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Circulating Supply</label>
-                    <input type="Number" name="circulsupply" class="form-control">
-                </div>
-            </div>
-           {{ elIf('<p class="text-danger">$self</p>', getErrorFor('circulsupply'), hasErrorFor('circulsupply')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Proof type</label>
-                    <input type="text" name="prooftype" class="form-control" placeholder="POW/POS">
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('prooftype'), hasErrorFor('prooftype')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Encryption Algorithm</label>
-                    <input type="text" name="ealgo" class="form-control" placeholder="SHA256">
-                </div>
-            </div> 
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('ealgo'), hasErrorFor('ealgo')) }}
-            <div class="col-md-6 col-sm-12">
-               <div class="form-group">
-                    <label>Category</label>
-                    <ul class="zithex--ui-check" id="group4">
-                      <li>
-                        <input type="radio" id="coin" value="coin" name="group4" checked>
-                        <label for="coin">COIN</label>
-                        <div class="check"></div>
-                      </li>
-                      <li>
-                        <input type="radio" id="token" value="token" name="group4">
-                        <label for="token">TOKEN</label>
-                        <div class="check"><div class="inside"></div></div>
-                      </li>
-                    </ul>
-                </div>
-            </div>  <br>
-            <div class="col-sm-12">
-               <div class="form-group">
-                    <label>Website</label>
-                    <input type="text" name="website" class="form-control" placeholder="http://">
-                
-                </div>
-            </div>
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('website'), hasErrorFor('website')) }}
-            <div class="col-sm-12">
-               <div class="form-group">
-                    <label>Explorer</label>
-                    <input type="text" name="explorer" class="form-control" placeholder="http://">
-                </div>
-            </div>  
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('explorer'), hasErrorFor('explorer')) }}
-            <div class="col-sm-12">
-               
-            </div>
-           <!-- <div class="col-md-4 col-sm-12">
-               <div class="form-group">
-                    <label>Community</label>
-                    <select class="form-control">
-                        <option></option>
-                        <option>Telegram</option><option>Facebook</option><option>Twitter</option><option>Weibo</option><option>Youtube</option><option>Medium</option><option>Reddit</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-12">
-               <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" name="" class="form-control" placeholder="http://">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-12">
-               <div class="form-group">
-                    <label>URL</label>
-                    <input type="text" name="" class="form-control" placeholder="http://">
-                </div>
-            </div> -->
-            <div class="col-sm-12">
-              
-            </div>  
-            <div class="col-md-4 col-sm-12">
-               <div class="form-group">
-                    <label>Source Code</label>
-                    <input type="text" name="sourcecode" class="form-control" placeholder="http://">
-                </div> 
-            </div>  
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('sourcecode'), hasErrorFor('sourcecode')) }}
-          <!--  <div class="col-sm-12">
-               <div class="form-group" id="whitepaper">
-                    <label>White paper</label>
-                   <input type="file" name="whitep" placeholder="Enter Project Name" class="form-control" id="upload-wp" style="display: none;">
-                   <label for="upload-wp" class="upload-icon-lab">Upload</label>
-               </div>
-           </div>-->
-		      {{ elIf('<p class="text-danger">$self</p>', getErrorFor('whitep'), hasErrorFor('whitep')) }}
-           <div class="col-sm-12">
-               <div class="form-group">
-                    <label>Introduction</label>
-                    <textarea class="form-control text-control" name="intro"></textarea>
-                </div>
-            </div> 
-			   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('intro'), hasErrorFor('intro')) }}
-			   <input type="button" name="previous" class="previous action-button" value="Previous" />
-		      <input type="button" name="next" class="next action-button" value="Next" /> 
-		    </fieldset>
-          <fieldset>
-                <h4 class="col-sm-12 form-sec-head">Complete Detailed Information</h4>
-                <div class="col-sm-12">
-                   <a href="javascript:void()" class="form-box shadow waves-effect waves-light">
-                       <div class="form-icon">
-                            <i class="fas fa-folder-plus"></i>       
-                       </div>
-                       <h5>Zithex Listing Application Form</h5>
-                       <small>I have completed all information required in the google form.</small>
-                   </a>
-                   <a href="javascript:void()" class="form-box shadow waves-effect waves-light">
-                       <div class="form-icon">
-                        <i class="fab fa-folder-plus"></i>       
-                       </div>
-                       <h5>Zithex Info Information</h5>
-                       <small>I have completed all details required in the Zithex Info Webpage.</small>
-                    </a> 
-                </div>
-                <div class="col-sm-12">
-                   
-                </div>
-                <input type="button" name="previous" class="previous action-button" value="Previous" />
-                <input type="submit" name="submit"  class="submit action-button float-right" value="Submit" />
-          </fieldset>
-        </form>
-	
-		
-    </div>
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('officialweb'), hasErrorFor('officialweb')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('permalink'), hasErrorFor('permalink')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinfname'), hasErrorFor('coinfname')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinaname'), hasErrorFor('coinaname')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedate'), hasErrorFor('issuedate')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedprice'), hasErrorFor('issuedprice')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('totalsupply'), hasErrorFor('totalsupply')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('maxsupply'), hasErrorFor('maxsupply')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('circulsupply'), hasErrorFor('circulsupply')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('prooftype'), hasErrorFor('prooftype')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('ealgo'), hasErrorFor('ealgo')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('website'), hasErrorFor('website')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('explorer'), hasErrorFor('explorer')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('sourcecode'), hasErrorFor('sourcecode')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('whitep'), hasErrorFor('whitep')) }}
+  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('intro'), hasErrorFor('intro')) }}
   </div>
-</div>
-</section>
-</div>
-<!-- main-content-end -->
-<!-- Footer -->
+
+          <div class="stepwizard mb-5">
+            <div class="stepwizard-row setup-card">
+              <div class="stepwizard-step col-xs-3">
+                <a href="#step-1" class="btn btn-yellow btn-circle">1</a>
+                <p class="font-weight-bold">Basic Information</p>
+              </div>
+              <div class="stepwizard-step col-xs-3">
+                <a href="#step-2" class="btn btn-light btn-circle" disabled="disabled">2</a>
+                <p class="font-weight-bold">Listing Application</p>
+              </div>
+              <div class="stepwizard-step col-xs-3">
+                <a href="#step-3" class="btn btn-light btn-circle" disabled="disabled">3</a>
+                <p class="font-weight-bold">Project Overview</p>
+              </div>
+              <div class="stepwizard-step col-xs-3">
+                <a href="#step-4" class="btn btn-light btn-circle" disabled="disabled">4</a>
+                <p class="font-weight-bold">Coin Details</p>
+              </div>
+            </div>
+          </div>
+
+
+
+            <form id="msform" class="form-ui-zithex"  method="post" action="{{ route('enable-request') }}" enctype="multipart/form-data">
+          <!-- fieldsets -->
+          {{ csrfField() }}
+
+          <div class="card border-0 setup-content" id="step-1">
+              <div class="card-heading">
+                <h3 class="card-title mb-1">Fill out Basic Information</h3>
+                <p class="mb-4 text-muted"><span class="text-danger">*</span> fields are mandatory.</p>
+              </div>
+              <div class="card-body p-0">
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label>Project Name <span class="text-danger">*</span></label>
+                    <input type="text" name="projectname" class="form-control" placeholder="Enter Project Name" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname'), hasErrorFor('projectname')) }}
+
+                  <div class="col-sm-12">
+                   <div class="form-group">
+                        <label>Token/Coin Full Name <span class="text-danger">*</span></label>
+                       <input type="text" name="tokenname" placeholder="Enter Token/Coin Full Name" class="form-control" required>
+                   </div>
+               </div>
+               {{ elIf('<p class="text-danger">$self</p>', getErrorFor('tokenname'), hasErrorFor('tokenname')) }}
+                     <div class="col-sm-12">
+                         <div class="form-group">
+                              <label>Token/Coin Symbol <span class="text-danger">*</span></label>
+                             <input type="text" name="coinsymbol" placeholder="Enter Token/Coin Symbol" class="form-control" required>
+                         </div>
+                     </div>
+               {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol'), hasErrorFor('coinsymbol')) }}
+                     <div class="col-sm-12">
+                         <div class="form-group">
+                              <label>Email <span class="text-danger">*</span></label>
+                             <input type="email" name="email" placeholder="Enter Email" class="form-control" required>
+                         </div>
+                     </div>
+               {{ elIf('<p class="text-danger">$self</p>', getErrorFor('email'), hasErrorFor('email')) }}
+
+                  <div class="col-12 mt-2 text-right">
+                    <button class="btn btn-yellow nextBtn" type="button">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="card border-0 setup-content" id="step-2">
+              <div class="card-heading">
+                <h3 class="card-title mb-1">Listing Application</h3>
+                <p class="mb-4 text-muted"><span class="text-danger">*</span> fields are mandatory.</p>
+              </div>
+              <div class="card-body p-0">
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label>Email Address <span class="text-danger">*</span></label>
+                    <input type="email" name="emailaddress" class="form-control" placeholder="Enter Email Address" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('emailaddress'), hasErrorFor('emailaddress')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Full Name <span class="text-danger">*</span></label>
+                    <input type="text" name="fullname" class="form-control" placeholder="Enter Full Name" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('fullname'), hasErrorFor('fullname')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Company Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="companyname" placeholder="Enter Company Name" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('companyname'), hasErrorFor('companyname')) }}
+
+                  <div class="col-12 form-group">
+                    <label class="mb-0">Position <span class="text-danger">*</span></label>
+                    <p class="mb-2"><small>Tick all that apply. if other" . please specify.</small></p>
+                    <div class="mb-2">
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" id="customCheckboxInline1" name="group5"
+                          class="custom-control-input">
+                        <label class="custom-control-label" for="customCheckboxInline1">CEO</label>
+                      </div>
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" id="customCheckboxInline2" name="group5"
+                          class="custom-control-input">
+                        <label class="custom-control-label" for="customCheckboxInline2">Founder/Co-Founder</label>
+                      </div>
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" id="customCheckboxInline3" name="group5"
+                          class="custom-control-input">
+                        <label class="custom-control-label" for="customCheckboxInline3">Other</label>
+                      </div>
+                    </div>
+                    <input type="text" class="form-control" name="otherposition" placeholder="If Other, please specify your Position">
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>ICON Image <span class="text-danger">*</span></label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="iconimage" name="iconimage" accept="image/*">
+                      <label class="custom-file-label" for="iconimage">Choose file</label>
+                    </div>
+                  </div>
+
+                   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('upload-icon'), hasErrorFor('upload-icon')) }} 
+
+                  <div class="col-12 form-group">
+                    <label class="mb-0">Give us your best one-sentence pitch for the token/coin the "Project"
+                      <span class="text-danger">*</span></label>
+                    <p class="mb-2"><small>E.g. Ripple "enterprise payment sattlement network"</small></p>
+                    <input type="text" name="onesentence" class="form-control" placeholder="" required>
+                  </div>
+                   {{ elIf('<p class="text-danger">$self</p>', getErrorFor('onesentence'), hasErrorFor('onesentence')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Have you previously submittted a listing application for the token / coin? <span
+                        class="text-danger">*</span></label>
+                    <div class="mb-2">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" name="group4"
+                          class="custom-control-input" checked >
+                        <label class="custom-control-label" for="customRadio1">You I Have Update Since Last
+                          Application That I Would Like To Share</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" name="group4"
+                          class="custom-control-input">
+                        <label class="custom-control-label" for="customRadio2">No This Is My First Listing
+                          Application
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 text-right">
+                    <button class="btn btn-yellow nextBtn" type="button">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="card border-0 setup-content" id="step-3">
+              <div class="card-heading">
+                <h3 class="card-title mb-1">Project Overview</h3>
+                <p class="mb-4 text-muted"><span class="text-danger">*</span> fields are mandatory.</p>
+              </div>
+              <div class="card-body p-0">
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label class="control-label">Project Name <span class="text-danger">*</span></label>
+                    <input type="text" name="projectname2" class="form-control" placeholder="Enter Project Name" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('projectname2'), hasErrorFor('projectname2')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Token/Coin Full Name <span class="text-danger">*</span></label>
+                    <input type="text" name="coinname2" class="form-control" placeholder="Enter Token/Coin Full Name" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinname2'), hasErrorFor('coinname2')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Token/Coin Symbol <span class="text-danger">*</span></label>
+                    <input type="text" name="coinsymbol2" class="form-control" placeholder="Enter Token/Coin Symbol" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinsymbol2'), hasErrorFor('coinsymbol2')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Project's Official Website <span class="text-danger">*</span></label>
+                    <input type="url" class="form-control" name="officialweb" placeholder="Enter Project's Official Website" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('officialweb'), hasErrorFor('officialweb')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Permanent link to the project's Whitepaper <span class="text-danger">*</span></label>
+                    <input type="url" name="permalink" class="form-control" placeholder="" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('permalink'), hasErrorFor('permalink')) }}
+
+                  <div class="col-12 form-group">
+                    <label class="mb-0">What is the main application of the Project?</label>
+                     <p class="mb-2"><small>e.g. cloud computing file storage , marketplace and anti-counterfeiting, etc.</small></p>
+                    <input type="text" name="mainapp" class="form-control" placeholder="">
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label class="mb-0">What is the target industry of the Project?</label>
+                    <p class="mb-2"><small>e.g. finance, healthcare, supply chain, social media and energy, etc.</small></p>
+                    <input type="text" name="targetind" class="form-control" placeholder="" required>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Who are the Project's competitors (crypto and non-crypto)? How does the Project
+                      plan to differentiate itself?</label>
+                    <input type="text" name="competitors" class="form-control" placeholder="" required>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Please provide any other information you would like to share. </label>
+                    <input type="text" name="anyotherinfp" class="form-control" placeholder="" required>
+                  </div>
+
+                  <div class="col-12 text-right">
+                    <button class="btn btn-yellow nextBtn" type="button">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card border-0 setup-content" id="step-4">
+              <div class="card-heading">
+                <h3 class="card-title mb-1">Coin Details</h3>
+                <p class="mb-4 text-muted"><span class="text-danger">*</span> fields are mandatory.</p>
+              </div>
+              <div class="card-body p-0">
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label>Coin Full Name <span
+                        class="text-danger">*</span></label>
+                    <input type="text" name="coinaname" class="form-control" placeholder="" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinfname'), hasErrorFor('coinfname')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Coin Abbreviation <span class="text-danger">*</span></label>
+                    <input type="text" name="coinaname" class="form-control" placeholder="" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('coinaname'), hasErrorFor('coinaname')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Issue Date <span class="text-danger">*</span></label>
+                    <input type="date" name="issuedate" class="form-control" placeholder="" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedate'), hasErrorFor('issuedate')) }}
+
+                  <div class="col-12">
+                    <label>Issue Price <span class="text-danger">*</span></label>
+                  </div>
+
+                  <div class="col-6 form-group">
+                    <input type="text" name="issuedprice" class="form-control" placeholder="$" required>
+                    {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuedprice'), hasErrorFor('issuedprice')) }}
+                  </div>
+
+                  <div class="col-6 form-group">
+                    <input type="text" name="issuebprice" class="form-control" placeholder="BTC" required>
+                    {{ elIf('<p class="text-danger">$self</p>', getErrorFor('issuebprice'), hasErrorFor('issuebprice')) }}
+                  </div>
+
+                  <div class="col-6 form-group">
+                    <label>Total Supply <span class="text-danger">*</span></label>
+                    <input type="text" name="totalsupply" class="form-control" placeholder="" required>
+                     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('totalsupply'), hasErrorFor('totalsupply')) }}
+                  </div>
+
+                  <div class="col-6 form-group">
+                    <label>Max Supply <span class="text-danger">*</span></label>
+                    <input type="text" name="maxsupply" class="form-control" placeholder="" required>
+                     {{ elIf('<p class="text-danger">$self</p>', getErrorFor('maxsupply'), hasErrorFor('maxsupply')) }}
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Circulating Supply <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="circulsupply" placeholder="" required>
+                    {{ elIf('<p class="text-danger">$self</p>', getErrorFor('circulsupply'), hasErrorFor('circulsupply')) }}
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Proof type <span class="text-danger">*</span></label>
+                    <input type="text" name="prooftype" class="form-control" placeholder="POW/POS" required>
+                    {{ elIf('<p class="text-danger">$self</p>', getErrorFor('prooftype'), hasErrorFor('prooftype')) }}
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Encryption Algorithm <span class="text-danger">*</span></label>
+                    <input type="text" name="ealgo" class="form-control" placeholder="SHA256" required>
+                    {{ elIf('<p class="text-danger">$self</p>', getErrorFor('ealgo'), hasErrorFor('ealgo')) }}
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Category<span
+                        class="text-danger">*</span></label>
+                    <div class="mb-2">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="coin" value="coin" name="group4"
+                          class="custom-control-input" checked="">
+                        <label class="custom-control-label" for="coin">COIN</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="token" value="token" name="group4"
+                          class="custom-control-input">
+                        <label class="custom-control-label" for="token">TOKEN
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Website <span class="text-danger">*</span></label>
+                    <input type="url" name="website" class="form-control" placeholder="http://" required>
+                    {{ elIf('<p class="text-danger">$self</p>', getErrorFor('website'), hasErrorFor('website')) }}
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('website'), hasErrorFor('website')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Explorer <span class="text-danger">*</span></label>
+                    <input type="url" name="explorer" class="form-control" placeholder="http://" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('explorer'), hasErrorFor('explorer')) }}
+                  <div class="col-12 form-group">
+                    <label>Source code <span class="text-danger">*</span></label>
+                    <input type="url" name="sourcecode" class="form-control" placeholder="http://" required>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('sourcecode'), hasErrorFor('sourcecode')) }}
+
+                  <div class="col-12 form-group">
+                    <label>Introduction <span class="text-danger">*</span></label>
+                    <textarea class="form-control" name="intro" placeholder="" rows="4" required></textarea>
+                  </div>
+                  {{ elIf('<p class="text-danger">$self</p>', getErrorFor('intro'), hasErrorFor('intro')) }}
+
+                  <div class="col-12 text-right">
+                    <button class="btn btn-success" type="submit">Finish!</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+             </form>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+@endsection
+@section('script')
 
  
 <!--<script src="moment-timezone-with-data.js"></script> -->
@@ -677,6 +594,53 @@ $("#upload-wp").change(function () {
     filePreview(this);
 });
 </script>
+
+
+ <script>
+    $(document).ready(function () {
+
+      var navListItems = $('div.setup-card div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+
+      allWells.hide();
+
+      navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+          $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-yellow').addClass('btn-outline-light');
+          $item.addClass('btn-yellow');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+        }
+      });
+
+      allNextBtn.click(function () {
+        var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-card div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url'],input[type='email']"),
+          isValid = true;
+
+        $("input").removeClass("is-invalid");
+        for (var i = 0; i < curInputs.length; i++) {
+          if (!curInputs[i].validity.valid) {
+            isValid = false;
+            $(curInputs[i]).closest("input").addClass("is-invalid");
+          }
+        }
+        if (isValid)
+          nextStepWizard.removeAttr('disabled').trigger('click');
+      });
+      $('div.setup-card div a.btn-yellow').trigger('click');
+    });
+  </script>
+
+
 </body>
 </html>
 @endsection
