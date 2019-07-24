@@ -440,7 +440,7 @@ class PageController {
 			mobile : 'required',
 			email : 'required|email'
 		}
-
+		
 		const messages = {
 			'name.required' : antl.formatMessage('messages.name_required'),
 			'mobile.required' : antl.formatMessage('messages.mobile_required'),
@@ -452,12 +452,14 @@ class PageController {
 
 		if (validation.fails()) {
 			session.withErrors(validation.messages())
-            return response.route('apply', { id : request.params.id })
+			//return response.route('apply', { id : request.params.id })
+			return response.route('careers');
 		}
 
 		if(!request.file('resume')){
 			session.flash({ error : antl.formatMessage('messages.resume_choose_error') })
-			return response.route('apply', { id : request.params.id })
+			//return response.route('apply', { id : request.params.id })
+			return response.route('careers');
 		}
 
 		console.log(request.file('resume'))
@@ -476,7 +478,8 @@ class PageController {
 
 		if (!resume.moved()) {
 			session.flash({ error : resume.error().message })
-			return response.route('apply', { id : request.params.id })
+			//return response.route('apply', { id : request.params.id })
+			return response.route('careers');
 		}
 
 		const jobApply = new JobApply()
@@ -490,7 +493,7 @@ class PageController {
 		await jobApply.save()
 
 		session.flash({ success: antl.formatMessage('messages.apply_success') })
-		return response.route('apply', { id : request.params.id })
+		return response.route('careers');
 
 	}
 

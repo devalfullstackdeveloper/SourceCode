@@ -1,39 +1,148 @@
-@layout('layouts.default')
+@layout('layouts.defaultnew')
 @section('title')
-<title> Stock Trader Jobs – Zithex Global</title>
+<title>Careers | CryptoFxSpace</title>
 
 <meta name="Description" Content=" Click here for the latest job openings of Stock Trader Jobs offering various benefits to our employees with handsome salary. "/>
 
 @endsection
 @section('content')
-<title> Stock Trader Jobs – Zithex Global</title>
+<title>Careers | CryptoFxSpace</title>
 
 <meta name="Description" Content=" Click here for the latest job openings of Stock Trader Jobs offering various benefits to our employees with handsome salary. "/>
 
-<div class="main-content">
-	<section class="pages-banner-section">
-		<h2 class="page-title">{{ antl.formatMessage('keywords.careers') }}</h2>
-	</section>
-	<h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Stock Trader Jobs – Zithex Global</h1>
-	<section class="career-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<h3 class="feature-title mt-5">{{ antl.formatMessage('keywords.current_openings') }}</h3>
-				</div>
-				@each(job in jobs)
-				<div class="col-md-3 col-sm-12">
-					<div class="opening-wrap shadow text-center">
-						<h6>{{ job.title }}</h6>
-						<img src="{{ assetsUrl('images/job.svg') }}" alt="Image" width="35">
-						<small>Job Type : {{ job.job_type }}</small>
-						<a href="{{ route('apply', { id : job.id }) }}" class="btn btn-block btn-theme waves-effect waves-light">{{ antl.formatMessage('keywords.apply_now') }}</a>
-					</div>
-				</div>
-				@endeach
+<section class="bg-gradient text-center">
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-12">
+				<h6 class="text-uppercase text-white">Careers</h6>
+				<h1 class="display-4 text-white mb-0">Join our amazing team.</h1>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10">
+				@if(flashMessage('success'))
+					<div class="alert alert-success"> {{ flashMessage('success') }} </div>
+				@endif
+				@if(flashMessage('error'))
+					<div class="alert alert-danger"> {{ flashMessage('error') }} </div>
+				@endif
+				<h3 class="mb-4">Open Positions.</h3>
+
+				<div class="row no-gutters mb-3 d-none d-md-flex">
+					<div class="col-xl-8 col-lg-7 col-md-6">
+						<span class="text-small text-muted">Position</span>
+					</div>
+					<div class="col">
+						<span class="text-small text-muted">Experience</span>
+					</div>
+					<div class="col">
+						<span class="text-small text-muted"></span>
+					</div>
+				</div>
+
+				<div class="list-group list-group-flush">
+					@each(job in jobs)
+					<a class="list-group-item list-group-item-action py-3 px-0">
+						<div class="row no-gutters align-items-center">
+							<div class="col-xl-8 col-lg-7 col-md-6">
+								<h5 class="mb-0">{{job.title}}</h5>
+							</div>
+							<div class="col-md">
+								<span>2 years</span>
+							</div>
+							<div class="col-md">
+								<button type="button" class="openJobModal btn btn-outline-primary" id="{{job.id}}" data-toggle="modal" data-target="#applyModal">Apply Now</button>
+							</div>
+						</div>
+					</a>
+					@endeach
+				</div>
+
+				<span class="d-block mt-4 mb-0">Didn't see your job? <a href="#" class="hover-arrow">Drop your resumé</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="applyModalLabel">Apply for Job</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h4>Tell us something about yourself.</h4>
+
+				<form class="row" name="query_form" method="post" action="" id="query" enctype="multipart/form-data">
+					{{ csrfField() }}
+					<div class="col-12 form-group">
+						<label>Full Name <span class="text-danger">*</span></label>
+						<input type="text" value="" name="name" class="form-control" placeholder="Enter Full Name" value="{{ old('name', '') }}" required>
+						{{ elIf('<span class="text-danger">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+					</div>
+
+					<div class="col-12 col-lg-6 form-group">
+						<label>Email Address <span class="text-danger">*</span></label>
+						<input type="email" name="email" class="form-control" placeholder="Enter Email Address" value="{{ old('email', '') }}" required>
+						{{ elIf('<span class="text-danger">$self</span>', getErrorFor('email'), hasErrorFor('email')) }}
+					</div>
+
+					<div class="col-12 col-lg-6 form-group">
+						<label>Phone Number <span class="text-danger">*</span></label>
+						<input type="tel" name="mobile" class="form-control" placeholder="Enter Phone Number" value="{{ old('mobile', '') }}" required>
+						{{ elIf('<span class="text-danger">$self</span>', getErrorFor('mobile'), hasErrorFor('mobile')) }}
+					</div>
+
+					<div class="col-12 form-group">
+						<label>Upload your CV or Resume File <span class="text-danger">*</span></label>
+						<div class="custom-file">
+							<input type="file" name="resume" class="custom-file-input" id="customFile" required>
+							<label class="custom-file-label" for="customFile">Choose file</label>
+						</div>
+					</div>
+
+					<div class="col-12 mt-1">
+						<button type="submit" id="submit" class="btn btn-yellow">Apply Now</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
+<script>
+	$(document).ready(function(){
+		var esseyId
+		$('#applyModal').on('show.bs.modal', function(e) {
+			var $modal = $(this);
+			esseyId = e.relatedTarget.id;
+			console.log(esseyId);
+			$form_action = '/apply-now/'+esseyId;
+			$("#query").attr('action', $form_action);
+		});
+
+		$("#submit").on('click', function(e) {
+			if(("#query").valid) {
+				$("#applyModal").modal('toggle');	
+			}
+		})
+
+
+	})
+	// $('#query').submit(function (e) {
+	// 		// prevent the default action of form submission
+	// 		e.preventDefault();
+	// 		$(this).submit();
+	// 	});
+</script>
 @endsection
