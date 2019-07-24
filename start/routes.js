@@ -16,13 +16,13 @@
 const Route = use('Route')
 
 Route.group(() => {
-	Route.get('/', 							'PageController.landing').as('home');
-	Route.get('/home', 						'PageController.landing').as('landing');
+	Route.get('/', 							'HomeController2.index').as('home');
+	Route.get('/home', 						'HomeController2.index').as('landing');
 	Route.get('/index', 					'HomeController2.index').as('index');
-	Route.get('/home2', 					'HomeController2.home2').as('home2');	
+	// Route.get('/home2', 					'HomeController2.home2').as('home2');	
 	Route.get('/favourite/:pair', 			'HomeController.favourite').as('favourite');
 	Route.get('/who-we-are', 				'PageController.whoWeAre').as('whoweare');
-	Route.get('/team', 						'PageController.team').as('team');
+	// Route.get('/team', 						'PageController.team').as('team');
 	Route.get('/hire-trader', 				'PageController.hiretrader');
 	Route.post('/hire-trader', 				'PageController.hireTraderSave').as('hire-trader');
 	Route.get('/faq', 						'PageController.faq').as('faq');
@@ -33,7 +33,7 @@ Route.group(() => {
 	Route.get('/contact', 					'PageController.contact').as('contact');
 	Route.post('/contact', 					'PageController.submitContact');
 	Route.get('/features', 					'PageController.features').as('features');
-	Route.get('/legals', 					'PageController.legals').as('legals');
+	// Route.get('/legals', 					'PageController.legals').as('legals');
 	Route.get('/about', 					'PageController.about').as('about');
 	Route.get('/mobile-app', 				'PageController.mobileApp').as('mobileapp');
 	Route.get('/market-statics', 			'PageController.marketStatics').as('marketstatics');
