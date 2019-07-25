@@ -25,7 +25,7 @@ class WalletController {
 							.joinRaw("LEFT JOIN (SELECT currency, public_key, balance FROM addresses WHERE user_id=" + auth.user.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
 							.where('pairs.deleted_at', null)
 							.whereNotIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
-							.groupBy('pairs.derive_currency')
+							.groupBy('pairs.derive_currency', 'pairs.coin','pairs.icon','addresses.public_key','addresses.balance')
 							.fetch()
 
     	const pairsw = await Pair
@@ -34,7 +34,7 @@ class WalletController {
 				.joinRaw("LEFT JOIN (SELECT currency, public_key, balance FROM addresses WHERE user_id=" + auth.user.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
 				.where('pairs.deleted_at', null)
 				.whereIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
-				.groupBy('pairs.derive_currency')
+				.groupBy('pairs.derive_currency', 'pairs.coin','pairs.icon','addresses.public_key','addresses.balance')
 				.fetch()
 
 		// const pairs = await Pair
