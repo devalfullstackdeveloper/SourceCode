@@ -1106,3 +1106,11 @@ color: #ed8a19;
       justify-content: space-between;
       align-items: center;
     }
+
+ul.sub-menu {
+    background: #f4bd33 !important;
+    color: #000 !important;
+}
+ul.sub-menu li:hover {
+    background: #163c58 !important;
+}
