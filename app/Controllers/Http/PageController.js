@@ -196,7 +196,7 @@ class PageController {
 							.query()
 							.select('pairs.coin', 'pairs.derive_currency')
 							.where('pairs.deleted_at', null)
-							.groupBy('pairs.derive_currency')
+							.groupBy('pairs.derive_currency','pairs.coin')
 							.fetch()
 
 		const address = await Address
