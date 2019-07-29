@@ -36,11 +36,15 @@
 <section class="about_us">
 	<div class="container">
 		<div class="col-md-8 col-sm-8 col-xs-12">
+			@each(about in data.about_us.rows)
+			
 			<div class="about_text">
-				<h6>Some Words About Us</h6>
-				<h3>Lorem ipsum dolor sit amet, consectetuer adipiscing <br>elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus<br> parturient montes.</h3>
-				<p>nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero</p>
+				<h6>{{{ about.Name }}}</h6>
+				<h3>{{{ about.Name }}}</h3>
+				<p>{{{ about.Description }}}</p>
 			</div>
+			
+			@endeach
 		</div>
 	</div>
 </section>
