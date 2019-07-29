@@ -24,7 +24,7 @@ const page = (request.get().page !== undefined) ? request.get().page : 1
 							.select('pairs.coin', 'pairs.derive_currency', 'pairs.icon', 'addresses.public_key','addresses.id')
 							.joinRaw("LEFT JOIN (SELECT id, currency, public_key FROM addresses WHERE user_id=1) AS addresses ON pairs.derive_currency = addresses.currency")
 							.where('pairs.deleted_at', null)
-							.groupBy('pairs.derive_currency') 
+							.groupBy('pairs.derive_currency', 'pairs.coin', 'pairs.icon','addresses.public_key','addresses.id') 
 							.fetch()
 							
 console.log(users.rows)
@@ -71,7 +71,7 @@ async viewDetail({params, request, response, view}){
 							.select('pairs.coin', 'pairs.derive_currency', 'pairs.icon', 'addresses.public_key','addresses.id')
 							.joinRaw("LEFT JOIN (SELECT id, currency, public_key FROM addresses WHERE user_id=1) AS addresses ON pairs.derive_currency = addresses.currency")
 							.where('pairs.deleted_at', null)
-							.groupBy('pairs.derive_currency')
+							.groupBy('pairs.coin', 'pairs.derive_currency', 'pairs.icon','addresses.public_key','addresses.id')
 							.fetch()
 
 		return view.render('admin.details.view', { user : user, histories : histories, opens : opens, depositeTxs : depositeTxs, withdrawTxs : withdrawTxs, pairs : pairs })
@@ -87,7 +87,7 @@ async viewDetail({params, request, response, view}){
 							.leftJoin('addresses', 'pairs.derive_currency', 'addresses.currency')
 							.where('pairs.deleted_at', null)
 							.where('addresses.user_id', 1)
-							.groupBy('pairs.derive_currency')
+							.groupBy('pairs.derive_currency','addresses.public_key','addresses.id')
 							.fetch()
 
 		const len = pairs.rows.length

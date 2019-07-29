@@ -115,7 +115,7 @@ class UserController {
 							.joinRaw("LEFT JOIN (SELECT id ,currency FROM addresses WHERE user_id=" + params.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
 							.where('pairs.deleted_at', null)
 							.whereIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','trx','dsh','iot','neo','etc'])
-							.groupBy('pairs.derive_currency')
+							.groupBy('pairs.derive_currency','pairs.coin','pairs.icon', 'addresses.id')
 							.fetch()
 
 		return view.render('admin.users.view', { 
