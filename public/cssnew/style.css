@@ -128,7 +128,7 @@ textarea {
 
 .stepwizard-step button[disabled] {
   opacity: 1 !important;
-  filter: alpha(opacity=100) !important;
+    filter: alpha(opacity=100) !important;
 }
 
 .stepwizard .btn.disabled,
@@ -248,5 +248,5 @@ a[disabled="disabled"] {
 .card-fees:hover h1,
 .card-fees:hover h4,
 .card-fees:hover h6 {
-  color: #1A202C
+  color: #1A202C;
 }

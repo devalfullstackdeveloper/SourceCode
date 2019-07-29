@@ -978,3 +978,139 @@ textarea {
     height: 48px;
   }
 }
+
+.market-tab {
+
+  background: #1b1b38;
+  width: 100%;
+  position: relative;
+  padding: 30px 0;
+
+}
+
+.table-striped tbody tr:nth-of-type(2n+1) {
+
+  background-color: #151529 !important;
+
+}
+
+.table-bordered, .table-bordered td, .table-bordered th {
+
+  border: none !important;
+
+}
+
+.market-tab table td img {
+  background: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  width: 30px;
+}
+
+.market-tab table.table thead th{
+color: #ed8a19;
+}
+
+.market-tab table td {
+  color: #fff!important;
+}
+
+
+.market-tab table td.text-danger {
+  color: #ff3547!important;
+}
+
+.market-tab table td.text-success {
+  color: #00ff00!important;
+}
+
+/* .market-tab table tr td:nth-child(5) {
+  color: #00ff00 !important;
+}  */
+.market-tab table tr td:nth-child(6),.market-tab table tr td:nth-child(5)  {
+  color: #ed8a19!important;
+}   
+
+.table-striped thead tr {
+  background: #fff;
+}
+.market-tab .show {
+    opacity: 1 !important;
+}
+.market-tab .table-responsive table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+.bnrhdddr {
+    background: transparent;
+}
+
+    .market-tab table{
+      border-top: 0;
+    }
+    .market-tab .table-responsive {
+      width: 100%;
+    }
+
+    .market-tab table td {
+      color: #3e4b60;
+      font-size: 15px;
+      padding: 7px 10px;
+      vertical-align: middle;
+    }
+    .market-tab table th {
+    color: #a4b6d4;
+    font-size: 15px;
+    padding: 7px 10px;
+    vertical-align: middle;
+    text-align: center;
+}
+.market-tab .btn.btn-sm {
+    padding: .5rem 1.6rem;
+    font-size: 1.20rem;
+    background: #f5bc00;
+}
+
+    .market-tab table.table thead th{
+      padding: 10px 0;
+      border:none;
+    }
+    .market-tab .nav-pills .nav-link {
+      border-bottom: #transparent;
+    }
+    .market-tab .nav-pills .nav-link.active {
+        border-bottom: 3px solid #f4bd33;
+        color: #fff;
+        background: #1c1c38 !important;
+    }
+
+    .market-tab .nav-pills .nav-link:hover {
+      border-bottom: 3px solid #f4bd33;
+      color: #fff;
+      background: #1c1c38 !important;
+  }
+
+    .market-tab .nav-pills .nav-link:before{
+      display: none;
+    }
+
+    .market-tab .nav-pills .nav-link {
+      position: relative;
+      padding: 10px 30px 5px;
+    }
+
+    .market-tab .nav-pills {
+      background-color:  #ffffff;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+ul.sub-menu {
+    background: #f4bd33 !important;
+    color: #000 !important;
+}
+ul.sub-menu li:hover {
+    background: #163c58 !important;
+}
