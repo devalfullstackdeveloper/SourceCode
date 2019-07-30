@@ -557,7 +557,7 @@ class AuthController {
             message
             .to(user.email)
             .from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
-            .subject('Welcome to Zithex')
+            .subject('Welcome to Cryptofxspace')
         })
 
         await Mail.send('emails.welcome_admin', user.toJSON(), (message) => {
