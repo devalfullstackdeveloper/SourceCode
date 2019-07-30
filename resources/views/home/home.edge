@@ -234,7 +234,7 @@
 
 					<div class="tab-pane fade show active" id="btc-market-tab" role="tabpanel" aria-labelledby="btc-market-tab-link">
 							
-						<div class="table-responsive">
+						<div class="table-responsive view_more_table">
 							<table>
 								<thead>
 									<tr class="text-center">
@@ -268,10 +268,13 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="row text-center">
+						<button class="load_more_home">Load More</button>
+						</div>
 					</div>
 	
 					<div class="tab-pane fade" id="eth-market-tab" role="tabpanel" aria-labelledby="eth-market-tab-link">
-						<div class="table-responsive">
+						<div class="table-responsive view_more_table">
 							<table>
 								<thead>
 									<tr class="text-center">
@@ -305,10 +308,13 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="row text-center">
+						<button class="load_more_home">Load More</button>
+						</div>
 					</div>
 
 					<div class="tab-pane fade" id="btcnew-market-tab" role="tabpanel" aria-labelledby="btcnew-market-tab-link">
-						<div class="table-responsive">
+						<div class="table-responsive view_more_table">
 							<table>
 								<thead>
 									<tr class="text-center">
@@ -342,10 +348,13 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="row text-center">
+						<button class="load_more_home">Load More</button>
+						</div>
 					</div>
 
 					<div class="tab-pane fade" id="ethnew-market-tab" role="tabpanel" aria-labelledby="ethnew-market-tab-link">
-						<div class="table-responsive">
+						<div class="table-responsive view_more_table">
 							<table>
 								<thead>
 									<tr class="text-center">
@@ -378,6 +387,9 @@
 									@endeach
 								</tbody>
 							</table>
+						</div>
+						<div class="row text-center">
+						<button class="load_more_home">Load More</button>
 						</div>
 					</div>
 				</div>
@@ -743,8 +755,39 @@ function tickerInfos() {
 	});
 }
 setInterval(tickerInfos, 5000);
+var view_more_length = 20;
+
+function view_some_records() {
+	$('.view_more_table').each(function(){
+		var vmtotal = parseInt($(this).find('tbody tr').length);
+		$(this).find('tbody tr:lt('+view_more_length+')').addClass('active');
+		$(this).attr('data-vmidx',view_more_length);
+		$(this).attr('data-vmtotal',vmtotal);
+
+		if(vmtotal<=view_more_length) {
+			$(this).parent().find('.load_more_home').hide();
+		}
+
+	})
+}
 
 $(function(){
+
+	view_some_records();
+
+	$(document).on('click','.load_more_home',function(){
+		var view_more_table = $(this).parent().parent().find('.view_more_table');
+		var vmidx = parseInt(view_more_table.attr('data-vmidx'));
+		var view_more_next_length = vmidx+view_more_length;
+		var vmtotal = parseInt(view_more_table.attr('data-vmtotal'));
+
+		view_more_table.find('tbody tr:lt('+view_more_next_length+')').addClass('active');
+		view_more_table.attr('data-vmidx',view_more_next_length);
+		if(vmtotal<=view_more_next_length) {
+			$(this).hide();
+		}
+
+	})
 
 	tickerInfos();
 

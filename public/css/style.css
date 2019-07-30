@@ -1114,3 +1114,11 @@ ul.sub-menu {
 ul.sub-menu li:hover {
     background: #163c58 !important;
 }
+
+.load_more_home {
+    position: inherit;
+    float: none;
+    margin-bottom: 20px;
+}
+.view_more_table tr { display: none; }
+.view_more_table tr.active { display: table-row; }
