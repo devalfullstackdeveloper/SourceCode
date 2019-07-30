@@ -69,12 +69,20 @@
                     <li><a href="{{ route('blogs') }}">BLOG</a></li>
                     
                 </ul>
+
+                @loggedIn
                 <div class="button_1">
-                    <a href="{{ route('login') }}">Log In</a>
+                        <a href="{{ route('logout') }}">Logout</a>
+                </div>  
+                @else
+                <div class="button_1">
+                        <a href="{{ route('login') }}">Log In</a>
                 </div>
                 <div class="button_2">
                     <a href="{{ route('signup') }}">Sign Up <i class="fas fa-arrow-right"></i></a>
-                </div>
+                </div>  
+                @endloggedIn
+                
             </div>
             
             </div>
@@ -92,7 +100,7 @@
                 <h1>Start trading now</h1>
                 <p>Trade Bitcoin,BNB,and hundreds of other cryptocurrencies in minutes.</p>
                 <div class="get-started-btn">
-                    <a href="#">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
+                    <a href="/index/#trading">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -226,79 +234,6 @@ s0.parentNode.insertBefore(s1,s0);
 <!--End of Tawk.to Script-->
 
 <script type="text/javascript">
-function getsponsors(){
-    $.ajax({
-        url		: "/get_sponsor",
-        type	: 'GET',
-        dataType : "text",
-        contentType: "application/json",
-        success : function(response){
-            response=JSON.parse(response);
-                
-            if(response.success){
-                var data=response.data;
-                if(data.length>0)
-                {
-                document.getElementById("sponsor").style.visibility = "visible";
-                }
-               else
-                 {
-                            
-                    document.getElementById("sponsor").style.visibility = "hidden";
-                   }
-               
-                if(data){
-                     
-                    var colcounter=0;
-                    var crouselcounter=0;
-                    var crouselIndicators=' <ol class="carousel-indicators"><li data-target="#sponsersCarousel" data-slide-to="0" class="active"></li>';
-                    var rowTemplate='<div class="carousel-inner"><div class="carousel-item active"><div class="row">';
-                    for(var i=0;i<data.length;i++){
-                            var d=data[i];
-                            if(colcounter==4){
-                                colcounter=0;
-                                crouselcounter++;
-                                crouselIndicators+='<li data-target="#sponsersCarousel" data-slide-to="'+crouselcounter+'" class=""></li>';
-                                rowTemplate+='</div></div><div class="carousel-item"><div class="row">';
-                               
-                            }
-
-                            var colTemplate= '<div class="col-md-3">\
-                                                        <div class="card">\
-                                                          <div class="card-body">\
-                                                            <img class="crouselimage" title='+d.name+' alt='+d.alt+' src="/uploads/'+d.image+'">\
-                                                            <div class="hover-block">\
-                                                                <h6 class="card-subtitle mb-2">'+d.name+'</h6>\
-                                                            </div>\
-                                                          </div>\
-                                                        </div>\
-                                                </div>';
-                                colcounter++;
-                                rowTemplate+=colTemplate;
-                            
-                    
-                            }
-               
-               
-                        }
-                        
-                
-                        rowTemplate+='</div>'
-                        crouselIndicators+="</ol>";                        
-                        $('#sponsersCarousel').html(crouselIndicators+rowTemplate);
-                            
-                            $('#sponsersCarousel').carousel({
-                                interval: 5000
-                            });
-            }
-          
-        }
-    });
-}
-
-    getsponsors();
-
-
 
 </script>	
 @!section('script')

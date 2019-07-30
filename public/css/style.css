@@ -1114,3 +1114,17 @@ ul.sub-menu {
 ul.sub-menu li:hover {
     background: #163c58 !important;
 }
+
+#owl-demo-sponsers .item_sponsers {
+  margin: 3px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  width: 40%;
+}
+
+#owl-demo-sponsers .item_sponsers img{
+  display: block;
+  width: 100%;
+  padding: 10px 0px 31px;
+}

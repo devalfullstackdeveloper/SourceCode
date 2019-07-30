@@ -549,7 +549,7 @@ class AuthController {
         }
 
         user.status = 1
-        user.token = ''
+        user.token = ''  
         await user.save()
 
         user.url = Env.get('APP_URL')
