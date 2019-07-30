@@ -469,12 +469,30 @@
 	};
 
 	function tickerInfos() {
-		console.log("Pair is : " ,pair);
-		$.get('{{ route("api.ticker") }}?symbols='+ pair, function(response){
-			if( ! response[0] ) {
-				console.error('Sorry unable to get pair data.');
-				return;
+	console.log("Pair is : " ,pair);
+	$.get('{{ route("api.ticker") }}?symbols='+ pair, function(response){
+		if( ! response[0] ) {
+			console.error('Sorry unable to get pair data.');
+			return;
+		}
+
+		response.forEach(function(pair) {
+
+			var pairID = (pair[0]).replace('t', '').toLowerCase();
+
+			var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat(custRates[pairID]) ) / 100 );
+
+			$('#'+pairID+' td:nth-child(3)').text(price.toFixed(6));
+			if(parseFloat(pair[5]) >= 0){
+				$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-success');
+			} else {
+				$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-danger');
 			}
+			$('#'+pairID+' td:nth-child(4)').text( parseFloat( ( pair[6] ) * 100 ).toFixed(2) + '%' );
+			$('#'+pairID+' td:nth-child(5)').text((Number(pair[9])).toFixed(8));
+			$('#'+pairID+' td:nth-child(6)').text((Number(pair[10])).toFixed(8));
+			$('#'+pairID+' td:nth-child(7)').text((Number(pair[8])).toFixed(8));
+		});
 	});
 }
 setInterval(tickerInfos, 5000);
@@ -494,9 +512,8 @@ function view_some_records() {
 	})
 }
 
-			response.forEach(function(pair) {
+$(function(){
 
-				var pairID = (pair[0]).replace('t', '').toLowerCase();
 	view_some_records();
 
 	$(document).on('click','.load_more_home',function(){
@@ -515,128 +532,107 @@ function view_some_records() {
 
 	tickerInfos();
 
-				var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat(custRates[pairID]) ) / 100 );
+	$('#pills-tab a').click(function(e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	});
 
-				$('#'+pairID+' td:nth-child(3)').text(price.toFixed(6));
-				if(parseFloat(pair[5]) >= 0){
-					$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-success');
+	// store the currently selected tab in the hash value
+	$("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
+	  var id = $(e.target).attr("href").substr(1);
+	  window.location.hash = id;
+	});
+
+	// on load of the page: switch to the currently selected tab
+	var hash = window.location.hash;
+	$('#pills-tab a[href="' + hash + '"]').tab('show');
+
+	$(document).on('keyup', '#search', function(event){
+		if( event.which == 32 ){
+			$(this).val('');
+		}
+		// this extend is to search with out any case senstive issue
+		// Contains Jquery is case senstive
+		$.extend($.expr[':'], {
+ 			 'containsZithex': function(elem, i, match, array)
+ 			 {
+ 			   return (elem.textContent || elem.innerText || '').toLowerCase()
+   			 .indexOf((match[3] || "").toLowerCase()) >= 0;
+ 			 }
+		});
+		
+		$('.tab-pane.active table tr').hide();
+		
+		$('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').each(function(){
+         $(this).closest('tr').show();
+      	});
+		  if($('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').length==0)
+		{
+			notify('danger','No result found');
+		}
+		 
+ 
+	});
+	 function notify(type, message){
+
+            $.notify({
+                icon: 'fa fa-check',
+                title: '',
+                message: message,
+                url: ''
+            },{
+                element: 'body',
+                type: type,
+                allow_dismiss: true,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                },
+                offset: {
+                    x: 20,
+                    y: 20
+                },
+                spacing: 10,
+                z_index: 1031,
+                delay: 2500,
+                timer: 1000,
+                url_target: '_blank',
+                mouse_over: false,
+                animate: {
+                    enter: 'animated bounceIn',
+                    exit: 'animated bounceOu'
+                },
+                template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
+                            '<span data-notify="icon"></span> ' +
+                            '<span data-notify="title">{1}</span> ' +
+                            '<span data-notify="message">{2}</span>' +
+                            '<div class="progress" data-notify="progressbar">' +
+                            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                            '</div>' +
+                            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                            '<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
+                            '</div>'
+            });
+        }
+
+
+	$(document).on('click', '.favourite', function(){
+		var favourite = $(this);
+		var pair = favourite.attr('data-id');
+		$.ajax({
+			url : "{{ url }}favourite/" + pair,
+			success : function(result){
+				if( result.added ){
+					favourite.addClass('fa-active');
+					$('#favourite-market-tab tbody').append( $('tr#' + pair).clone());
 				} else {
-					$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-danger');
+					favourite.removeClass('fa-active');
+					$('#favourite-market-tab tr#' + pair).remove();
 				}
-				$('#'+pairID+' td:nth-child(4)').text( parseFloat( ( pair[6] ) * 100 ).toFixed(2) + '%' );
-				$('#'+pairID+' td:nth-child(5)').text((Number(pair[9])).toFixed(8));
-				$('#'+pairID+' td:nth-child(6)').text((Number(pair[10])).toFixed(8));
-				$('#'+pairID+' td:nth-child(7)').text((Number(pair[8])).toFixed(8));
-			});
-		});
-	}
-	setInterval(tickerInfos, 5000);
-
-	$(function(){
-
-		tickerInfos();
-
-		$('#pills-tab a').click(function(e) {
-		e.preventDefault();
-		$(this).tab('show');
-		});
-
-		// store the currently selected tab in the hash value
-		$("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
-		var id = $(e.target).attr("href").substr(1);
-		window.location.hash = id;
-		});
-
-		// on load of the page: switch to the currently selected tab
-		var hash = window.location.hash;
-		$('#pills-tab a[href="' + hash + '"]').tab('show');
-
-		$(document).on('keyup', '#search', function(event){
-			if( event.which == 32 ){
-				$(this).val('');
 			}
-			// this extend is to search with out any case senstive issue
-			// Contains Jquery is case senstive
-			$.extend($.expr[':'], {
-				'containsZithex': function(elem, i, match, array)
-				{
-				return (elem.textContent || elem.innerText || '').toLowerCase()
-				.indexOf((match[3] || "").toLowerCase()) >= 0;
-				}
-			});
-			
-			$('.tab-pane.active table tr').hide();
-			
-			$('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').each(function(){
-			$(this).closest('tr').show();
-			});
-			if($('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').length==0)
-			{
-				notify('danger','No result found');
-			}
-			
-	
-		});
-		function notify(type, message){
-
-				$.notify({
-					icon: 'fa fa-check',
-					title: '',
-					message: message,
-					url: ''
-				},{
-					element: 'body',
-					type: type,
-					allow_dismiss: true,
-					placement: {
-						from: 'top',
-						align: 'right'
-					},
-					offset: {
-						x: 20,
-						y: 20
-					},
-					spacing: 10,
-					z_index: 1031,
-					delay: 2500,
-					timer: 1000,
-					url_target: '_blank',
-					mouse_over: false,
-					animate: {
-						enter: 'animated bounceIn',
-						exit: 'animated bounceOu'
-					},
-					template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
-								'<span data-notify="icon"></span> ' +
-								'<span data-notify="title">{1}</span> ' +
-								'<span data-notify="message">{2}</span>' +
-								'<div class="progress" data-notify="progressbar">' +
-								'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-								'</div>' +
-								'<a href="{3}" target="{4}" data-notify="url"></a>' +
-								'<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
-								'</div>'
-				});
-			}
-
-
-		$(document).on('click', '.favourite', function(){
-			var favourite = $(this);
-			var pair = favourite.attr('data-id');
-			$.ajax({
-				url : "{{ url }}favourite/" + pair,
-				success : function(result){
-					if( result.added ){
-						favourite.addClass('fa-active');
-						$('#favourite-market-tab tbody').append( $('tr#' + pair).clone());
-					} else {
-						favourite.removeClass('fa-active');
-						$('#favourite-market-tab tr#' + pair).remove();
-					}
-				}
-			});
 		});
 	});
+});
 
 	function getfeedbacks(){
 		$.ajax({
