@@ -1128,3 +1128,10 @@ ul.sub-menu li:hover {
   width: 100%;
   padding: 10px 0px 31px;
 }
+.load_more_home {
+    position: inherit;
+    float: none;
+    margin-bottom: 20px;
+}
+.view_more_table tr { display: none; }
+.view_more_table tr.active { display: table-row; }
