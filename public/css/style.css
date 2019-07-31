@@ -1079,7 +1079,7 @@ color: #ed8a19;
       border:none;
     }
     .market-tab .nav-pills .nav-link {
-      border-bottom: #transparent;
+      border-bottom: transparent;
     }
     .market-tab .nav-pills .nav-link.active {
         border-bottom: 3px solid #f4bd33;
@@ -1163,3 +1163,4 @@ ul.sub-menu li:hover {
     width: auto;
     top: -10px;
 }
+
