@@ -24,6 +24,7 @@ background:#0d0934;
 ul.nav.navbar-nav.navbar-right {
   position: relative;
   right: 264px;
+  margin-bottom: 14px;
 }
 a.navbar-brand img {
   width: 100%;
@@ -1108,11 +1109,29 @@ color: #ed8a19;
     }
 
 ul.sub-menu {
-    background: #f4bd33 !important;
-    color: #000 !important;
+    font-size: 16px;
+    color: #212529 !important;
+    background-color: #fff !important;
+    background-clip: padding-box;
+    border: 1px solid #dee2e6;
+    border-radius: 0.3125rem;
+    padding: .5rem .85rem;
+    margin: 0.125rem 0 0;
+
+}
+ul.sub-menu li {
+  border-bottom: transparent;
+  padding: 2px 0px;
+}
+ul.sub-menu a {
+  color: rgba(73, 80, 87, 0.5);
+  transition: all 0.3s ease;
+}
+ul.sub-menu li:hover a {
+  color: #3d4349;
 }
 ul.sub-menu li:hover {
-    background: #163c58 !important;
+  background-color: #fff !important;
 }
 
 #owl-demo-sponsers .item_sponsers {
@@ -1135,3 +1154,14 @@ ul.sub-menu li:hover {
 }
 .view_more_table tr { display: none; }
 .view_more_table tr.active { display: table-row; }
+
+
+.navbar-default .navbar-toggle {
+    border-color: #ddd;
+    position: absolute;
+    margin: 0;
+    right: 14px;
+    width: auto;
+    top: -10px;
+}
+
