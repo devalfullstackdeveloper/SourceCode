@@ -62,9 +62,19 @@ class WalletController {
 		const seller_id = Env.get('SELLER_ID')
 		const return_url = Env.get('RETURN_URL')
 
+		
+		for(var i=0; i<pairsw.rows.length; i++) {
+			console.log("Pairsw coin is : " ,pairsw.rows[i].coin);
+		}
+
+		
+		for(var i=0; i<pairs.rows.length; i++) {
+			console.log("Pairs coin is : " ,pairs.rows[i].coin);
+		}
+
 		return view.render('wallets.wallets', { 
 			pairs : pairs,
-			pairsw : pairsw,
+			// pairsw : pairsw,
 			personalInfo : personalInfo,
 			deposit_url : deposit_url,
 			seller_id : seller_id,

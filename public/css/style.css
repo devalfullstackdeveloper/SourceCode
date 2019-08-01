@@ -95,10 +95,26 @@ section.main_header ul li:hover .sub-menu {
 section.main_header_1 ul li:hover .sub-menu {
   opacity: 1;
 }
+.button_profile{
+  float: right;
+  position: relative;
+  left: 35%;
+}
+.button_profile a{
+  border: 1px solid #fff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  color: #fff;
+}
+.button_profile a:hover{
+  text-decoration:none;
+  color:black;
+}
+
 .button_1 {
   float: right;
   position: relative;
-  left: 38%;
+  left: 35%;
   top: 30px;
 }
 .button_2 {

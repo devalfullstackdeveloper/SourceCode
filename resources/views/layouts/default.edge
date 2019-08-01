@@ -66,9 +66,19 @@
                 </ul>
 
                 @loggedIn
-                <div class="button_1">
-                        <a href="{{ route('logout') }}">Logout</a>
+                <div class="button_profile" style="top:0%">    
+                    <ul class="nav navbar-nav" style="float:right;">
+                        <li><a href="#">{{auth.user.name}}<i class="fa fa-caret-down"></i></a> 
+                            <ul CLASS="sub-menu">
+                                <li><img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px"></li>
+                                <a href="{{ route('wallets') }}">Wallet</a>
+                                <a href="{{ route('account') }}">Account</a>
+                                <a href="{{ route('logout') }}">Logout</a>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>  
+               
                 @else
                 <div class="button_1">
                         <a href="{{ route('login') }}">Log In</a>
