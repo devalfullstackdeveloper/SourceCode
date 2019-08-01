@@ -22,21 +22,20 @@
 <!-- 		<div class="item slider1">
 			<div class="overlay">
 			</div>
-				<div class="container">
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<div class="text_banner">
-							<h2>Make your first deposit and <br>get 1 BTC for free. <br> Minimum deposit 0,30 BTC</h2>
-							<p>Use this BTC, to trade for a month.If you are in profits,we add in your balance the existing profitable amount.</p>
-							<div class="get-started-btn">
-								<a href="#">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
-							</div>
+			<div class="container">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="text_banner">
+						<h2>Make your first deposit and <br>get 1 BTC for free. <br> Minimum deposit 0,30 BTC</h2>
+						<p>Use this BTC, to trade for a month.If you are in profits,we add in your balance the existing profitable amount.</p>
+						<div class="get-started-btn">
+							<a href="#">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<div class="logo_img">
-							<img src="../images/logo.png">
-							<a href="#">www.cryptofxspace.com</a>
-						</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="logo_img">
+						<img src="../images/logo.png">
+						<a href="#">www.cryptofxspace.com</a>
 					</div>
 				</div>
 		</div> -->
@@ -166,7 +165,7 @@
 				<h5>our sponsors</h5>
 			</div>
 		</div>
-		<div class="logos_12">
+		<!-- <div class="logos_12">
 			<div class="col-md-3 col-sm-3 col-xs-12">
 				<div class="spon_ing">
 					<img src="../images/uber.png">
@@ -187,6 +186,9 @@
 					<img src="../images/logo4.png">
 				</div>
 			</div>
+		</div> -->
+
+		<div id="owl-demo-sponsers">
 		</div>
 	</div>
 </section>
@@ -441,268 +443,6 @@
 	</div>
 </section>
 
-<!-- <section class="market-tab" id="trading">
-	<div class="container" style="padding-top: 3rem;">
-		<div class="row">
-			<div class="col-md-3 col-offset-md-9">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<ul class="nav nav-pills" id="pills-tab" role="tablist">
-					<li class="nav-item">
-						<a class="nav-link" id="favourite-market-tab-link" data-toggle="pill" href="#favourite-market-tab" role="tab" aria-controls="favourite-market-tab" aria-selected="true"><i class="fa fa-star fa-active" style="color: #d58c07;"></i></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" id="btc-market-tab-link" data-toggle="pill" href="#btc-market-tab" role="tab" aria-controls="btc-market-tab" aria-selected="true">{{ antl.formatMessage('keywords.usd_market') }}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="eth-market-tab-link" data-toggle="pill" href="#eth-market-tab" role="tab" aria-controls="eth-market-tab" aria-selected="false">{{ antl.formatMessage('keywords.euro_market') }}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="btcnew-market-tab-link" data-toggle="pill" href="#btcnew-market-tab" role="tab" aria-controls="btcnew-market-tab" aria-selected="false">BTC market</a>
-					</li>
-						<li class="nav-item">
-						<a class="nav-link" id="ethnew-market-tab-link" data-toggle="pill" href="#ethnew-market-tab" role="tab" aria-controls="ethnew-market-tab" aria-selected="false">ETH market</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="ztxnew-market-tab-link" data-toggle="pill" href="#ztxnew-market-tab" role="tab" aria-controls="ztxnew-market-tab" aria-selected="false">ZTX market</a>
-					</li>
-					<li class="nav-item search-tab">
-						<div class="searchnew">
-							<input type="text" name="search" id="search" class="form-control" placeholder="">
-							<i class="fa fa-search" ></i>
-						</div>
-					</li>
-				</ul>
-
-				<div class="tab-content" id="pills-tabContent">
-					<div class="tab-pane fade" id="favourite-market-tab" role="tabpanel" aria-labelledby="favourite-market-tab-link">
-						<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>{{ antl.formatMessage('keywords.pair') }}</th>
-									<th>{{ antl.formatMessage('keywords.coin') }}</th>
-									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
-									<th>{{ antl.formatMessage('keywords.trade') }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								@each(pair in pairs.favourite.rows)
-								<tr id="{{ pair.pair_key }}">
-									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
-									<td class="text-left">
-									<img class="mr-1" width="20" style="margin-top:-4px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.coin }}">{{ (pair.coin).length > 15 ? (pair.coin).substr(0, 15) + '...' : (pair.coin) }}</span>
-									</td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center">
-										{{ auth.user.is_admin }}
-										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">Trade / Exchange</a>
-									</td>
-								</tr>
-								@endeach
-							</tbody>
-						</table>
-						</div>
-					</div>
-
-					<div class="tab-pane fade show active" id="btc-market-tab" role="tabpanel" aria-labelledby="btc-market-tab-link">
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>{{ antl.formatMessage('keywords.pair') }}</th>
-									<th>{{ antl.formatMessage('keywords.coin') }}</th>
-									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
-									<th>{{ antl.formatMessage('keywords.trade') }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								@each(pair in pairs.usd.rows)
-								<tr id="{{ pair.pair_key }}">
-									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
-									<td class="text-left">
-									<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}">  <span title="{{ pair.coin }}">{{ (pair.coin).length > 15 ? (pair.coin).substr(0, 15) + '...' : (pair.coin) }}</span>
-									</td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center">
-										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">Trade / Exchange</a>
-									</td>
-								</tr>
-								@endeach
-							</tbody>
-						</table>
-						</div>
-					</div>
-
-					<div class="tab-pane fade" id="eth-market-tab" role="tabpanel" aria-labelledby="eth-market-tab-link">
-						<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>{{ antl.formatMessage('keywords.pair') }}</th>
-									<th>{{ antl.formatMessage('keywords.coin') }}</th>
-									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
-									<th>{{ antl.formatMessage('keywords.trade') }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								@each(pair in pairs.euro.rows)
-								<tr id="{{ pair.pair_key }}">
-									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
-									<td class="text-left">
-										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}">  <span title="{{ pair.coin }}">{{ (pair.coin).length > 15 ? (pair.coin).substr(0, 15) + '...' : (pair.coin) }}</span>
-									</td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center">
-										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">Trade / Exchange</a>
-									</td>
-								</tr>
-								@endeach
-							</tbody>
-						</table>
-						</div>
-					</div>
-					
-					<div class="tab-pane fade" id="btcnew-market-tab" role="tabpanel" aria-labelledby="btcnew-market-tab-link">
-						<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>{{ antl.formatMessage('keywords.pair') }}</th>
-									<th>{{ antl.formatMessage('keywords.coin') }}</th>
-									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
-									<th>{{ antl.formatMessage('keywords.trade') }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								@each(pair in pairs.btc.rows)
-								<tr id="{{ pair.pair_key }}">
-									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
-									<td class="text-left">
-										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}">  <span title="{{ pair.coin }}">{{ (pair.coin).length > 15 ? (pair.coin).substr(0, 15) + '...' : (pair.coin) }}</span>
-									</td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center">
-										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">Trade / Exchange</a>
-									</td>
-								</tr>
-								@endeach
-							</tbody>
-						</table>
-						</div>
-					</div>
-					
-					<div class="tab-pane fade" id="ethnew-market-tab" role="tabpanel" aria-labelledby="ethnew-market-tab-link">
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>{{ antl.formatMessage('keywords.pair') }}</th>
-									<th>{{ antl.formatMessage('keywords.coin') }}</th>
-									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>  
-									<th>{{ antl.formatMessage('keywords.trade') }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								@each(pair in pairs.eth.rows)
-								<tr id="{{ pair.pair_key }}">
-									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
-									<td class="text-left">
-										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}">  <span title="{{ pair.coin }}">{{ (pair.coin).length > 15 ? (pair.coin).substr(0, 15) + '...' : (pair.coin) }}</span>
-									</td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center"></td>
-									<td class="text-center">
-										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">Trade / Exchange</a>
-									</td>
-								</tr>
-								@endeach
-							</tbody>
-						</table>
-						</div>
-					</div>
-
-					<div class="tab-pane fade" id="ztxnew-market-tab" role="tabpanel" aria-labelledby="ztxnew-market-tab-link">
-						<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>{{ antl.formatMessage('keywords.pair') }}</th>
-									<th>{{ antl.formatMessage('keywords.coin') }}</th>
-									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
-									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>  
-									<th>{{ antl.formatMessage('keywords.trade') }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								
-								<tr id="#">
-									<td class="text-center pair-name"><i class="fa fa-star favourite" data-id="#"></i> Coming Soon</td>
-									<td class="text-center">-</td>
-									<td class="text-center">-</td>
-									<td class="text-center">-</td>
-									<td class="text-center">-</td>
-									<td class="text-center">-</td>
-									<td class="text-center">-</td>
-									<td class="text-center">
-										<a class="btn btn-sm btn-dark-ui" href="javascript:void(0)">coming soon</a>
-									</td>
-								</tr>
-						
-							</tbody>
-						</table>
-						</div>
-					</div>
-				</div>
-			</div> 	
-		</div>
-	</div>
-</section> -->
-
 {{ script('/admin/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js') }}
 {{ script('/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}
 {{ script('/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}
@@ -713,298 +453,340 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
 <script type="text/javascript">
 
-$(document).ready(function() {
- 	$("#owl-demo").owlCarousel({
-		autoPlay: 6000, //Set AutoPlay to 3 seconds
-		items : 1,
-		itemsDesktop : [1199,1],
-		itemsDesktopSmall : [979,1],
-		itemsTablet : [768,1],
-		itemsMobile : [479,1]
+	$(document).ready(function() {
+		$("#owl-demo").owlCarousel({
+			autoPlay: 6000, //Set AutoPlay to 3 seconds
+			items : 1,
+			itemsDesktop : [1199,1],
+			itemsDesktopSmall : [979,1],
+			itemsTablet : [768,1],
+			itemsMobile : [479,1]
+		});
 	});
-});
 
-isArray = function(a) {
-	return (!!a) && (a.constructor === Array);
-};
+	isArray = function(a) {
+		return (!!a) && (a.constructor === Array);
+	};
 
-var pair = '{{ pairs.allPairs }}';
-var custRates = {{{ pairs.custRates }}};
-var ethBtcPairs =  '{{ pairs.btcEthPairs }}';
+	var pair = '{{ pairs.allPairs }}';
+	var custRates = {{{ pairs.custRates }}};
+	var ethBtcPairs =  '{{ pairs.btcEthPairs }}';
 
-var binanceAPI = 'wss://stream.binance.com:9443/ws/!ticker@arr';
-binanceSocket = new WebSocket(binanceAPI);
+	var binanceAPI = 'wss://stream.binance.com:9443/ws/!ticker@arr';
+	binanceSocket = new WebSocket(binanceAPI);
 
-binanceSocket.onmessage = function(evt) {
-    var data = JSON.parse(evt.data);
-    data.forEach(function(pair) {
+	binanceSocket.onmessage = function(evt) {
+		var data = JSON.parse(evt.data);
+		data.forEach(function(pair) {
 
-		if( (ethBtcPairs).indexOf(pair.s) === -1 ) return;
+			if( (ethBtcPairs).indexOf(pair.s) === -1 ) return;
 
-		var pairID = (pair.s).toLowerCase();
+			var pairID = (pair.s).toLowerCase();
 
-		var price = parseFloat( pair.c ) + ( ( parseFloat( pair.c ) * parseFloat(custRates[pairID]) ) / 100 );
-
-		$('#'+pairID+' td:nth-child(3)').text(price.toFixed(6));
-		if(parseFloat(pair.P) >= 0){
-			$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-success');
-		} else {
-			$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-danger');
-		}
-		$('#'+pairID+' td:nth-child(4)').text( parseFloat( pair.P ).toFixed(2) + '%' );
-		$('#'+pairID+' td:nth-child(5)').text((Number(pair.h)).toFixed(8));
-		$('#'+pairID+' td:nth-child(6)').text((Number(pair.l)).toFixed(8));
-		$('#'+pairID+' td:nth-child(7)').text((Number(pair.v)).toFixed(8));
-	});
-};
-
-function tickerInfos() {
-	console.log("Pair is : " ,pair);
-	$.get('{{ route("api.ticker") }}?symbols='+ pair, function(response){
-		if( ! response[0] ) {
-			console.error('Sorry unable to get pair data.');
-			return;
-		}
-
-		response.forEach(function(pair) {
-
-			var pairID = (pair[0]).replace('t', '').toLowerCase();
-
-			var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat(custRates[pairID]) ) / 100 );
+			var price = parseFloat( pair.c ) + ( ( parseFloat( pair.c ) * parseFloat(custRates[pairID]) ) / 100 );
 
 			$('#'+pairID+' td:nth-child(3)').text(price.toFixed(6));
-			if(parseFloat(pair[5]) >= 0){
+			if(parseFloat(pair.P) >= 0){
 				$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-success');
 			} else {
 				$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-danger');
 			}
-			$('#'+pairID+' td:nth-child(4)').text( parseFloat( ( pair[6] ) * 100 ).toFixed(2) + '%' );
-			$('#'+pairID+' td:nth-child(5)').text((Number(pair[9])).toFixed(8));
-			$('#'+pairID+' td:nth-child(6)').text((Number(pair[10])).toFixed(8));
-			$('#'+pairID+' td:nth-child(7)').text((Number(pair[8])).toFixed(8));
+			$('#'+pairID+' td:nth-child(4)').text( parseFloat( pair.P ).toFixed(2) + '%' );
+			$('#'+pairID+' td:nth-child(5)').text((Number(pair.h)).toFixed(8));
+			$('#'+pairID+' td:nth-child(6)').text((Number(pair.l)).toFixed(8));
+			$('#'+pairID+' td:nth-child(7)').text((Number(pair.v)).toFixed(8));
 		});
-	});
-}
-setInterval(tickerInfos, 5000);
-var view_more_length = 20;
+	};
 
-function view_some_records() {
-	$('.view_more_table').each(function(){
-		var vmtotal = parseInt($(this).find('tbody tr').length);
-		$(this).find('tbody tr:lt('+view_more_length+')').addClass('active');
-		$(this).attr('data-vmidx',view_more_length);
-		$(this).attr('data-vmtotal',vmtotal);
+	function tickerInfos() {
+		console.log("Pair is : " ,pair);
+		$.get('{{ route("api.ticker") }}?symbols='+ pair, function(response){
+			if( ! response[0] ) {
+				console.error('Sorry unable to get pair data.');
+				return;
+			}
 
-		if(vmtotal<=view_more_length) {
-			$(this).parent().find('.load_more_home').hide();
-		}
+			response.forEach(function(pair) {
 
-	})
-}
+				var pairID = (pair[0]).replace('t', '').toLowerCase();
 
-$(function(){
+				var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat(custRates[pairID]) ) / 100 );
 
-	view_some_records();
-
-	$(document).on('click','.load_more_home',function(){
-		var view_more_table = $(this).parent().parent().find('.view_more_table');
-		var vmidx = parseInt(view_more_table.attr('data-vmidx'));
-		var view_more_next_length = vmidx+view_more_length;
-		var vmtotal = parseInt(view_more_table.attr('data-vmtotal'));
-
-		view_more_table.find('tbody tr:lt('+view_more_next_length+')').addClass('active');
-		view_more_table.attr('data-vmidx',view_more_next_length);
-		if(vmtotal<=view_more_next_length) {
-			$(this).hide();
-		}
-
-	})
-
-	tickerInfos();
-
-	$('#pills-tab a').click(function(e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
-
-	// store the currently selected tab in the hash value
-	$("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
-	  var id = $(e.target).attr("href").substr(1);
-	  window.location.hash = id;
-	});
-
-	// on load of the page: switch to the currently selected tab
-	var hash = window.location.hash;
-	$('#pills-tab a[href="' + hash + '"]').tab('show');
-
-	$(document).on('keyup', '#search', function(event){
-		if( event.which == 32 ){
-			$(this).val('');
-		}
-		// this extend is to search with out any case senstive issue
-		// Contains Jquery is case senstive
-		$.extend($.expr[':'], {
- 			 'containsZithex': function(elem, i, match, array)
- 			 {
- 			   return (elem.textContent || elem.innerText || '').toLowerCase()
-   			 .indexOf((match[3] || "").toLowerCase()) >= 0;
- 			 }
-		});
-		
-		$('.tab-pane.active table tr').hide();
-		
-		$('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').each(function(){
-         $(this).closest('tr').show();
-      	});
-		  if($('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').length==0)
-		{
-			notify('danger','No result found');
-		}
-		 
- 
-	});
-	 function notify(type, message){
-
-            $.notify({
-                icon: 'fa fa-check',
-                title: '',
-                message: message,
-                url: ''
-            },{
-                element: 'body',
-                type: type,
-                allow_dismiss: true,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                },
-                offset: {
-                    x: 20,
-                    y: 20
-                },
-                spacing: 10,
-                z_index: 1031,
-                delay: 2500,
-                timer: 1000,
-                url_target: '_blank',
-                mouse_over: false,
-                animate: {
-                    enter: 'animated bounceIn',
-                    exit: 'animated bounceOu'
-                },
-                template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
-                            '<span data-notify="icon"></span> ' +
-                            '<span data-notify="title">{1}</span> ' +
-                            '<span data-notify="message">{2}</span>' +
-                            '<div class="progress" data-notify="progressbar">' +
-                            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-                            '</div>' +
-                            '<a href="{3}" target="{4}" data-notify="url"></a>' +
-                            '<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
-                            '</div>'
-            });
-        }
-
-
-	$(document).on('click', '.favourite', function(){
-		var favourite = $(this);
-		var pair = favourite.attr('data-id');
-		$.ajax({
-			url : "{{ url }}favourite/" + pair,
-			success : function(result){
-				if( result.added ){
-					favourite.addClass('fa-active');
-					$('#favourite-market-tab tbody').append( $('tr#' + pair).clone());
+				$('#'+pairID+' td:nth-child(3)').text(price.toFixed(6));
+				if(parseFloat(pair[5]) >= 0){
+					$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-success');
 				} else {
-					favourite.removeClass('fa-active');
-					$('#favourite-market-tab tr#' + pair).remove();
+					$('#'+pairID+' td:nth-child(4)').attr('class', 'text-center text-danger');
+				}
+				$('#'+pairID+' td:nth-child(4)').text( parseFloat( ( pair[6] ) * 100 ).toFixed(2) + '%' );
+				$('#'+pairID+' td:nth-child(5)').text((Number(pair[9])).toFixed(8));
+				$('#'+pairID+' td:nth-child(6)').text((Number(pair[10])).toFixed(8));
+				$('#'+pairID+' td:nth-child(7)').text((Number(pair[8])).toFixed(8));
+			});
+		});
+	}
+
+	setInterval(tickerInfos, 5000);
+	var view_more_length = 20;
+
+	function view_some_records() {
+		$('.view_more_table').each(function(){
+			var vmtotal = parseInt($(this).find('tbody tr').length);
+			$(this).find('tbody tr:lt('+view_more_length+')').addClass('active');
+			$(this).attr('data-vmidx',view_more_length);
+			$(this).attr('data-vmtotal',vmtotal);
+
+			if(vmtotal<=view_more_length) {
+				$(this).parent().find('.load_more_home').hide();
+			}
+
+		})
+	}
+
+	$(function(){
+
+		view_some_records();
+
+		$(document).on('click','.load_more_home',function(){
+			var view_more_table = $(this).parent().parent().find('.view_more_table');
+			var vmidx = parseInt(view_more_table.attr('data-vmidx'));
+			var view_more_next_length = vmidx+view_more_length;
+			var vmtotal = parseInt(view_more_table.attr('data-vmtotal'));
+
+			view_more_table.find('tbody tr:lt('+view_more_next_length+')').addClass('active');
+			view_more_table.attr('data-vmidx',view_more_next_length);
+			if(vmtotal<=view_more_next_length) {
+				$(this).hide();
+			}
+
+		})
+
+		tickerInfos();
+
+		$('#pills-tab a').click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
+
+		// store the currently selected tab in the hash value
+		$("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
+			var id = $(e.target).attr("href").substr(1);
+			window.location.hash = id;
+		});
+
+		// on load of the page: switch to the currently selected tab
+		var hash = window.location.hash;
+		$('#pills-tab a[href="' + hash + '"]').tab('show');
+
+		$(document).on('keyup', '#search', function(event){
+			if( event.which == 32 ){
+				$(this).val('');
+			}
+			// this extend is to search with out any case senstive issue
+			// Contains Jquery is case senstive
+			$.extend($.expr[':'], {
+					'containsZithex': function(elem, i, match, array)
+					{
+					return (elem.textContent || elem.innerText || '').toLowerCase()
+					.indexOf((match[3] || "").toLowerCase()) >= 0;
+					}
+			});
+			
+			$('.tab-pane.active table tr').hide();
+			
+			$('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').each(function(){
+				$(this).closest('tr').show();
+			});
+				if($('.tab-pane.active table tr td:containsZithex("'+ $(this).val() +'")').length==0)
+			{
+				notify('danger','No result found');
+			}
+				
+
+		});
+
+		function notify(type, message){
+
+				$.notify({
+					icon: 'fa fa-check',
+					title: '',
+					message: message,
+					url: ''
+				},{
+					element: 'body',
+					type: type,
+					allow_dismiss: true,
+					placement: {
+						from: 'top',
+						align: 'right'
+					},
+					offset: {
+						x: 20,
+						y: 20
+					},
+					spacing: 10,
+					z_index: 1031,
+					delay: 2500,
+					timer: 1000,
+					url_target: '_blank',
+					mouse_over: false,
+					animate: {
+						enter: 'animated bounceIn',
+						exit: 'animated bounceOu'
+					},
+					template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
+								'<span data-notify="icon"></span> ' +
+								'<span data-notify="title">{1}</span> ' +
+								'<span data-notify="message">{2}</span>' +
+								'<div class="progress" data-notify="progressbar">' +
+								'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+								'</div>' +
+								'<a href="{3}" target="{4}" data-notify="url"></a>' +
+								'<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
+								'</div>'
+				});
+		}
+
+
+		$(document).on('click', '.favourite', function(){
+			var favourite = $(this);
+			var pair = favourite.attr('data-id');
+			$.ajax({
+				url : "{{ url }}favourite/" + pair,
+				success : function(result){
+					if( result.added ){
+						favourite.addClass('fa-active');
+						$('#favourite-market-tab tbody').append( $('tr#' + pair).clone());
+					} else {
+						favourite.removeClass('fa-active');
+						$('#favourite-market-tab tr#' + pair).remove();
+					}
+				}
+			});
+		});
+	});
+
+	function getfeedbacks(){
+		$.ajax({
+			url		: "/get_feedback",
+			type	: 'GET',
+			dataType : "text",
+			contentType: "application/json",
+			success : function(response){
+				response=JSON.parse(response);
+				if(response.success){
+					var data=response.data;
+					
+					if(data.length>0)
+					{
+					document.getElementById("feedback").style.visibility = "visible";
+					}
+				else
+					{ 
+								
+					document.getElementById("feedback").style.visibility = "hidden";
+					}
+				
+			if(data){
+			
+						var colcounter=0;
+						var crouselcounter=0;
+						var crouselIndicators=' <ol class="carousel-indicators"><li data-target="#feedbacksCarousel" data-slide-to="0" class="active"></li>';
+						var rowTemplate='<div class="carousel-inner"><div class="carousel-item active"><div class="row row-equal-h">';
+						for(var i=0;i<data.length;i++){
+							console.log("feedbacks",feedbacks);
+								var feedbacks=data[i];
+								if(colcounter==3){
+									colcounter=0;
+									crouselcounter++;
+									crouselIndicators+='<li data-target="#feedbacksCarousel" data-slide-to="'+crouselcounter+'" class=""></li>';
+									rowTemplate+='</div></div><div class="carousel-item"><div class="row">';
+								}
+							var socialMediaLink = "";
+							if (feedbacks.url) {
+								socialMediaLink = '<div class="item-box-blog-media">\
+														<img alt="'+feedbacks.alternative_text+'" src="'+ feedbacks.iconPath +'"\><span><a href="'+feedbacks.url+'" target="_blank" > show more </a></span>\
+													</div>'
+							}
+							
+							var colTemplate= '<div class="col-md-4">\
+												<div class="item-box-blog">\
+													<div class="item-box-blog-image">\
+														<figure>\
+															<img  alt="'+feedbacks.alt_tag+'" class="" src="/images/feedbacks/'+feedbacks.image+'"\>\
+														</figure>\
+													</div>\
+													<div class="item-box-blog-heading text-center">\
+														<h5>'+feedbacks.title+'</h5>\
+													</div>\
+													<div class="item-box-blog-text">\
+														<p>'+feedbacks.feedback+'</p>\
+													</div>'+socialMediaLink + 
+												'</div>\
+												</div>';
+									colcounter++;
+									rowTemplate+=colTemplate;
+									
+								
+						}
+
+			}
+			
+			crouselIndicators+="</ol>";    
+				rowTemplate+='</div>'				                       
+							$('#feedbacksCarousel').html(crouselIndicators+rowTemplate);
+								
+								$('#feedbacksCarousel').carousel({
+									interval: 500000
+								});
+
+			}
+		}
+		});
+		
+	}
+	getfeedbacks();
+	 
+	function getsponsors(){
+		$.ajax({
+			url		: "/get_sponsor",
+			type	: 'GET',
+			dataType : "text",
+			contentType: "application/json",
+			success : function(response){
+				response=JSON.parse(response);
+				
+				if(response.success){
+					var data=response.data;
+					// if(data.length>0) {
+					//     document.getElementById("sponsor").style.visibility = "visible";
+					// } else {
+					//    document.getElementById("sponsor").style.visibility = "hidden";
+					// }
+					
+					if(data) {
+						$.each(data, function( i, sponsers ) {
+							console.log(data[i].image);
+							$("#owl-demo-sponsers").append('<div class="item_sponsers"><img src="../uploads/'+data[i].image+'" alt="Owl Image"></div>');
+						});
+					}
+					
+					$("#owl-demo-sponsers").owlCarousel({
+						loop:($("#owl-demo-sponsers .item_sponsers").length > 1) ? true: false,
+						autoPlay: 3000, //Set AutoPlay to 3 seconds
+						pagination: false,
+						center: true,
+						items : 3,
+						itemsDesktop : [1199,3],
+						itemsDesktopSmall : [979,3]
+					});
 				}
 			}
 		});
-	});
-});
+	}
 
-function getfeedbacks(){
-    $.ajax({
-        url		: "/get_feedback",
-        type	: 'GET',
-        dataType : "text",
-        contentType: "application/json",
-        success : function(response){
-            response=JSON.parse(response);
-            if(response.success){
-                var data=response.data;
-				
-                if(data.length>0)
-                {
-                document.getElementById("feedback").style.visibility = "visible";
-                }
-               else
-                { 
-					          
-                 document.getElementById("feedback").style.visibility = "hidden";
-                }
-               
-          if(data){
-		
-                    var colcounter=0;
-                    var crouselcounter=0;
-					 var crouselIndicators=' <ol class="carousel-indicators"><li data-target="#feedbacksCarousel" data-slide-to="0" class="active"></li>';
-                   	 var rowTemplate='<div class="carousel-inner"><div class="carousel-item active"><div class="row row-equal-h">';
-					 for(var i=0;i<data.length;i++){
-						 console.log("feedbacks",feedbacks);
-                            var feedbacks=data[i];
-                            if(colcounter==3){
-                                colcounter=0;
-                                crouselcounter++;
-								crouselIndicators+='<li data-target="#feedbacksCarousel" data-slide-to="'+crouselcounter+'" class=""></li>';
-                                rowTemplate+='</div></div><div class="carousel-item"><div class="row">';
-                            }
-						var socialMediaLink = "";
-						if (feedbacks.url) {
-							socialMediaLink = '<div class="item-box-blog-media">\
-													<img alt="'+feedbacks.alternative_text+'" src="'+ feedbacks.iconPath +'"\><span><a href="'+feedbacks.url+'" target="_blank" > show more </a></span>\
-												</div>'
-						}
-						
-					     var colTemplate= '<div class="col-md-4">\
-                                            <div class="item-box-blog">\
-                                                <div class="item-box-blog-image">\
-													<figure>\
-                                                        <img  alt="'+feedbacks.alt_tag+'" class="" src="/images/feedbacks/'+feedbacks.image+'"\>\
-													</figure>\
-												</div>\
-                                                <div class="item-box-blog-heading text-center">\
-                                                    <h5>'+feedbacks.title+'</h5>\
-                                                </div>\
-												<div class="item-box-blog-text">\
-                                                    <p>'+feedbacks.feedback+'</p>\
-												</div>'+socialMediaLink + 
-											'</div>\
-                                            </div>';
-                                colcounter++;
-                                rowTemplate+=colTemplate;
-								 
-                            
-					 }
+	getsponsors();
 
-		  }
-		 
-		   crouselIndicators+="</ol>";    
-		     rowTemplate+='</div>'				                       
-                        $('#feedbacksCarousel').html(crouselIndicators+rowTemplate);
-                            
-                            $('#feedbacksCarousel').carousel({
-                                interval: 500000
-                            });
-
-        }
-    }
-	});
-	
-}
-
- getfeedbacks();
 </script>
 
 

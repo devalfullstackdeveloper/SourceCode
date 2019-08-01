@@ -94,10 +94,26 @@ section.main_header ul li:hover .sub-menu {
 section.main_header_1 ul li:hover .sub-menu {
   opacity: 1;
 }
+.button_profile{
+  float: right;
+  position: relative;
+  left: 35%;
+}
+.button_profile a{
+  border: 1px solid #fff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  color: #fff;
+}
+.button_profile a:hover{
+  text-decoration:none;
+  color:black;
+}
+
 .button_1 {
   float: right;
   position: relative;
-  left: 38%;
+  left: 35%;
   top: 30px;
 }
 .button_2 {
@@ -1052,7 +1068,7 @@ color: #ed8a19;
       border:none;
     }
     .market-tab .nav-pills .nav-link {
-      border-bottom: #transparent;
+      border-bottom: transparent;
     }
     .market-tab .nav-pills .nav-link.active {
         border-bottom: 3px solid #f4bd33;
@@ -1107,6 +1123,19 @@ ul.sub-menu li:hover {
   background-color: #fff !important;
 }
 
+#owl-demo-sponsers .item_sponsers {
+  margin: 3px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  width: 40%;
+}
+
+#owl-demo-sponsers .item_sponsers img{
+  display: block;
+  width: 100%;
+  padding: 10px 0px 31px;
+}
 .load_more_home {
     position: inherit;
     float: none;
@@ -1123,3 +1152,4 @@ ul.sub-menu li:hover {
     width: auto;
     top: -10px;
 }
+

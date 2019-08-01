@@ -103,7 +103,7 @@ line-height:160%;
 <td width="200" valign="top" align="center">
 <div class="contentEditableContainer contentImageEditable">
 <div class="contentEditable" align='center' >
-<img src="{{ url }}/images/logo-black.png" width="150"  alt='Logo'  data-default="placeholder" />
+<img src={{ assetsUrl('../images/logo-black.png') }} width="150"  alt='Logo'  data-default="placeholder" />
 </div>
 </div>
 </td>
@@ -123,11 +123,11 @@ line-height:160%;
 </td>
 </tr>
 <tr style="background: #eee;">
-<td width="100">&nbsp;</td>
+<td width="100">&nbsp;</td> 
 <td width="1400" align="center">
 <div class="contentEditableContainer contentTextEditable">
 <div class="contentEditable" align='left' >
-<p ><strong>Hello {{ name }}, </strong><br><br> Thank you for your registration with Cryptofxspace.com,<br>Please click the link below to verify your account.</p><br><br>
+<p ><strong>Hello {{ name }}, </strong><br><br> Thank you for your registration with Cryptofxspace.com,<br>Please click the link below to verify your account.</p><br><br>device-auth
 <div style="text-align: center;display: inline-block;width: 100%;"><a style="padding: 10px 18px; border-radius:10px; background: #161524; color: #fff; text-decoration: none; text-align: center; width: 150px; margin: 20px auto; font-size: 18px; display: block;" href="{{ url + route('verify', {token : token}) }}">Verify</a></div>
 <br><br>
 </div>

@@ -53,23 +53,41 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/index/#trading">Trade</a></li>
                     <li><a href="{{ route('requestcoin') }}">List your Coin</a></li>
-                    <li><a href="{{ route('hire-trader') }}">Buy Courses/Hire Trader</a></li>
+                    <li><a href="{{ route('hire-trader') }}">Buy Courses</a></li>
                     <li><a href="{{ route('about') }}">About Us </a></li>
                     <li><a href="#">Support <i class="fa fa-caret-down"></i></a> 
                         <ul CLASS="sub-menu">
-                            <li><a href="{{ route('support') }}">Support</a></li>
+                            <li><a href="{{ route('contact') }}">Support</a></li>
                             <li><a href="{{ route('faq') }}">FAQs</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ route('blogs') }}">BLOG</a></li>
                     
                 </ul>
+
+                @loggedIn
+                <div class="button_profile" style="top:0%">    
+                    <ul class="nav navbar-nav" style="float:right;">
+                        <li><a href="#">{{auth.user.name}}<i class="fa fa-caret-down"></i></a> 
+                            <ul CLASS="sub-menu">
+                                <li><img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px"></li>
+                                <a href="{{ route('wallets') }}">Wallet</a>
+                                <a href="{{ route('account') }}">Account</a>
+                                <a href="{{ route('logout') }}">Logout</a>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>  
+               
+                @else
                 <div class="button_1">
-                    <a href="{{ route('login') }}">Log In</a>
+                        <a href="{{ route('login') }}">Log In</a>
                 </div>
                 <div class="button_2">
                     <a href="{{ route('signup') }}">Sign Up <i class="fas fa-arrow-right"></i></a>
-                </div>
+                </div>  
+                @endloggedIn
+                
             </div>
             
             </div>
@@ -87,7 +105,7 @@
                 <h1>Start trading now</h1>
                 <p>Trade Bitcoin,BNB,and hundreds of other cryptocurrencies in minutes.</p>
                 <div class="get-started-btn">
-                    <a href="#">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
+                    <a href="/index/#trading">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -113,7 +131,7 @@
                         <ul>
                             <li><a href="/index/#trading">Trade/Exchange</a></li>
                             <li><a href="{{ route('requestcoin') }}">List Your Coin</a></li>
-                            <li><a href="{{ route('hire-trader') }}">Buy Courses/Hire Trader</a></li>
+                            <li><a href="{{ route('hire-trader') }}">Buy Courses</a></li>
                         </ul>
                     </div>
                 </div>
@@ -130,11 +148,11 @@
                     <div class="footer_nav">
                         <h3>Community</h3>
                         <ul class="icons">
-                            <li ><a href="javascript:void(0)" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a></li>
-                            <li><a href="javascript:void(0)" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                            
+                            <li ><a href="https://www.facebook.com/Cryptospace-OU-2123035051142278/?eid=ARCKCETk1Ag74MIg0bhzpddzNH5G7DUWcb8Hzik2uH2hamoSOKs19ADHQhnPz8MCaH-JY4hz02dd2yPO&timeline_context_item_type=intro_card_work&timeline_context_item_source=100039925361067&fref=tag" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                            <li><a href="https://www.youtube.com/channel/UCCftna4O5NoOW9VFZCQajlw/featured?disable_polymer=1" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                            <li><a href="https://twitter.com/cryptofxspace" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/cryptofxspace2019/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://www.linkedin.com/company/20123767/admin/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -221,79 +239,6 @@ s0.parentNode.insertBefore(s1,s0);
 <!--End of Tawk.to Script-->
 
 <script type="text/javascript">
-function getsponsors(){
-    $.ajax({
-        url		: "/get_sponsor",
-        type	: 'GET',
-        dataType : "text",
-        contentType: "application/json",
-        success : function(response){
-            response=JSON.parse(response);
-                
-            if(response.success){
-                var data=response.data;
-                if(data.length>0)
-                {
-                document.getElementById("sponsor").style.visibility = "visible";
-                }
-               else
-                 {
-                            
-                    document.getElementById("sponsor").style.visibility = "hidden";
-                   }
-               
-                if(data){
-                     
-                    var colcounter=0;
-                    var crouselcounter=0;
-                    var crouselIndicators=' <ol class="carousel-indicators"><li data-target="#sponsersCarousel" data-slide-to="0" class="active"></li>';
-                    var rowTemplate='<div class="carousel-inner"><div class="carousel-item active"><div class="row">';
-                    for(var i=0;i<data.length;i++){
-                            var d=data[i];
-                            if(colcounter==4){
-                                colcounter=0;
-                                crouselcounter++;
-                                crouselIndicators+='<li data-target="#sponsersCarousel" data-slide-to="'+crouselcounter+'" class=""></li>';
-                                rowTemplate+='</div></div><div class="carousel-item"><div class="row">';
-                               
-                            }
-
-                            var colTemplate= '<div class="col-md-3">\
-                                                        <div class="card">\
-                                                          <div class="card-body">\
-                                                            <img class="crouselimage" title='+d.name+' alt='+d.alt+' src="/uploads/'+d.image+'">\
-                                                            <div class="hover-block">\
-                                                                <h6 class="card-subtitle mb-2">'+d.name+'</h6>\
-                                                            </div>\
-                                                          </div>\
-                                                        </div>\
-                                                </div>';
-                                colcounter++;
-                                rowTemplate+=colTemplate;
-                            
-                    
-                            }
-               
-               
-                        }
-                        
-                
-                        rowTemplate+='</div>'
-                        crouselIndicators+="</ol>";                        
-                        $('#sponsersCarousel').html(crouselIndicators+rowTemplate);
-                            
-                            $('#sponsersCarousel').carousel({
-                                interval: 5000
-                            });
-            }
-          
-        }
-    });
-}
-
-    getsponsors();
-
-
 
 </script>	
 @!section('script')
