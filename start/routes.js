@@ -28,7 +28,7 @@ Route.group(() => {
 	Route.get('/faq', 						'PageController.faq').as('faq');
 	Route.get('/security', 					'PageController.security').as('security');
 	Route.get('/how-it-works', 				'PageController.howItWorks').as('howitworks');
-	Route.get('/support', 					'PageController.support').as('support');
+	// Route.get('/support', 					'PageController.contact').as('contact');
 	Route.get('/news', 						'PageController.news').as('news');
 	Route.get('/contact', 					'PageController.contact').as('contact');
 	Route.post('/contact', 					'PageController.submitContact');
