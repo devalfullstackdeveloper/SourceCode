@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.defaultnew')
 
 @section('content')
 <style>
@@ -18,8 +18,11 @@
     .tredi-price2 .nav-link {
         border-radius: 0px
     }
+    .fixed-top {
+      position: inherit;
+    }
 </style>
-<section class="trade pt-4 pb-4 market-section" id="newdays">   
+<section class="trade pt-2 pb-4 market-section ztx-day" id="newdays">   
     <div class="container">
         <img class="mr-2 bit-img" width="35" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
         <h3 class="text-weight-bold" style="">
@@ -30,7 +33,7 @@
         </h3>
         <div class="messages"></div>
         <div class="col-sm-12"> 
-            <div class="row p-1 mt-4 market-head-box"> 
+            <div class="row p-1 mt-1 market-head-box"> 
                 <div class="col">
                     <div class="d-flex"> <span class="trade-sm small">{{ antl.formatMessage('keywords.last_price') }}</span>  </div>  
                     <div class="d-flex font-weight-bold"> <span class="mr-2" id="last_price">0.000</span></div>
@@ -56,12 +59,12 @@
                         <ul class="list-inline m-0">
                             <li class="list-inline-item">
                                 <button class="ztxday zth-theme-btn" onclick="ztxday();">
-                                    <i class="fas fa-sun"></i>
+                                    <i class="bx bx-sun"></i>
                                 </button>
                             </li>
                             <li class="list-inline-item">
                                 <button  class="ztxnight zth-theme-btn" onclick="ztxnight();">
-                                    <i class="fas fa-moon"></i>
+                                    <i class="bx bx-moon"></i>
                                 </button>
                             </li>
                         </ul>
@@ -73,7 +76,7 @@
           <div class="col-sm-12 col-md-3 tredi-price1">
                 <div class="">
                     <div class="d-inline table-scroll">
-                        <table class="table table-sm table-bordered text-center mb-0 trade-ui--table cursor-table">
+                        <table class="table table-sm table-bordered text-center mb-2 trade-ui--table cursor-table">
                             <thead>
                                 <tr class="grey-text">
                                     <th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
@@ -96,7 +99,7 @@
                         </table>
                     </div>
                     <div class="d-inline table-scroll">
-                        <table class="table table-sm table-bordered text-center mb-0 trade-ui--table cursor-table">
+                        <table class="table table-sm table-bordered text-center mb-2 trade-ui--table cursor-table">
                             <thead>
                                 <tr class="grey-text">
                                     <th scope="col">{{ antl.formatMessage('keywords.price') }}</th>
@@ -125,9 +128,8 @@
             <div class="col-sm-12 col-md-6">
 
                 <div class="clearfix">
-                    <div class="float-md-right text-center">
-                        <button onclick="showOriginal()" class="btn btn-sm btn-primary">Zithex Chart</button>
-                        <button onclick="showTradeView()" class="btn btn-sm btn-primary">Trading View</button>
+                    <div class="float-md-right text-center mb-2">
+                        <button onclick="showTradeView()" class="btn btn-sm btn-warning">Trading View</button>
                     </div>
                 </div>
 
@@ -139,11 +141,11 @@
                     <h3>Coming soon..</h3>
                     </div>
                 </div>
-                <div class="col-sm-12 mt-5">
+                <div class="mt-5">
                 <input type="hidden" value="{{ stoporderdata }}" id="stoporderdata" name="stoporderdata" />
                 
                 <input type="hidden" value="{{ stoporderdatas }}" id="stoporderdatas" name="stoporderdatas" />
-                    <div class="tab-content border p-3 trade-ui--tab" id="myTabContent">
+                    <div class="tab-content border p-2 trade-ui--tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="fees-card d-md-flex">
                                 <h3>Fees</h3>
@@ -157,26 +159,26 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-12 tredi-price2">
-                                    <ul class="nav nav-pills trade-ui--pills" id="pills-tab" role="tablist">
+                                    <ul class="nav nav-pills trade-ui--pills mb-2 mt-2" id="pills-tab" role="tablist">
                                         <li class="nav-item">
                                           <a class="nav-link active p-1 grey-text small border" id="start-market-tab-link" data-toggle="pill" href="#start-market-tab" role="tab" aria-controls="start-market-tab" aria-selected="true">Buy</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " id="stop-market-tab-link" data-toggle="pill" href="#stop-market-tab" role="tab" aria-controls="stop-market-tab" aria-selected="true">Stop Limit</a>
+                                            <a class="nav-link p-1 grey-text small border" id="stop-market-tab-link" data-toggle="pill" href="#stop-market-tab" role="tab" aria-controls="stop-market-tab" aria-selected="true">Stop Limit</a>
                                         </li>
                                          <li class="nav-item">
-                                          <a class="nav-link" id="exchange-market-tab-link" data-toggle="pill" href="#exchange-market-tab" role="tab" aria-controls="exchange-market-tab" aria-selected="true">Exchange</a>
+                                          <a class="nav-link p-1 grey-text small border" id="exchange-market-tab-link" data-toggle="pill" href="#exchange-market-tab" role="tab" aria-controls="exchange-market-tab" aria-selected="true">Exchange</a>
                                         </li>
                                     </ul>
-                                    <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-content bggray" id="pills-tabContent">
                                          <div class="tab-pane fade show active" id="start-market-tab" role="tabpanel" aria-labelledby="start-market-tab-link">
-                                            <div class="p-3 trade-ui--tab-box">
+                                            <div class="p-2 trade-ui--tab-box">
                                                <h4 class="h5">{{ antl.formatMessage('keywords.buy') }}<span class="ml-2">{{ pair.coin }}</span></h4>
                                                <div id="buyFormMessage"></div>
                                                @if(auth.user)
                                                <form method="post" id="buyForm" data-parsley-validate autocomplete="off">
                                             
-                                                  <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.base_currency).toUpperCase() }}
+                                                  <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.base_currency).toUpperCase() }}
                                                   <div  id="mainusdbal">
 
                                                   @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
@@ -200,17 +202,17 @@
                                                      <input data-parsley-required class="form-control" name="amount" id="buy-amount" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
                                                   </div>
                                                   <div class="form-group">
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getone(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="gettwo(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getthree(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getfour(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getone(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">25%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="gettwo(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">50%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getthree(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">75%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getfour(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">100%</a>
                                                   </div>
                                                   <div class="form-group">
                                                      <label for="buy-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
                                                       <input data-parsley-required class="form-control" name="total"  id="buy-total" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
                                                   </div>
                                                   @if(auth.user)
-                                                  <div class="text-center"><input type="submit" id="buyFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch" value="{{ antl.formatMessage('keywords.buy') }}"></div>
+                                                  <div class="text-center"><input type="submit" id="buyFormBtn" class="my-btn2 w-100 mt-2 mb-2 btn btn-primary" data-parsley-trigger="click touch" value="{{ antl.formatMessage('keywords.buy') }}"></div>
                                                </form>
                                                @else
                                                <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
@@ -219,14 +221,14 @@
                                          </div>
                                          <!---new stop limit -->
                                          <div class="tab-pane fade" id="stop-market-tab" role="tabpanel" aria-labelledby="stop-market-tab-link">
-                                            <div class="p-3 trade-ui--tab-box">
+                                            <div class="p-2 trade-ui--tab-box">
                                                
                                                 <p class="text-center">Coming Soon</p>
                                                <!--<h4 class="h5">{{ antl.formatMessage('keywords.buy') }}<span class="ml-2">{{ pair.coin }}</span></h4>
                                                <div id="stopbuyFormMessage"></div>
                                                @if(auth.user)
                                                <form method="post" id="stopbuyForm" data-parsley-validate autocomplete="off">
-                                                  <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div id="mainusdbal2">
+                                                  <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div id="mainusdbal2">
 
                                                   @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
                                                     <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
@@ -252,17 +254,17 @@
                                                      <input data-parsley-required class="form-control buy-amount" name="amount"  id="buy-amount" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
                                                   </div>
                                                   <div class="form-group">
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get9(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get10(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get11(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get12(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get9(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">25%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get10(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">50%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get11(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">75%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="get12(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">100%</a>
                                                   </div>
                                                   <div class="form-group">
                                                      <label for="buy-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
                                                      <input data-parsley-required class="form-control buy-total" name="total"  id="buy-total" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
                                                   </div>
                                                   @if(auth.user)
-                                                  <div class="text-center"><input type="submit" id="stopbuyFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch" value="{{ antl.formatMessage('keywords.buy') }}"></div>
+                                                  <div class="text-center"><input type="submit" id="stopbuyFormBtn" class="my-btn2 w-100 mt-3 mb-2 btn btn-primary" data-parsley-trigger="click touch" value="{{ antl.formatMessage('keywords.buy') }}"></div>
                                                </form>
                                                @else
                                                <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}
@@ -274,12 +276,12 @@
                                          <!-- buy Exchange Form -->
                                          
                                            <div class="tab-pane fade" id="exchange-market-tab" role="tabpanel" aria-labelledby="exchange-market-tab-link">
-                                            <div class="p-3 trade-ui--tab-box">
+                                            <div class="p-2 trade-ui--tab-box">
                                                <h4 class="h5">Exchange<span class="ml-2">{{ pair.coin }}</span></h4>
                                                <div id="exchangebuyFormMessage"></div>
                                                @if(auth.user)
                                                <form method="post" id="exchangebuyForm" data-parsley-validate autocomplete="off">
-                                                  <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div  id="mainusdbal3">
+                                                  <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div  id="mainusdbal3">
 
                                                   @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
                                                      <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
@@ -304,17 +306,17 @@
                                                      <input data-parsley-required class="form-control" name="amount"  id="exchange-amount" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
                                                   </div>
                                                   <div class="form-group">
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetone(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egettwo(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetthree(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
-                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetfour(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetone(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">25%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egettwo(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">50%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetthree(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">75%</a>
+                                                     <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="egetfour(Number($('#kkrt').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">100%</a>
                                                   </div>
                                                   <div class="form-group">
                                                      <label for="buy-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
                                                       <input data-parsley-required class="form-control" name="total"  id="exchange-total" type="number" step="0.00000001" min="0.00000001" data-parsley-trigger="submit" >
                                                   </div>
                                                   @if(auth.user)
-                                                  <div class="text-center"><input type="submit" id="buyFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch" value="Exchange"></div>
+                                                  <div class="text-center"><input type="submit" id="buyFormBtn" class="my-btn2 w-100 mt-3 mb-2 btn btn-primary" data-parsley-trigger="click touch" value="Exchange"></div>
                                                </form>
                                                @else
                                                <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
@@ -324,24 +326,24 @@
                                     </div>
                                 </div>    
                                 <div class="col-lg-6 col-12">
-                                        <ul class="nav nav-pills trade-ui--pills">
-                                            <li class="nav-item">
-                                                <button class="nav-link active sellTabBtn" onclick="startsell()">Sell</button>    
+                                        <ul class="nav nav-pills trade-ui--pills mb-2 mt-2">
+                                            <li class="nav-item ">
+                                                <a href="javascript:void(0)" class="nav-link active sellTabBtn p-1 grey-text small border" onclick="startsell()">Sell</a>    
                                             </li>
                                             <li class="nav-item">
-                                                <button class="nav-link sellLimitTabBtn" onclick="stopsell()">Stop Limit</button>
+                                                <a href="javascript:void(0)" class="nav-link sellLimitTabBtn p-1 grey-text small border" onclick="stopsell()">Stop Limit</a>
                                             </li>
                                             <li class="nav-item">
-                                                <button class="nav-link sellExchangeTabBtn" onclick="exchangestartsell()">Exchange</button>
+                                                <a href="javascript:void(0)" class="nav-link sellExchangeTabBtn p-1 grey-text small border" onclick="exchangestartsell()">Exchange</a>
                                             </li>
                                         </ul>
-                                        <div class="p-3 trade-ui--tab-box" id="startsell">
+                                        <div class="p-2 trade-ui--tab-box bggray" id="startsell">
                                             
                                             <h4 class="h5">{{ antl.formatMessage('keywords.sell') }}<span class="ml-2">{{ pair.coin }}</span></h4> 
                                             <div id="sellFormMessage"></div>
                                             @if(auth.user)
                                             <form id="sellForm" method="post" data-parsley-validate autocomplete="off">
-                                                <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="sellformbal">
+                                                <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="sellformbal">
                                                 @if( pair.derive_currency == 'usd' || (pair.derive_currency) == 'euro' )
                                                 <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
                                                 @else
@@ -363,30 +365,30 @@
                                                    <input data-parsley-required class="form-control" name="amount" id="sell-amount" type="number" step="0.00000001" min="0.00000001">
                                                 </div>
                                                 <div class="form-group">
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getfive(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getsix(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getseven(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="geteight(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getfive(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">25%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getsix(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">50%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="getseven(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">75%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light mt-md-0 mt-2" href="javascript:void(0)" onclick="geteight(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">100%</a>
                                                 </div>
                                                 <div class="form-group">
                                                    <label for="sell-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
                                                    <input data-parsley-required class="form-control" name="total" id="sell-total" type="number" step="0.00000001" min="0.00000001">
                                                 </div>
                                                 @if(auth.user)
-                                                <div class="text-center"><button type="submit" id="sellFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch">{{ antl.formatMessage('keywords.sell') }}</button></div>
+                                                <div class="text-center"><button type="submit" id="sellFormBtn" class="my-btn2 w-100 mt-2 mb-2 btn btn-primary" data-parsley-trigger="click touch">{{ antl.formatMessage('keywords.sell') }}</button></div>
                                             </form>
                                              @else
                                              <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
                                              @endif
                                         </div>
-                                        <div class="p-3 trade-ui--tab-box" id="stopsell" style="display:none;">
+                                        <div class="p-2 trade-ui--tab-box bggray" id="stopsell" style="display:none;">
                                             <p class="text-center">Coming Soon</p>
 
                                             <!--<h4 class="h5">{{ antl.formatMessage('keywords.sell') }}<span class="ml-2">{{ pair.coin }}</span></h4>
                                             <div id="stopsellFormMessage"></div>
                                             @if(auth.user)
                                             <form id="stopsellForm" method="post" data-parsley-validate autocomplete="off">
-                                                <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.derive_currency).toUpperCase() }} <div id="sellformbal2">
+                                                <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.derive_currency).toUpperCase() }} <div id="sellformbal2">
                                                 @if( pair.derive_currency == 'usd' || pair.derive_currency == 'euro' )
                                                 <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
                                                 @else
@@ -411,29 +413,29 @@
                                                    <input data-parsley-required class="form-control" name="amount" id="stopsell-amount" type="number" step="0.00000001" min="0.00000001">
                                                 </div>
                                                 <div class="form-group">
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get13(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get14(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get15(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get16(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get13(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">25%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get14(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">50%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get15(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">75%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="get16(Number($('#kkr4').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">100%</a>
                                                 </div>
                                                 <div class="form-group">
                                                    <label for="sell-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
                                                    <input data-parsley-required class="form-control" name="total" id="stopsell-total" type="number" step="0.00000001" min="0.00000001">
                                                 </div>
                                                 @if(auth.user)
-                                                <div class="text-center"><button type="submit" id="stopsellFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch">{{ antl.formatMessage('keywords.sell') }}</button></div>
+                                                <div class="text-center"><button type="submit" id="stopsellFormBtn" class="my-btn2 w-100 mt-3 mb-2 btn btn-primary" data-parsley-trigger="click touch">{{ antl.formatMessage('keywords.sell') }}</button></div>
                                             </form>
                                             @else
                                             <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
                                             @endif
                                             -->
                                         </div>
-                                        <div class="p-3 trade-ui--tab-box" id="exchangestartsell" style="display:none;">
+                                        <div class="p-2 trade-ui--tab-box bggray" id="exchangestartsell" style="display:none;">
                                             <h4 class="h5">Exchange<span class="ml-2">{{ pair.coin }}</span></h4>
                                             <div id="exchangesellFormMessage"></div>
                                             @if(auth.user)
                                             <form id="exchangesellForm" method="post" data-parsley-validate autocomplete="off">
-                                                <p class="wl-para"><i class="fa fa-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="exchangesellformbal">
+                                                <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="exchangesellformbal">
                                                 @if( pair.derive_currency == 'usd' || pair.derive_currency == 'euro' )
                                                   <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
                                                 @else
@@ -455,17 +457,17 @@
                                                    <input data-parsley-required class="form-control" name="amount" id="exchangesell-amount" type="number" step="0.00000001" min="0.00000001">
                                                 </div>
                                                 <div class="form-group">
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetfive(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">25%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetsix(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">50%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetseven(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">75%</a>
-                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegeteight(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 7px 0 0;">100%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetfive(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">25%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetsix(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">50%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegetseven(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">75%</a>
+                                                   <a class="btn btn-sm btn-dark-ui waves-effect waves-light" href="javascript:void(0)" onclick="exchangegeteight(Number($('#kkr3').text()));" style="padding: 6px 7px;font-size: .64rem; background: #d58c07;margin: 0 2px 0 0;">100%</a>
                                                 </div>
                                                 <div class="form-group">
                                                    <label for="sell-total" class="">{{ antl.formatMessage('keywords.total') }}</label>
                                                    <input data-parsley-required class="form-control" name="total" id="exchangesell-total" type="number" step="0.00000001" min="0.00000001">
                                                 </div>
                                                 @if(auth.user)
-                                                <div class="text-center"><button type="submit" id="sellFormBtn" class="my-btn2 w-100 mt-3 mb-2" data-parsley-trigger="click touch">Exchange</button></div>
+                                                <div class="text-center"><button type="submit" id="sellFormBtn" class="my-btn2 w-100 mt-3 mb-2 btn btn-primary" data-parsley-trigger="click touch">Exchange</button></div>
                                             </form>
                                              @else
                                              <div class="text-center trade-log-btn"><a href="{{ route('login') }}">{{ antl.formatMessage('keywords.login') }}</a> / <a href="{{ route('login') }}">{{ antl.formatMessage('keywords.signup') }}</a> {{ antl.formatMessage('keywords.to_trade') }}</div>
@@ -481,10 +483,10 @@
             <!--search bar-->
             <div class="searchnew mb-3 mt-3">
   				<input type="text" name="search" id="search" class="form-control" placeholder="search here..">
-  				<i class="fa fa-search"></i>
+  				<i class="bx bx-search"></i>
   			</div>
             <!--search bar-->
-                <ul class="nav nav-pills trade-ui--pills" id="pills-tab" role="tablist">
+                <ul class="nav nav-pills trade-ui--pills mb-2" id="pills-tab" role="tablist">
                 <li class="nav-item">
                         <a class="nav-link" id="favourite-market-tab-link" data-toggle="pill" href="#favourite-market-tab" role="tab" aria-controls="favourite-market-tab" aria-selected="true"><i class="fa fa-star fa-active" style="color: #d58c07;"></i></a>
                     </li>
@@ -636,7 +638,7 @@
                         </div>    
                     </div>
                 </div>
-                <ul class="nav nav-pills trade-ui--pills" id="pills-tab" role="tablist">
+                <ul class="nav nav-pills trade-ui--pills mt-2 mb-2" id="pills-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active p-1 grey-text small border" id="history-tab-link" data-toggle="pill" href="#history-tab" role="tab" aria-controls="btc-market-tab" aria-selected="true">{{ antl.formatMessage('keywords.market') }}</a>
                     </li>
@@ -692,7 +694,7 @@
                             </tr>
                         </thead>
                         <tbody class="open-orders common-tbody">
-                            <tr><td colspan="8">{{ antl.formatMessage('keywords.no_order') }}</td></tr>
+                            <tr><td colspan="10">{{ antl.formatMessage('keywords.no_order') }}</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -716,7 +718,7 @@
                             </tr>
                         </thead>
                         <tbody class="orders common-tbody">
-                            <tr><td colspan="8">{{ antl.formatMessage('keywords.no_order') }}</td></tr>
+                            <tr><td colspan="9">{{ antl.formatMessage('keywords.no_order') }}</td></tr>
                         </tbody>
                     </table>
                 </div>

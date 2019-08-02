@@ -68,7 +68,7 @@
                 @loggedIn
                 <div class="button_profile" style="top:0%">    
                     <ul class="nav navbar-nav" style="float:right;">
-                        <li><a href="#">{{auth.user.name}}<i class="fa fa-caret-down"></i></a> 
+                        <li><a href="#" class ="lgHDR">{{auth.user.name}}<i class="fa fa-caret-down"></i></a> 
                             <ul CLASS="sub-menu">
                                 <li><img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px"></li>
                                 <a href="{{ route('wallets') }}">Wallet</a>
