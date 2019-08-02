@@ -30,7 +30,7 @@ li.nav-item.pr-md-2 {
 }
 
 .bg-blue-900 {
-    background: #0d0934fa !important;
+    background: #1b1b38 !important;
 }
 
 .bg-gradient {
@@ -264,4 +264,128 @@ a[disabled="disabled"] {
 .card-fees:hover h4,
 .card-fees:hover h6 {
   color: #1A202C;
+}
+
+
+/*market/btcusd*/
+.market-section .text-weight-bold {
+  display: inline-block;
+}
+.market-section .market-heading {
+  color: #f89e32;
+}
+.market-section .bit-img {
+  position: relative;
+  top: -4px;
+}
+.market-section .market-head-box {
+  border: 3px solid #0f0f34;
+  padding: 16px !important;
+}
+.zth-theme-btn {
+    padding: 0px 6px;
+    font-size: 28px;
+    background: #cecece;
+    border: 0;
+    color: #0f0f34;
+    border-radius: 5px;
+    outline: 0;
+}
+.market-section a {
+  color: #0f1034;
+}
+.market-section .table thead th {
+    font-weight: normal;
+    font-size: 12px;
+    padding: 5px 2px;
+    background: #ffeab9;
+}
+.market-section .nav-link {
+    border-radius: 0px;
+    color: #0f0f34;
+}
+.market-section .h5 {
+    border-bottom: 1px solid #cacaca;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.market-section .nav-pills .nav-link.active {
+    background-color: #0f0f34 !important;
+    color: #fff !important;
+}
+.market-section .table-scroll {
+    max-height: 500px;
+    overflow: auto;
+}
+.market-section .searchnew {
+  position: relative;
+
+}
+.market-section .searchnew .bx-search {
+    position: absolute;
+    top: 13px;
+    right: 10px;
+}
+.market-section .table tbody td {
+    font-weight: normal;
+    font-size: 12px;
+    padding: 5px 2px;
+
+}
+.market-section .fees-card h3 {
+    margin: 0;
+    font-size: 20px;
+}
+.market-section .fees-card {
+    background: #ffeab9;
+    padding: 10px;
+  }
+
+.bggray {
+  background: #f2f2f2;
+}
+.market-section .btn-dark-ui {
+  color: #fff;
+}
+.market-section.ztx-night {
+  background: #0f0f34;
+}
+
+.market-section.ztx-day .ztxday {
+      color: #fff;
+    background: #0f0f34;
+}
+
+.market-section.ztx-night .ztxnight {
+      color: #fff;
+    background: #0f0f34;
+}
+
+.market-section.ztx-night  .market-head-box {
+    border: 3px solid #e0a800;
+    color: #fff;
+}
+.market-section.ztx-night table tr td a {
+  color: #fff;
+}
+.market-section.ztx-night table tr td {
+  color: #fff;
+}
+.market-section.ztx-night .nav-link {
+  color:#fff;
+}
+.market-section.ztx-night .nav-pills .nav-link.active {
+    background-color: #fec235 !important;
+    color: #fff !important;
+}
+.market-section.ztx-night legend {
+  color: #fff;
+}
+.market-section.ztx-night .bggray {
+  background: transparent;
+  color: #fff;
+}
+.market-section.ztx-night .h5 {
+    border-bottom: 1px solid #fff;
+    color: #fff;
 }
