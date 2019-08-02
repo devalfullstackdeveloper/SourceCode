@@ -5,11 +5,22 @@ body {
 a {
   transition: all 0.3s ease;
 }
-
-.text-yellow-500 {
-  color: #F5BC00;
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff !important;
+  font-size: 14px !important;
 }
 
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #b4800e !important;
+}
+
+.text-yellow-500 {
+  color: #b4800e;
+}
+li.nav-item.pr-md-2 {
+    padding: 0px !important;
+}
 .bg-yellow-500 {
   background: #F5BC00;
 }
@@ -19,7 +30,7 @@ a {
 }
 
 .bg-blue-900 {
-  background: #0D0934;
+    background: #0d0934fa !important;
 }
 
 .bg-gradient {
@@ -29,7 +40,7 @@ a {
 
 .btn-yellow {
   color: #1a202c;
-  background: #F5BC00;
+  background: #b4800e;
 }
 
 .footer {
@@ -87,10 +98,6 @@ textarea {
   margin-right: 0;
 }
 
-.navbar-brand img {
-  width: auto;
-  height: 40px;
-}
 
 @media (min-width: 1024) {
   .navbar-brand img {
@@ -98,7 +105,15 @@ textarea {
     height: 48px;
   }
 }
-
+.navbar-brand img {
+    width: 100%;
+    float: left;
+    position: relative;
+    height: auto;
+}
+li.nav-item.pr-md-2 a {
+    font-size: 14px !important;
+}
 /* wizard css */
 
 .stepwizard-step p {
