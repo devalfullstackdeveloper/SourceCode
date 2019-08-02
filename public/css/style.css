@@ -13,7 +13,7 @@ body {
   position: absolute;
   z-index: 3;
   margin-top: 0px;
-  background: #0d0934fa;
+  background: #1b1b38;
 }
 .main_header_1 {
   width: 100%;
@@ -499,16 +499,16 @@ ul.icons li a {
   border-left: 1px solid #ebebeb;
 }
 section.logos {
-  width: 100%;
-  float: left;
-  background: #1b1b38;
-  position: relative;
-  bottom: 103px;
+    width: 100%;
+    float: left;
+    background: #1b1b38;
+    position: relative;
+    bottom: 88px;
 }
 .text_center {
-  width: 100%;
-  text-align: center;
-  padding: 22px 0px;
+    width: 100%;
+    text-align: center;
+    padding: 64px 0px 8px;
 }
 .text_center h5 {
   color: #fff;
