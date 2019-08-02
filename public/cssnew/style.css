@@ -265,3 +265,102 @@ a[disabled="disabled"] {
 .card-fees:hover h6 {
   color: #1A202C;
 }
+
+
+/* Wallet */
+.wallet-amount{
+  background: #dce6ec;
+  padding: 8px 10px;
+}
+
+.wallet-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  min-height: 240px;
+}
+.wallet-image {
+  margin: 25px 25px 25px 0;
+  color: #000;
+}
+.wallet-image strong{
+  display: block;
+  font-size: 100px;
+  font-weight: bold;
+  line-height: 0;
+}
+.wallet-content {
+
+}
+.wallet-content h5{
+margin: 0;
+text-transform: uppercase;
+line-height: 16px;
+}
+.wallet-content strong{
+  display: block;
+  font-size: 25px;
+  font-family: 'OpenSans-Semibold.ttf';
+  line-height: 22px;
+  margin: 18px 0;
+}
+.wallet-content a{
+margin: 3px 0;
+color: #333;
+width: 90%;
+}
+.bl-btn{
+background: #161624;
+color: #fff !important;
+}
+.yl-btn{
+background: #d58c07;
+color: #fff !important;
+}
+.brw-btn{
+background: #6f3800;
+color: #fff !important;
+}
+.grey-btn{
+background: #ddd;
+color: #333 !important;
+}
+.market-tab {
+  background: #1b1b38;
+  width: 100%;
+  position: relative;
+  padding: 30px 0;
+}
+.wallet-table-body{
+  color: white;
+  border: 0px;
+}
+.wallet-table-head{
+  color: white;
+}
+.wallet-table td{
+  border: 0px;
+}
+.wallet-table tr:nth-child(odd) {
+  background:#151529
+}
+.wallet-table tr:nth-child(even) {
+  background:#1b1b38
+}
+.wallet-table-head th{
+  border: 0px;
+  border-bottom-width: 0px !important;
+  background: #999999;
+  border-top: 0px !important;
+  border-bottom: 0px !important;
+}
+.wallet-deposite-btn{
+  background: #fbc02d !important;
+}
+.wallet-withdraw-btn{
+  background: #d58c07 !important;
+}
+.wallet-table-search{
+  padding-bottom: 7px;
+}
