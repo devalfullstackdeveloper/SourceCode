@@ -389,3 +389,10 @@ a[disabled="disabled"] {
     border-bottom: 1px solid #fff;
     color: #fff;
 }
+
+.parsley-errors-list {
+    list-style: none;
+    font-size: 10px;
+    text-align: right;
+    color: #f10;
+}
