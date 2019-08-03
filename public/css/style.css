@@ -1039,6 +1039,7 @@ color: #ed8a19;
 
     .market-tab table{
       border-top: 0;
+      width: 100%;
     }
     .market-tab .table-responsive {
       width: 100%;
@@ -1141,9 +1142,11 @@ ul.sub-menu li:hover {
     float: none;
     margin-bottom: 20px;
 }
-.view_more_table tr { display: none; }
-.view_more_table tr.active { display: table-row; }
-
+.view_more_table .tbody tr { display: none; }
+.view_more_table .tbody tr.active { display: table-row; }
+.favorite {
+  cursor: pointer;
+}
 .navbar-default .navbar-toggle {
     border-color: #ddd;
     position: absolute;
