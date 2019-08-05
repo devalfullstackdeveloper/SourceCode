@@ -37,25 +37,26 @@
 			<div class="alert alert-danger mt-4"> {{ flashMessage('error') }} </div>
 		@endif
 		<div class="row mt-5 shadow">
-				<div class="col-md-4 col-sm-12">
+			<div class="col-md-4 col-sm-12">
 				<div class="wallet-wrapper br-right">
 					<div class="wallet-image">
 						<img src="{{ assetsUrl('images/btc.png') }}" alt="image" title="BTC">
 					</div>
 					<div class="wallet-content">
 					
-						<strong class="balance btc" id="btcmain">0.00000000</strong>
+						<strong class="" id="btcmain">0.00000000</strong>
 						@if(!btc.public_key) 
-				 	   <a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
+					<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 						<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
-		               <a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
-				    
-			        	@else
-					    <a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
+					<a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+					
+						@else
+						<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 						<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
-		               <a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
-				        @endif
-								</div>	</div>
+					<a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+						@endif
+					</div>	
+				</div>
 			</div>
 			<div class="col-md-4 col-sm-12">
 				<div class="wallet-wrapper br-right">
@@ -87,14 +88,14 @@
 			</div>
 		</div>
 		<div class="message"></div>
-		<div class="row mt-5 mb-5 shadow row-grey">
+		<div class="row mt-5 mb-5 shadow row-grey coin_table market-tab">
 			<div class="col-sm-8">
 			</div>
-			<div class="col-sm-4 pl-0">
+			<div class="col-sm-4 pl-0 wallet-table-search">
 				<input type="text" name="search" id="search" class="form-control search-wallt" placeholder="{{ antl.formatMessage('keywords.search_coin') }}" autocomplete="off">
 			</div>
-			<table class="table profile-table table-bordered text-center mb-0 trade-ui--table table-brw">
-				<thead>
+			<table class="table profile-table  text-center mb-0 trade-ui--table table-brw wallet-table">
+				<thead class="wallet-table-head">
 					<tr class="grey-text">
 						<th scope="col">{{ antl.formatMessage('keywords.coin') }}</th>
 						<th scope="col">{{ antl.formatMessage('keywords.name') }}</th>
@@ -102,7 +103,7 @@
 						<th scope="col">{{ antl.formatMessage('keywords.deposit') }} / {{ antl.formatMessage('keywords.withdraw') }}</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="wallet-table-body">
 					@each(pair in pairsw.rows)
 					<tr>
 						<td class="symbol">
@@ -113,10 +114,10 @@
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>
 						<td>
 							@if( pair.balance != null )
-								<a id="{{ pair.derive_currency }}-deposit" href="{{ route('deposit', { currency : pair.derive_currency }) }}" class="btn btn-sm btn-wallet btn-yellow">{{ antl.formatMessage('keywords.deposit') }}</a>
-								<a id="{{ pair.derive_currency }}-withdraw" href="{{ route('withdraw', { currency : pair.derive_currency }) }}" class=" btn btn-sm btn-dark-ui waves-effect waves-light btn-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
+								<a id="{{ pair.derive_currency }}-deposit" href="{{ route('deposit', { currency : pair.derive_currency }) }}" class="btn btn-sm btn-wallet btn-yellow wallet-deposite-btn">{{ antl.formatMessage('keywords.deposit') }}</a>
+								<a id="{{ pair.derive_currency }}-withdraw" href="{{ route('withdraw', { currency : pair.derive_currency }) }}" class=" btn btn-sm btn-dark-ui waves-effect waves-light btn-wallet wallet-withdraw-btn">{{ antl.formatMessage('keywords.withdraw') }}</a>
 						 	@else
-								<a id="{{ pair.derive_currency }}-get" href="javascript:void(0)" class="btn btn-sm btn-dark-ui waves-effect waves-light get-wallet" data-currency="{{ pair.derive_currency }}" {{{ ( pair.public_key ) ? 'style="display: none;"' : '' }}}>{{ antl.formatMessage('keywords.get_wallet') }}</a>
+								<a id="{{ pair.derive_currency }}-get" href="javascript:void(0)" class="btn btn-sm btn-dark-ui waves-effect waves-light get-wallet wallet-withdraw-btn" data-currency="{{ pair.derive_currency }}" {{{ ( pair.public_key ) ? 'style="display: none;"' : '' }}}>{{ antl.formatMessage('keywords.get_wallet') }}</a>
 							@endif
 						</td>
 					</tr>
@@ -132,10 +133,10 @@
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>
 						<td>
 							@if( pair.balance != null )
-								<a id="{{ pair.derive_currency }}-deposit" href="{{ route('deposit', { currency : pair.derive_currency }) }}" class="btn btn-sm btn-wallet btn-yellow">{{ antl.formatMessage('keywords.deposit') }}</a>
-								<a id="{{ pair.derive_currency }}-withdraw" href="{{ route('withdraw', { currency : pair.derive_currency }) }}" class="btn btn-sm btn-dark-ui waves-effect waves-light btn-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
+								<a id="{{ pair.derive_currency }}-deposit" href="{{ route('deposit', { currency : pair.derive_currency }) }}" class="btn btn-sm btn-wallet btn-yellow wallet-deposite-btn">{{ antl.formatMessage('keywords.deposit') }}</a>
+								<a id="{{ pair.derive_currency }}-withdraw" href="{{ route('withdraw', { currency : pair.derive_currency }) }}" class="btn btn-sm btn-dark-ui waves-effect waves-light btn-wallet wallet-withdraw-btn">{{ antl.formatMessage('keywords.withdraw') }}</a>
 							@else
-								<a id="{{ pair.derive_currency }}-get" href="javascript:void(0)" class="btn btn-sm btn-dark-ui waves-effect waves-light get-wallet" data-currency="{{ pair.derive_currency }}" {{{ ( pair.public_key ) ? 'style="display: none;"' : '' }}}>{{ antl.formatMessage('keywords.get_wallet') }}</a>
+								<a id="{{ pair.derive_currency }}-get" href="javascript:void(0)" class="btn btn-sm btn-dark-ui waves-effect waves-light get-wallet wallet-withdraw-btn" data-currency="{{ pair.derive_currency }}" {{{ ( pair.public_key ) ? 'style="display: none;"' : '' }}}>{{ antl.formatMessage('keywords.get_wallet') }}</a>
 							@endif
 						</td>
 					</tr>
