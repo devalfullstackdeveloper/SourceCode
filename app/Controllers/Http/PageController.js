@@ -248,10 +248,24 @@ class PageController {
 				}
 		
 				mailData.url = Env.get('APP_URL')
+				console.log('USER EMAIL : ' ,mailData.email);
+				// await Mail.send('emails.register', user.toJSON(), (message) => {
+				// 	message
+				// 	.to(user.email)
+				// 	.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
+				// 	.subject('Please verify your account')
+				// })
 		
+				// await Mail.send('emails.support.register', user.toJSON(), (message) => {
+				// 	message 
+				// 	.to('support@zithex.com')
+				// 	.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
+				// 	.subject('New User Registration Request')
+				// })
+				
 				await Mail.send('emails.hire_trader_request', mailData, (message) => {
 					message
-					.to(hireTraderRequestData.email)
+					.to(mailData.email)
 					.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
 					.subject('Hire Trader Request')
 				})
