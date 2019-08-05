@@ -227,9 +227,9 @@
 				<div class="tab-content" id="pills-tabContent">
 					<div class="tab-pane fade" id="favourite-market-tab" role="tabpanel" aria-labelledby="favourite-market-tab-link">
 						
-						<div class="table_responsive">	
+						<div class="table_responsive view_more_table">	
 							<table>
-								<thead class="thead-light">
+								<thead>
 									<tr>
 										<th>{{ antl.formatMessage('keywords.pair') }}</th>
 										<th>{{ antl.formatMessage('keywords.coin') }}</th>
@@ -241,7 +241,7 @@
 										<th>{{ antl.formatMessage('keywords.trade') }}</th> 
 									</tr>
 								</thead>
-								<tbody class="thead-light">
+								<tbody>
 									@each(pair in pairs.favourite.rows)
 									<tr id="{{ pair.pair_key }}">
 										<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
@@ -254,7 +254,6 @@
 										<td class="text-center"></td>
 										<td class="text-center"></td>
 										<td class="text-center">
-											{{ auth.user.is_admin }}
 											<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">Trade / Exchange</a>
 										</td>
 									</tr>
@@ -262,6 +261,9 @@
 								</tbody>		
 							</table>
 						</div> 
+						<div class="row text-center">
+							<button class="load_more_home">Load More</button>
+						</div>
 					</div>
 
 					<div class="tab-pane fade show active" id="btc-market-tab" role="tabpanel" aria-labelledby="btc-market-tab-link">
@@ -655,7 +657,7 @@
 			var favourite = $(this);
 			var pair = favourite.attr('data-id');
 			$.ajax({
-				url : "{{ url }}favourite/" + pair,
+				url : "/favourite/" + pair,
 				success : function(result){
 					if( result.added ){
 						favourite.addClass('fa-active');
