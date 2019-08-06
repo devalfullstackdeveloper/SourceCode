@@ -34,6 +34,7 @@ Route.group(() => {
 	Route.post('/contact', 					'PageController.submitContact');
 	Route.get('/features', 					'PageController.features').as('features');
 	// Route.get('/legals', 					'PageController.legals').as('legals');
+	Route.get('/legals', 					'PageController.legals').as('legals');
 	Route.get('/about', 					'PageController.about').as('about');
 	Route.get('/mobile-app', 				'PageController.mobileApp').as('mobileapp');
 	Route.get('/market-statics', 			'PageController.marketStatics').as('marketstatics');

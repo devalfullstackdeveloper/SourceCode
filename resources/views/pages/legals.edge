@@ -1,26 +1,19 @@
-@layout('layouts.default')
+@layout('layouts.defaultnew')
 @section('title')
-<title>Terms and Conditions – Cryptofxspace</title>
+<title>Terms and Conditions – Best Bitcoin Trading Platform - cryptofxspace</title>
 
 <meta name="Description" Content=" Carefully Read our Terms and Conditions before applies for trading, exchange & investment over our platform. "/>
 
 @endsection
 @section('content')
-<title>Terms and Conditions – Cryptofxspace</title>
-
-<meta name="Description" Content=" Carefully Read our Terms and Conditions before applies for trading, exchange & investment over our platform. "/>
 
 <div class="main-content">
-	<section class="pages-banner-section">
-		<h2 class="page-title">{{ antl.formatMessage('keywords.legals') }}</h2>
-	</section>
-	<h1 class="text-center" style="color:white; background-color:#eec807; padding: 20px; margin-top: 20px;">Terms and Conditions – Cryptofxspace</h1>
 	<section class="terms-section">
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<div class="box-wrap--tc" id="terms-conditions">
-						<strong>{{ antl.formatMessage('keywords.terms_conditions') }}</strong>
+					<div class="box-wrap--tc text-center" id="terms-conditions">
+						<h2>{{ antl.formatMessage('keywords.terms_conditions') }}</h2>
 						{{{ terms_conditions.content }}}
 					</div>
 					
