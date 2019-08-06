@@ -1165,4 +1165,12 @@ ul.nav.navbar-nav li a.lgHDR.waves-effect.waves-light {
     padding: 10px;
     margin-top: 18px;
 }
-
+.favourite {
+  cursor: pointer;
+}
+.favourite.fa-active{
+  color: #f4bd33;
+}
+.table-responsive tbody tr:nth-child(even) {
+  background-color: #2b2b46;
+}
