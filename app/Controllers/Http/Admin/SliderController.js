@@ -74,6 +74,8 @@ class SliderController {
 			size: '2mb'
 		})
 
+		console.log(image);
+
 		const newName = new Date().getTime() + '.' + image.subtype
 
 		await image.move('public/images/sliders', {
