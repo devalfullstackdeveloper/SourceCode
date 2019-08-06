@@ -341,6 +341,7 @@ color: #333 !important;
 }
 .wallet-table td{
   border: 0px;
+  font-family: 'Montserrat', sans-serif !important;
 }
 .wallet-table tr:nth-child(odd) {
   background:#151529
@@ -363,7 +364,7 @@ color: #333 !important;
 }
 .wallet-table-search{
   padding-bottom: 7px;
-/*market/btcusd*/
+/*market/btcusd*/}
 .market-section .text-weight-bold {
   display: inline-block;
 }

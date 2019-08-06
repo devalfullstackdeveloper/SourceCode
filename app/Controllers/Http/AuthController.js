@@ -52,8 +52,11 @@ class AuthController {
             session.flash({ error: antl.formatMessage('messages.incorrect_password') })
             return response.redirect('/auth/login')
         }
+ 
+        // var ip = request.headers['X-Forwarded-for']
+        const ip = request.ip()
 
-        var ip = request.header('x-forwarded-for')
+        console.log("IP IS : " ,ip);
         var location = ''
 
         await axios.get(`https://ipapi.co/${ip}/json/`)
