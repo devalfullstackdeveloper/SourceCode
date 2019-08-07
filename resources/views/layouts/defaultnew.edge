@@ -80,12 +80,13 @@
                         <li class="nav-item dropdown pr-md-2">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{auth.user.name}}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                                 <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px">
-                                <a class="dropdown-item" href="{{ route('wallets') }}">Wallet</a>
-                                <a class="dropdown-item" href="{{ route('account') }}">Account</a>
+                            </a>
+                            
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                <a class="dropdown-item" href="javascript:void(0)">{{auth.user.name}}</a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">EURO : {{auth.user.euro_balance}}</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                             </div>
                         </li>

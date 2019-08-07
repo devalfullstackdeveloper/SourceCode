@@ -27,6 +27,7 @@ class AuthController {
 
     async login ({ params, request, auth, response, session, antl }) {
         
+        
         const loginUser = await User.query().where('email', request.body.email).where('is_admin', 0).first()
 
         if(!loginUser){
