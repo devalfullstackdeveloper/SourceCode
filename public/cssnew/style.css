@@ -553,7 +553,7 @@ table.table-on-right tbody tr:nth-child(even) {
 .form-header-classic .form-wizard-step-icon {
     background: #ddd none repeat scroll 0 0;
     border-radius: 50%;
-    color: #fff;
+    color: #000;
     display: inline-block;
     font-size: 16px;
     height: 40px;
@@ -562,10 +562,10 @@ table.table-on-right tbody tr:nth-child(even) {
     width: 40px;
 }
 .form-header-classic .form-wizard-step.active p {
-    color: #161624;
+    color: #fff;
 }
 .form-header-classic .form-wizard-step p {
-    color: #ccc;
+    color: #afafaf;
 }
 .form-header-classic .form-wizard-step p + p
 {
@@ -608,8 +608,10 @@ table.table-on-right tbody tr:nth-child(even) {
   width: 100%;
 }
 .myaccount .nav-tabs--left .nav-item a {
-  background-color: #f2f2f2;
-  color: #000;
+    background-color: #1c1c38;
+    color: #fff;
+    margin-bottom: 6px;
+    border-radius: 0;
 }
 .my-btn, .my-btn:hover
 {
@@ -831,7 +833,7 @@ table.table-on-right tbody tr:nth-child(even) {
   color: #2b7cd2;
 }
 .step-message a{
-  color: #1c1c38;
+  color: #fff;
   text-decoration: none;
 }
 
@@ -875,4 +877,42 @@ table.table-on-right tbody tr:nth-child(even) {
 }
 .inputfile + label * {
   pointer-events: none;
+}
+.table-responsive tbody tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+.ztx-day table.table-on-right tbody tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+.table-responsive tbody tr:nth-child(odd),.table-responsive tbody tr:nth-child(odd) a {
+  background-color: #2b2b46;
+}
+
+.table-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.table-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.myaccount .tab-section .shadow {
+    background: #1c1c38;
+}
+.myaccount .tab-section .shadow * {
+    color: #fff !important;
+}
+.bgblue {
+    background: #1c1c38;
 }

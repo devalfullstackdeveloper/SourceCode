@@ -20,7 +20,7 @@
         
         <div class="row">
             <div class="col-sm-12">
-                <div class="form-header-classic mb-5">
+                <div class="form-header-classic mb-5 bgblue">
                 <div class="form-wizard-steps form-wizard-tolal-steps-4">
                     <div class="form-wizard-progress">
                         <div class="form-wizard-progress-line" style="width: {{ ( user.level == 1 ) ? '16.25' : ( user.level == 2 ) ? '50' : '100'; }}%;"></div>
@@ -134,7 +134,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 p-4 shadow ">
+                                <div class="col-sm-12 p-4 shadow mt-4">
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <h4>{{ antl.formatMessage('keywords.sms_authentication') }}</h4>
@@ -149,7 +149,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 p-4 shadow ">
+                                <div class="col-sm-12 p-4 shadow mt-4">
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <h4>{{ antl.formatMessage('keywords.google_authentication') }}</h4>
@@ -804,7 +804,7 @@
                             <a class="nav-link" id="enable-tab" data-toggle="tab" href="#enable" role="tab" aria-controls="enable" aria-selected="false">{{ antl.formatMessage('keywords.enable_2fa') }}</a>
                         </li>
                     </ul>
-                    <div class="tab-content card-body text-center" id="myTabContent">
+                    <div class="tab-content card-body text-center bgblue" id="myTabContent">
                         <div class="tab-pane fade active show" id="download" role="tabpanel" aria-labelledby="home-tab">
                             <div class="bg-white">
                                 <div class="card-body ">
@@ -995,7 +995,7 @@
             <div class="card  mt-4 shadow ">
                 <div class="device-management-mesaage"></div>
                 <div class="table-scroll mb-0">
-                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                <table class="table table-bordered text-center mb-0 trade-ui--table bggray">
                     <thead>
                         <tr class="grey-text">
                             <th scope="col">{{ antl.formatMessage('keywords.device') }}</th>
@@ -1027,7 +1027,7 @@
             <div class="card  mt-4 shadow ">
                 <div class="device-management-mesaage"></div>
                 <div class="table-scroll mb-0">
-                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                <table class="table table-bordered text-center mb-0 trade-ui--table bggray">
                     <thead>
                         <tr class="grey-text">
                             <th scope="col">Coin Name</th>
@@ -1061,7 +1061,7 @@
             <legend class="pb-4 mt-4 border-bottom">{{ antl.formatMessage('keywords.last_login') }}</legend>
             <div class="card  mt-4 shadow ">
                 <div class="table-scroll mb-0">
-                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                <table class="table table-bordered text-center mb-0 trade-ui--table bggray">
                     <thead>
                         <tr class="grey-text">
                             <th scope="col">{{ antl.formatMessage('keywords.date') }}</th>
@@ -1087,7 +1087,7 @@
             <legend class="pb-4 mt-4 border-bottom">Order Histories</legend>
             <div class="card  mt-4 shadow ">
                 <div class="table-scroll mb-0">
-                <table class="table table-bordered text-center mb-0 trade-ui--table">
+                <table class="table table-bordered text-center mb-0 trade-ui--table bggray">
                     <thead>
                       <tr class="grey-text">
                           <th scope="col">Date</th>
