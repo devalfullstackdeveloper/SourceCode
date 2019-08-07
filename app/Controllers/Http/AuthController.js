@@ -53,10 +53,7 @@ class AuthController {
             return response.redirect('/auth/login')
         }
  
-        // var ip = request.headers['X-Forwarded-for']
         const ip = request.ip()
-
-        console.log("IP IS : " ,ip);
         var location = ''
 
         await axios.get(`https://ipapi.co/${ip}/json/`)
@@ -202,7 +199,7 @@ class AuthController {
 
         await auth.attempt(email, password)
 
-        var ip = request.header('x-forwarded-for')
+        var ip = request.ip();
         var location = ''
 
         await axios.get(`https://ipapi.co/${ip}/json/`)
@@ -283,7 +280,7 @@ class AuthController {
 
         await auth.attempt(email, password)
 
-        var ip = request.header('x-forwarded-for')
+        var ip = request.ip();
         var location = ''
 
         await axios.get(`https://ipapi.co/${ip}/json/`)
@@ -351,7 +348,7 @@ class AuthController {
         await user.save()
 
 
-        var ip = request.header('x-forwarded-for')
+        var ip = request.ip();
         var location = ''
         
         await axios.get(`https://ipapi.co/${ip}/json/`)
