@@ -46,6 +46,12 @@ a.navbar-brand img {
   margin-top: 15px;
   font-size: 14px;
 }
+
+.table-responsive.view_more_table td.text-left {
+position: relative;
+left: 37px;
+display: block;
+}
 .main_header .navbar-default .navbar-nav>li>a:hover{
 color:#fbc02d;
 }
