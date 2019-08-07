@@ -1142,8 +1142,8 @@ ul.sub-menu li:hover {
     float: none;
     margin-bottom: 20px;
 }
-.view_more_table .tbody tr { display: none; }
-.view_more_table .tbody tr.active { display: table-row; }
+.view_more_table tbody tr { display: none; }
+.view_more_table tbody tr.active { display: table-row; }
 .favorite {
   cursor: pointer;
 }
