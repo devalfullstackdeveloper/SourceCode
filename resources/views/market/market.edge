@@ -182,9 +182,9 @@
                                                   <div  id="mainusdbal">
 
                                                   @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
-                                                  <span class="float-right" id="kkrt">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                  <span class="float-right" id="kkrt">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00' }}</span>
                                                   @else
-                                                  <span class="float-right" id="kkrt">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00000000' }}</span>
+                                                  <span class="float-right" id="kkrt">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00000000' }}</span>
                                                   @endif
                                                   </div></p>
                                                   {{ csrfField() }}
@@ -231,9 +231,9 @@
                                                   <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div id="mainusdbal2">
 
                                                   @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
-                                                    <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                    <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00' }}</span>
                                                   @else
-                                                    <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00000000' }}</span>
+                                                    <span class="float-right" id="kkrt2">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00000000' }}</span>
                                                   @endif
                                                   </div></p>
                                                   {{ csrfField() }}
@@ -284,9 +284,9 @@
                                                   <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.base_currency).toUpperCase() }} <div  id="mainusdbal3">
 
                                                   @if( pair.base_currency == 'usd' || pair.base_currency == 'euro' )
-                                                     <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                     <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00' }}</span>
                                                   @else
-                                                     <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(2) : '0.00000000' }}</span>
+                                                     <span class="float-right" id="kkrt5">{{ ( base_currency_balance ) ? (base_currency_balance).toFixed(8) : '0.00000000' }}</span>
                                                   @endif
                                                  
 
@@ -345,9 +345,9 @@
                                             <form id="sellForm" method="post" data-parsley-validate autocomplete="off">
                                                 <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="sellformbal">
                                                 @if( pair.derive_currency == 'usd' || (pair.derive_currency) == 'euro' )
-                                                <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00' }}</span>
                                                 @else
-                                                <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00000000' }}</span>
+                                                <span class="float-right" id="kkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00000000' }}</span>
                                                 @endif
 
                                                 </div></p>
@@ -390,9 +390,9 @@
                                             <form id="stopsellForm" method="post" data-parsley-validate autocomplete="off">
                                                 <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.derive_currency).toUpperCase() }} <div id="sellformbal2">
                                                 @if( pair.derive_currency == 'usd' || pair.derive_currency == 'euro' )
-                                                <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00' }}</span>
                                                 @else
-                                                <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00000000' }}</span>
+                                                <span class="float-right" id="kkr4">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00000000' }}</span>
                                                 @endif
                                                 </div></p>
                                                 {{ csrfField() }}
@@ -437,9 +437,9 @@
                                             <form id="exchangesellForm" method="post" data-parsley-validate autocomplete="off">
                                                 <p class="wl-para"><i class="bx bx-wallet"></i> {{ (pair.derive_currency).toUpperCase() }}<div id="exchangesellformbal">
                                                 @if( pair.derive_currency == 'usd' || pair.derive_currency == 'euro' )
-                                                  <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00' }}</span>
+                                                  <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00' }}</span>
                                                 @else
-                                                  <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(2) : '0.00000000' }}</span>
+                                                  <span class="float-right" id="exchangekkr3">{{ ( derive_currency_balance ) ? (derive_currency_balance).toFixed(8) : '0.00000000' }}</span>
                                                 @endif
 
                                                   </div></p>
@@ -488,7 +488,7 @@
             <!--search bar-->
                 <ul class="nav nav-pills trade-ui--pills mb-2" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                        <a class="nav-link" id="favourite-market-tab-link" data-toggle="pill" href="#favourite-market-tab" role="tab" aria-controls="favourite-market-tab" aria-selected="true"><i class="fa fa-star fa-active" style="color: #d58c07;"></i></a>
+                        <a class="nav-link p-1 grey-text small border" id="favourite-market-tab-link" data-toggle="pill" href="#favourite-market-tab" role="tab" aria-controls="favourite-market-tab" aria-selected="true"><i class="fa fa-star fa-active" style="color: #d58c07;"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active p-1 grey-text small border" id="btc-market-tab-link" data-toggle="pill" href="#btc-market-tab" role="tab" aria-controls="btc-market-tab" aria-selected="true">USD</a>
@@ -766,266 +766,266 @@
 
     function get9(i) {
         var th = ((i * 25)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $(".buy-total").val(th);
         var gh = $(".buy-price").val();
         var ty = $(".buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $(".buy-amount").val(kl);
     }
 
     function get10(i) {
         var th = ((i * 50)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $(".buy-total").val(th);
         var gh = $(".buy-price").val();
         var ty = $(".buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $(".buy-amount").val(kl);
     }
 
     function get11(i) {
         var th = ((i * 75)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $(".buy-total").val(th);
         var gh = $(".buy-price").val();
         var ty = $(".buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $(".buy-amount").val(kl);
     }
 
     function get12(i) {
         var th = i;
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $(".buy-total").val(th);
         var gh = $(".buy-price").val();
         var ty = $(".buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $(".buy-amount").val(kl);
     }
 
     function getone(i) {
         var th = ((i * 25)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#buy-total").val(th);
         var gh = $("#buy-price").val();
         var ty = $("#buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#buy-amount").val(kl);
     }
 
     function gettwo(i) {
         var th = ((i * 50)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#buy-total").val(th);
         var gh = $("#buy-price").val();
         var ty = $("#buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#buy-amount").val(kl);
     }
 
     function getthree(i) {
         var th = ((i * 75)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#buy-total").val(th);
         var gh = $("#buy-price").val();
         var ty = $("#buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#buy-amount").val(kl);
     }
 
     function getfour(i) {
         var th = i;
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#buy-total").val(th);
         var gh = $("#buy-price").val();
         var ty = $("#buy-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#buy-amount").val(kl);
     }
 
     function egetone(i) {
         var th = ((i * 25)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchange-total").val(th);
         var gh = $("#exchange-price").val();
         var ty = $("#exchange-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchange-amount").val(kl);
     }
 
     function egettwo(i) {
         var th = ((i * 50)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchange-total").val(th);
         var gh = $("#exchange-price").val();
         var ty = $("#exchange-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchange-amount").val(kl);
     }
 
     function egetthree(i) {
         var th = ((i * 75)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchange-total").val(th);
         var gh = $("#exchange-price").val();
         var ty = $("#exchange-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchange-amount").val(kl);
     }
 
     function egetfour(i) {
         var th = i;
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchange-total").val(th);
         var gh = $("#exchange-price").val();
         var ty = $("#exchange-total").val();
         var kl = (ty / gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchange-amount").val(kl);
     }
 
     function getfive(i) {
         var th = ((i * 25)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#sell-amount").val(th);
         var gh = $("#sell-price").val();
         var ty = $("#sell-amount").val();
         var kl = (ty * gh); 
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#sell-total").val(kl);
     }
 
     function getsix(i) {
         var th = ((i * 50)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#sell-amount").val(th);
         var gh = $("#sell-price").val();
         var ty = $("#sell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#sell-total").val(kl);
     }
 
     function getseven(i) {
         var th = ((i * 75)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#sell-amount").val(th);
         var gh = $("#sell-price").val();
         var ty = $("#sell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#sell-total").val(kl);
     }
 
     function geteight(i) {
         var th = i;
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#sell-amount").val(th);
         var gh = $("#sell-price").val();
         var ty = $("#sell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#sell-total").val(kl);
     }
 
     //-----exchange-sell
     function exchangegetfive(i) {
         var th = ((i * 25)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchangesell-amount").val(th);
         var gh = $("#exchangesell-price").val();
         var ty = $("#exchangesell-amount").val();
         var kl = (ty * gh); 
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchangesell-total").val(kl);
     }
 
     function exchangegetsix(i) {
         var th = ((i * 50)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchangesell-amount").val(th);
         var gh = $("#exchangesell-price").val();
         var ty = $("#exchangesell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchangesell-total").val(kl);
     }
 
     function exchangegetseven(i) {
         var th = ((i * 75)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchangesell-amount").val(th);
         var gh = $("#exchangesell-price").val();
         var ty = $("#exchangesell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchangesell-total").val(kl);
     }
 
     function exchangegeteight(i) {
         var th = i;
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#exchangesell-amount").val(th);
         var gh = $("#exchangesell-price").val();
         var ty = $("#exchangesell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#exchangesell-total").val(kl);
     }
 
     function get13(i) {
         var th = ((i * 25)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#stopsell-amount").val(th);
         var gh = $("#stopsell-price").val();
         var ty = $("#stopsell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#stopsell-total").val(kl);
     }
 
     function get14(i) {
         var th = ((i * 50)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#stopsell-amount").val(th);
         var gh = $("#stopsell-price").val();
         var ty = $("#stopsell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#stopsell-total").val(kl);
     }
 
     function get15(i) {
         var th = ((i * 75)/100);
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#stopsell-amount").val(th);
         var gh = $("#stopsell-price").val();
         var ty = $("#stopsell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#stopsell-total").val(kl);
     }
 
     function get16(i) {
         var th = i;
-        var th = th.toFixed(2);
+        var th = th.toFixed(8);
         $("#stopsell-amount").val(th);
         var gh = $("#stopsell-price").val();
         var ty = $("#stopsell-amount").val();
         var kl = (ty * gh);
-        var kl = kl.toFixed(2);
+        var kl = kl.toFixed(8);
         $("#stopsell-total").val(kl);
     }
 
@@ -1043,7 +1043,7 @@
         var favourite = $(this);
         var pair = favourite.attr('data-id');
         $.ajax({
-            url : "https://zithex.com/favourite/" + pair,
+            url : "/favourite/" + pair,
             success : function(result){
                 if( result.added ){
                     favourite.addClass('fa-active');
@@ -1218,13 +1218,13 @@ binanceSocket.onmessage = function(evt) {
     } else {
       $('#'+pairID+' td:nth-child(3)').attr('class', 'text-center text-danger');
     }
-    $('#'+pairID+' td:nth-child(3)').text( parseFloat( pair.P  ).toFixed(2) + '%' );
+    $('#'+pairID+' td:nth-child(3)').text( parseFloat( pair.P  ).toFixed(8) + '%' );
     
     var selectedpair=document.getElementById("selectedpair").value;
     if(selectedpair==pairID.toUpperCase()){
         console.log("selected pair",selectedpair);
           $('#last_price').text(price);
-          $('#24h_change').text(parseFloat( pair.P  ).toFixed(2) + '%' );
+          $('#24h_change').text(parseFloat( pair.P  ).toFixed(8) + '%' );
           $('#24_high').text(pair.h);
           $('#24_low').text(pair.l);
           $('#24h_volume').text(pair.v);
@@ -1247,7 +1247,7 @@ binanceSocket.onmessage = function(evt) {
 
                 var price = parseFloat( pair[1] ) + ( ( parseFloat( pair[1] ) * parseFloat( custRates[pairID] ) ) / 100 );
 
-                $('#'+pairID+' td:nth-child(2)').text(price.toFixed(2));
+                $('#'+pairID+' td:nth-child(2)').text(price.toFixed(8));
                 if(parseFloat(pair[5]) >= 0){
                     $('#'+pairID+' td:nth-child(3)').attr('class', 'text-md-right text-success');
                 } else {
@@ -1387,11 +1387,11 @@ binanceSocket.onmessage = function(evt) {
                 dataPoints.push({
                     x: new Date(res[i][0]),
                     y: [
-                        (parseFloat( res[i][1] ) + ( ( parseFloat( res[i][1] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(2), //open
+                        (parseFloat( res[i][1] ) + ( ( parseFloat( res[i][1] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8), //open
 
-                        (parseFloat( res[i][3] ) + ( ( parseFloat( res[i][3] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(2), //high
-                        (parseFloat( res[i][4] ) + ( ( parseFloat( res[i][4] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(2), //low
-                        (parseFloat( res[i][2] ) + ( ( parseFloat( res[i][2] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(2)  //close
+                        (parseFloat( res[i][3] ) + ( ( parseFloat( res[i][3] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8), //high
+                        (parseFloat( res[i][4] ) + ( ( parseFloat( res[i][4] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8), //low
+                        (parseFloat( res[i][2] ) + ( ( parseFloat( res[i][2] ) * parseFloat(custRates[pairID]) ) / 100 )).toFixed(8)  //close
                     ]
                 });
             }
@@ -1433,15 +1433,15 @@ binanceSocket.onmessage = function(evt) {
                     
                 var price = parseFloat( message[1][0] ) + ( ( parseFloat( message[1][0] ) * parseFloat( custRates["{{ pair.pair_key }}"] ) ) / 100 );
 
-                $('#last_price').text(price.toFixed(2));
+                $('#last_price').text(price.toFixed(8));
 
                 if( $('tr#neousd td:nth-child(2)').text() != "" && 
                   $('tr#neousd td:nth-child(2)').text() != null &&
                   $('tr#neousd td:nth-child(2)').text() != undefined ) {
-                  $('tr#neousd td:nth-child(2)').text(price.toFixed(2));
+                  $('tr#neousd td:nth-child(2)').text(price.toFixed(8));
                 }
 
-                priceToShow = price.toFixed(2);
+                priceToShow = price.toFixed(8);
 
             //     chart.updateOptions({
             //       annotations: {
@@ -1472,7 +1472,7 @@ binanceSocket.onmessage = function(evt) {
                 }
 
                 //if($('input[name="price"]').val() == ''){
-                    var price = price.toFixed(2)
+                    var price = price.toFixed(8)
 
 
                     var allFormIds = ['#buyForm', '#stopbuyForm', '#exchangebuyForm', '#sellForm', '#stopsellForm', '#exchangesellForm'];
@@ -1530,19 +1530,19 @@ binanceSocket.onmessage = function(evt) {
             var myHistory = '<tr><td colspan="3">{{ antl.formatMessage('keywords.no_order') }}</td></tr></tbody>';
 
             for (var i = 0; i < data.buy.length; i++) {
-                buyOrders += '<tr class="small"> <td class="thime-color">' + data.buy[i].price + '</td> <td>' + data.buy[i].remain.toFixed(2) + '</td> <td>' + ( data.buy[i].price * data.buy[i].remain ).toFixed(2) + '</td> </tr>';
+                buyOrders += '<tr class="small"> <td class="thime-color">' + data.buy[i].price + '</td> <td>' + data.buy[i].remain.toFixed(8) + '</td> <td>' + ( data.buy[i].price * data.buy[i].remain ).toFixed(8) + '</td> </tr>';
             }
 
             for (var i = 0; i < data.sell.length; i++) {
-                sellOrders += '<tr class="small"> <td class="text-success">' + data.sell[i].price + '</td> <td>' + data.sell[i].remain.toFixed(2) + '</td> <td>' + ( data.sell[i].price * data.sell[i].remain ).toFixed(2) + '</td> </tr>';
+                sellOrders += '<tr class="small"> <td class="text-success">' + data.sell[i].price + '</td> <td>' + data.sell[i].remain.toFixed(8) + '</td> <td>' + ( data.sell[i].price * data.sell[i].remain ).toFixed(8) + '</td> </tr>';
             }
 
             for (var i = 0; i < data.history.length; i++) {
-                historyOrders += '<tr class="small"> <td class="text-success">' + data.history[i].price + '</td>  <td>' + data.history[i].amount.toFixed(2) + '</td> <td>' + data.history[i].total.toFixed(2) + '</td> </tr>';
+                historyOrders += '<tr class="small"> <td class="text-success">' + data.history[i].price + '</td>  <td>' + data.history[i].amount.toFixed(8) + '</td> <td>' + data.history[i].total.toFixed(8) + '</td> </tr>';
             }
 
             for (var i = 0; i < data.openOrders.length; i++) {
-            var bjr = ( ( ( (data.openOrders[i].amount - data.openOrders[i].remain) * 100 ) / data.openOrders[i].amount ) ).toFixed(2)
+            var bjr = ( ( ( (data.openOrders[i].amount - data.openOrders[i].remain) * 100 ) / data.openOrders[i].amount ) ).toFixed(8)
 
                 var orderType = "";
 
@@ -1560,7 +1560,7 @@ binanceSocket.onmessage = function(evt) {
                   orderType = "Exchange"
                 }
 
-                openOrders +=   '<tr class="small"> <td title="'+data.openOrders[i].created_at+'">' + (data.openOrders[i].created_at).split(' ')[0] + '</td> <td>' + (data.openOrders[i].pair).toUpperCase()  + '</td> <td>' + orderType + '</td> <td>' + data.openOrders[i].price + '</td> <td>' + data.openOrders[i].stop_amout.toFixed(2) + '</td> <td>' + data.openOrders[i].amount.toFixed(2) + '</td><td>'+data.openOrders[i].fees+'</td> <td>' + ( ( ( (data.openOrders[i].amount - data.openOrders[i].remain) * 100 ) / data.openOrders[i].amount ) ).toFixed(2) + '</td> <td>' + data.openOrders[i].total.toFixed(2) + '</td> <td> ' + ( (bjr == 0.00) ? '<button type="button" data-id="' + data.openOrders[i].id + '" class="btn btn-sm btn-warning btn-cancel"><i class="fa fa-times"></button>' : "" ) + '</td> </tr>';
+                openOrders +=   '<tr class="small"> <td title="'+data.openOrders[i].created_at+'">' + (data.openOrders[i].created_at).split(' ')[0] + '</td> <td>' + (data.openOrders[i].pair).toUpperCase()  + '</td> <td>' + orderType + '</td> <td>' + data.openOrders[i].price + '</td> <td>' + data.openOrders[i].stop_amout.toFixed(8) + '</td> <td>' + data.openOrders[i].amount.toFixed(8) + '</td><td>'+data.openOrders[i].fees+'</td> <td>' + ( ( ( (data.openOrders[i].amount - data.openOrders[i].remain) * 100 ) / data.openOrders[i].amount ) ).toFixed(8) + '</td> <td>' + data.openOrders[i].total.toFixed(8) + '</td> <td> ' + ( (bjr == 0.00) ? '<button type="button" data-id="' + data.openOrders[i].id + '" class="btn btn-sm btn-warning btn-cancel"><i class="fa fa-times"></button>' : "" ) + '</td> </tr>';
             }
 
             for (var i = 0; i < data.orders.length; i++) {
@@ -1587,7 +1587,7 @@ binanceSocket.onmessage = function(evt) {
                   orderStatus = "<span style='color:crimson;'>(canceled)</span>";
                 }
 
-                orders +=   '<tr class="small"> <td>' + data.orders[i].created_at + '</td> <td>' + (data.orders[i].pair).toUpperCase() + orderStatus  + '</td> <td>' + orderType + '</td> <td>' + data.orders[i].price + '</td> <td>' + data.orders[i].stop_amout.toFixed(2) + '</td> <td>' + data.orders[i].amount.toFixed(2) + '</td> <td>'+data.orders[i].fees+'</td><td class="kkr">' + ( ( ( (data.orders[i].amount - data.orders[i].remain) * 100 ) / data.orders[i].amount ) ).toFixed(2) + '</td> <td>' + data.orders[i].total.toFixed(2) + '</td></tr>';
+                orders +=   '<tr class="small"> <td>' + data.orders[i].created_at + '</td> <td>' + (data.orders[i].pair).toUpperCase() + orderStatus  + '</td> <td>' + orderType + '</td> <td>' + data.orders[i].price + '</td> <td>' + data.orders[i].stop_amout.toFixed(8) + '</td> <td>' + data.orders[i].amount.toFixed(8) + '</td> <td>'+data.orders[i].fees+'</td><td class="kkr">' + ( ( ( (data.orders[i].amount - data.orders[i].remain) * 100 ) / data.orders[i].amount ) ).toFixed(8) + '</td> <td>' + data.orders[i].total.toFixed(8) + '</td></tr>';
             }
 
             for (var i = 0; i < data.myHistory.length; i++) {
@@ -1992,7 +1992,7 @@ binanceSocket.onmessage = function(evt) {
             var amount = parseFloat($(this).parents('form').find('input[name="amount"]').val());
 
 
-                $(this).parents('form').find('input[name="total"]').val((amount * price ).toFixed(2));
+                $(this).parents('form').find('input[name="total"]').val((amount * price ).toFixed(8));
 
         });
 
@@ -2002,7 +2002,7 @@ binanceSocket.onmessage = function(evt) {
             var amount = parseFloat($(this).parents('form').find('input[name="amount"]').val());
 
 
-                $(this).parents('form').find('input[name="total"]').val((amount * price ).toFixed(2));
+                $(this).parents('form').find('input[name="total"]').val((amount * price ).toFixed(8));
 
         });
 
@@ -2011,7 +2011,7 @@ binanceSocket.onmessage = function(evt) {
             var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
             var total = parseFloat($(this).parents('form').find('input[name="total"]').val());
                 
-                $(this).parents('form').find('input[name="amount"]').val((total / price).toFixed(2));
+                $(this).parents('form').find('input[name="amount"]').val((total / price).toFixed(8));
 
         });
           
@@ -2019,14 +2019,14 @@ binanceSocket.onmessage = function(evt) {
             var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
             var amount = parseFloat($(this).parents('form').find('input[name="amount"]').val());
 
-            $(this).parents('form').find('input[name="total"]').val((price * amount).toFixed(2));
+            $(this).parents('form').find('input[name="total"]').val((price * amount).toFixed(8));
         });*/
 
 /*        $(document).on('keyup mouseup', 'input[name="total"]', function(){
             var price = parseFloat($(this).parents('form').find('input[name="price"]').val());
             var total = parseFloat($(this).parents('form').find('input[name="total"]').val());
 
-            $(this).parents('form').find('input[name="amount"]').val((total / price).toFixed(2));
+            $(this).parents('form').find('input[name="amount"]').val((total / price).toFixed(8));
         });*/
 
         $(document).on('click', '.btn-cancel', function() {
