@@ -37,28 +37,28 @@
 			<div class="alert alert-danger mt-4"> {{ flashMessage('error') }} </div>
 		@endif
 		<div class="row mt-5 shadow">
-			<div class="col-md-4 col-sm-12">
+			<div class="col-md-3 col-sm-12">
 				<div class="wallet-wrapper br-right">
 					<div class="wallet-image">
 						<img src="{{ assetsUrl('images/btc.png') }}" alt="image" title="BTC">
 					</div>
 					<div class="wallet-content">
-					
-						<strong class="" id="btcmain">0.00000000</strong>
+						<h5>BTC</h5>
+						<strong class="" id="btcmain"></strong>
 						@if(!btc.public_key) 
-					<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
-						<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
-					<a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+							<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
+								<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
+							<a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
 					
 						@else
-						<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
-						<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
-					<a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+							<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
+							<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
+							<a href="{{ route('btchistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
 						@endif
 					</div>	
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-12">
+			<div class="col-md-3 col-sm-12">
 				<div class="wallet-wrapper br-right">
 					<div class="wallet-image">
 						<img src="{{ assetsUrl('images/dollar.png') }}" alt="image" title="Dollar">
@@ -72,7 +72,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-12">
+			<div class="col-md-3 col-sm-12">
 				<div class="wallet-wrapper">
 					<div class="wallet-image">
 						<img src="{{ assetsUrl('images/euro.png') }}" alt="image" title="Euro">
@@ -83,6 +83,28 @@
 						<a href="javascript:void(0);" class="btn btn-sm yl-btn depositModal" data-currency="EUR">{{ antl.formatMessage('keywords.deposit') }}</a>
 						<a href="javascript:void(0);" class=" btn btn-sm bl-btn withdrawModal" data-currency="EUR">{{ antl.formatMessage('keywords.withdraw') }}</a>
 						<a href="{{ route('eurohistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-12">
+				<div class="wallet-wrapper">
+					<div class="wallet-image">
+						<img src="{{ assetsUrl('images/eth.png') }}" alt="image" title="Euro">
+					</div>
+					<div class="wallet-content">
+						{{--  <h5>{{ antl.formatMessage('keywords.euro') }}</h5>  --}}
+						<h5>ETH</h5>
+						<strong>{{  auth.user.eth_balance }}</strong>
+						@if(!eth.public_key) 
+							<a  href="{{ route('deposit', { currency : 'eth' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
+								<a href="{{ route('withdraw', { currency : 'eth' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
+							<a href="{{ route('ethhistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+					
+						@else
+							<a  href="{{ route('deposit', { currency : 'eth' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
+							<a href="{{ route('withdraw', { currency : 'eth' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
+							<a href="{{ route('ethhistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
+						@endif
 					</div>
 				</div>
 			</div>
@@ -195,7 +217,7 @@
 					<input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
 					<input type="hidden" name="SUGGESTED_MEMO" value="">
 					<input type="hidden" name="BAGGAGE_FIELDS" value="">
-					<input type="submit" name="PAYMENT_METHOD" value="Pay Now!">
+					<input type="submit" class="btn btn-sm bl-btn" name="PAYMENT_METHOD" value="Pay Now!">
 				</form>
 
 				<form style="display: none;" id="eurDepositForm" action="https://perfectmoney.is/api/step1.asp" method="POST">
@@ -549,7 +571,7 @@ $(document).ready(function() {
 				$('.message').html('<div class="alert alert-danger mt-4">' + response.message + '</div>');
 				return;
 			}
-
+			console.log(response);
 			$('#worth-btc').text((response.btcBalance).toFixed(8));
 			$('#worth-usd').text((response.in_usd).toFixed(2));
 			$('#worth-euro').text((response.in_euro).toFixed(2));
@@ -560,6 +582,7 @@ $(document).ready(function() {
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		console.log($('#btc').text());
 		$('#btcmain').text($('#btc').text());
 	});
 
@@ -639,49 +662,47 @@ $(document).ready(function() {
 			$('td.symbol').parent('tr').show();
 		}
 	});
-	 function notify(type, message){
-
-            $.notify({
-                icon: 'fa fa-check',
-                title: '',
-                message: message,
-                url: ''
-            },{
-                element: 'body',
-                type: type,
-                allow_dismiss: true,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                },
-                offset: {
-                    x: 20,
-                    y: 20
-                },
-                spacing: 10,
-                z_index: 1031,
-                delay: 2500,
-                timer: 1000,
-                url_target: '_blank',
-                mouse_over: false,
-                animate: {
-                    enter: 'animated bounceIn',
-                    exit: 'animated bounceOu'
-                },
-                template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
-                            '<span data-notify="icon"></span> ' +
-                            '<span data-notify="title">{1}</span> ' +
-                            '<span data-notify="message">{2}</span>' +
-                            '<div class="progress" data-notify="progressbar">' +
-                            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-                            '</div>' +
-                            '<a href="{3}" target="{4}" data-notify="url"></a>' +
-                            '<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
-                            '</div>'
-            });
-        }
-
-
+	
+	function notify(type, message){
+		$.notify({
+			icon: 'fa fa-check',
+			title: '',
+			message: message,
+			url: ''
+		},{
+			element: 'body',
+			type: type,
+			allow_dismiss: true,
+			placement: {
+				from: 'top',
+				align: 'right'
+			},
+			offset: {
+				x: 20,
+				y: 20
+			},
+			spacing: 10,
+			z_index: 1031,
+			delay: 2500,
+			timer: 1000,
+			url_target: '_blank',
+			mouse_over: false,
+			animate: {
+				enter: 'animated bounceIn',
+				exit: 'animated bounceOu'
+			},
+			template:   '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
+						'<span data-notify="icon"></span> ' +
+						'<span data-notify="title">{1}</span> ' +
+						'<span data-notify="message">{2}</span>' +
+						'<div class="progress" data-notify="progressbar">' +
+						'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+						'</div>' +
+						'<a href="{3}" target="{4}" data-notify="url"></a>' +
+						'<button type="button" aria-hidden="true" data-notify="dismiss" class="close"><span>×</span></button>' +
+						'</div>'
+		});
+    }
 
 	$('#hide-zero').click(function(){
 		if( $('#hide-zero').prop('checked') ){

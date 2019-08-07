@@ -68,12 +68,18 @@
                 @loggedIn
                 <div class="button_profile" style="top:0%">    
                     <ul class="nav navbar-nav" style="float:right;">
-                        <li><a href="#" class ="lgHDR">{{auth.user.name}}<i class="fa fa-caret-down"></i></a> 
+                        <li>
+                            <a href="#" class ="lgHDR">
+                                    <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px">
+                                <i class="fa fa-caret-down"></i>
+                            </a> 
                             <ul CLASS="sub-menu">
-                                <li><img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px"></li>
-                                <a href="{{ route('wallets') }}">Wallet</a>
-                                <a href="{{ route('account') }}">Account</a>
-                                <a href="{{ route('logout') }}">Logout</a>
+                                <li>{{auth.user.name}}</li>
+                                <strong class="" id="btcmain"></strong>
+
+                                <li><a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a></li>
+                                <li><a href="{{ route('wallets') }}">EURO : {{auth.user.euro_balance}}</a></li>
+                                <li><a href="{{ route('logout') }}">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -194,6 +200,10 @@
     {{ script('js/parsley.min.js') }}
     
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('#btcmain').text($('#btc').text());
+        });
+
         $(function () {
 
             var swiper = new Swiper('.swiper-container', {
