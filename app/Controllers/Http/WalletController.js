@@ -74,7 +74,7 @@ class WalletController {
 
 		return view.render('wallets.wallets', { 
 			pairs : pairs,
-			// pairsw : pairsw,
+			pairsw : pairsw,
 			personalInfo : personalInfo,
 			deposit_url : deposit_url,
 			seller_id : seller_id,
