@@ -830,10 +830,12 @@ class AccountController {
 							  .where('user_id', auth.user.id)
 							  .first()
 
-		
-
-		const balance = { available : address.balance, inOrder : 0, total : 0 }
-
+        let balance;
+        if(address == null || address == undefined) {
+            balance = { available : 0, inOrder : 0, total : 0 };
+        } else {
+            balance = { available : address.balance, inOrder : 0, total : 0 }
+        }
 		// const url = Env.get('CRYPTO_URL') + params.currency + '/balance/' + address.public_key + '/' + Env.get('CRYPTO_NETWORK')
 
 		// try{
