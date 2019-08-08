@@ -180,14 +180,10 @@
                 url : "{{ route('getBtcBalance') }}",
                 type : 'get',
                 success: function(response){
-                    console.log('Response is :', response);
                     if(response.success == true) {
-                        if( response.data.available > 0 ) {
-                            console.log(response.data.available);
+                        if( response.data.available >= 0 ) {
                             $("#btcBal").text('BTC : ' +response.data.available);
                         }
-                    } else {
-
                     }
                 },error: function(e) {
                     console.log(e);
