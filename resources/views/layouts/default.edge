@@ -76,7 +76,7 @@
                             <ul CLASS="sub-menu">
                                 <li>{{auth.user.name}}</li>
                                 <strong class="" id="btcmain"></strong>
-
+                                <li><a href="{{ route('wallets') }}" id="btcBal"></a></li>
                                 <li><a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a></li>
                                 <li><a href="{{ route('wallets') }}">EURO : {{auth.user.euro_balance}}</a></li>
                                 <li><a href="{{ route('logout') }}">Logout</a></li>
@@ -200,9 +200,6 @@
     {{ script('js/parsley.min.js') }}
     
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('#btcmain').text($('#btc').text());
-        });
 
         $(function () {
 
@@ -230,6 +227,28 @@
             });
 
         });
+
+
+        // To get particular user balance
+        $(document).ready(function() {
+            $.ajax({
+                url : "{{ route('getBtcBalance') }}",
+                type : 'get',
+                success: function(response){
+                    console.log('Response is :', response);
+                    if(response.success == true) {
+                        if( response.data.available > 0 ) {
+                            console.log(response.data.available);
+                            $("#btcBal").text('BTC : ' +response.data.available);
+                        }
+                    } else {
+
+                    }
+                },error: function(e) {
+                    console.log(e);
+                }
+            })
+        })
     </script>
 
 <script>

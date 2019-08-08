@@ -114,7 +114,7 @@ Route.group(() => {
 	Route.post('/kyc', 						'AccountController.submitKyc');
 	Route.get('/address-kyc', 				'AccountController.showAddressKyc').as('address_kyc');
 	Route.post('/address-kyc', 				'AccountController.submitAddressKyc');
-
+	Route.get('/get-BtcBalance', 			'AccountController.getBtcBalance').as('getBtcBalance');
 	Route.get('/logout', 					'AccountController.logout').as('logout');
 
 }).prefix('account').middleware(['authreturn', 'auth', 'mustuser', 'mustactive',  'savevisit'])

@@ -820,6 +820,37 @@ class AccountController {
 
         return response.send({ error : false, message : antl.formatMessage('messages.profile_updated') })
     }
+
+    async getBtcBalance({request, response, auth, antl}) {
+        
+		const address = await Address
+							  .query()
+							  .select('public_key', 'balance')
+							  .where('currency', 'btc')
+							  .where('user_id', auth.user.id)
+							  .first()
+
+		
+
+		const balance = { available : address.balance, inOrder : 0, total : 0 }
+
+		// const url = Env.get('CRYPTO_URL') + params.currency + '/balance/' + address.public_key + '/' + Env.get('CRYPTO_NETWORK')
+
+		// try{
+		// 	await axios.get( url )
+		// 	.then(data => {
+		// 		balance.available = data.data.balance
+		// 	})
+		// 	.catch(err => {
+
+		// 	})
+		// } catch(error){
+
+		// }
+
+		
+        return response.json({ success : true, data:balance})		
+    }
 }
 
 module.exports = AccountController

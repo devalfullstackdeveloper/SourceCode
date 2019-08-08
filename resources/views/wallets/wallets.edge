@@ -94,7 +94,7 @@
 					<div class="wallet-content">
 						{{--  <h5>{{ antl.formatMessage('keywords.euro') }}</h5>  --}}
 						<h5>ETH</h5>
-						<strong>{{  auth.user.eth_balance }}</strong>
+						<strong id="ethmain"></strong>
 						@if(!eth.public_key) 
 							<a  href="{{ route('deposit', { currency : 'eth' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'eth' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -582,8 +582,11 @@ $(document).ready(function() {
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		console.log($('#btc').text());
 		$('#btcmain').text($('#btc').text());
+	});
+
+	$(document).ready(function(){
+		$('#ethmain').text($('#eth').text());
 	});
 
 	$(document).on('click', '.get-wallet', function(){
