@@ -34,7 +34,7 @@ a.navbar-brand img {
 }
 .navbar {
 
-  margin-bottom: 15px !important;
+  margin-bottom: 0px !important;
 
 }
 .main_header .navbar-default {
@@ -45,6 +45,12 @@ a.navbar-brand img {
   color:#fff;
   margin-top: 15px;
   font-size: 14px;
+}
+
+.table-responsive.view_more_table td.text-left {
+position: relative;
+left: 37px;
+display: block;
 }
 .main_header .navbar-default .navbar-nav>li>a:hover{
 color:#fbc02d;
@@ -737,7 +743,46 @@ left:86px !important;
 }
 }
 
-
+@media(max-width:768px){
+  ul.nav.navbar-nav.navbar-right {
+    position: relative;
+    right: 147px;
+    margin-bottom: 14px;
+    top: 4px;
+}
+.main_header .navbar-default .navbar-nav>li>a {
+    color: #fff;
+    margin-top: 22px;
+    font-size: 11px;
+}
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 7px !important;
+}
+.button_1 {
+    float: right;
+    position: relative;
+    left: 40%;
+    top: 32px;
+}
+.button_1 a {
+    padding: 12px 12px;
+    font-size: 10px;
+}
+.button_2 {
+    float: right;
+    position: relative;
+    left: 60%;
+    top: 26px;
+}
+.button_2 a {
+    background: #b4800e;
+    padding: 11px 11px;
+    color: #000;
+    font-size: 10px;
+}
+}
 
 
 @media(max-width:375px){
@@ -798,6 +843,9 @@ ul.nav.navbar-nav.navbar-right {
   z-index: 3;
   
 }
+.main_header{
+      padding: 25px 0px 0px !important;
+}
 .button_1 {
   float: left;
   position: relative;
@@ -853,6 +901,11 @@ div#navbar-collapse-1 {
   background: #173353;
   border: none !important;
   height: -webkit-fill-available;
+}
+.slider {
+    position: relative;
+    z-index: 1;
+    top: 77px !important;
 }
 .button_2 {
   float: left;
