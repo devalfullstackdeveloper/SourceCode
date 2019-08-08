@@ -180,6 +180,9 @@ class PageController {
 
 
 	async hiretrader({ view }) {	
+
+		const traderContent = await Option.query().where('cms_key',"trader").first()
+
 		const trader={};
 		var headerImage =  await HeaderImage.query().where('page_type', 6).first()
 		if(!headerImage)
@@ -210,7 +213,7 @@ class PageController {
 		})
 		// Payment Parameters End
 
-		return view.render('pages.hiretrader',{trader:trader, pairs: pairs, address: address, depositWallet: depositWallet})
+		return view.render('pages.hiretrader',{trader:trader, pairs: pairs, address: address, depositWallet: depositWallet, traderContent: traderContent})
 	}
 
 	async hireTraderSave ({ params, request, auth, response, session, antl }) {              		
