@@ -50,12 +50,12 @@ module.exports = {
   mysql: {
     client: 'mysql',
     connection: {
-      host: Env.get('DB_HOST', '127.0.0.1'),
+      host: Env.get('DB_HOST', '142.93.231.155'),
       port: Env.get('DB_PORT', '3306'),
       //localhost
-      user: Env.get('DB_USER', 'root'),
-      password: Env.get('DB_PASSWORD', 'saurabh'),
-      database: Env.get('DB_DATABASE', 'CryptoFxSpaceDb'),
+      user: Env.get('DB_USER', 'zithex_prod'),
+      password: Env.get('DB_PASSWORD', 'ZithexProd@2019'),
+      database: Env.get('DB_DATABASE', 'zithex_prod'),
       //design
       // user: Env.get('DB_USER', 'zithex19_design'),
       // password: Env.get('DB_PASSWORD', 'Zithex@2019'),

@@ -34,7 +34,7 @@
                         <p class="step-level">{{ antl.formatMessage('keywords.level2') }}</p>
                         <p>{{ antl.formatMessage('keywords.24_hour_limit') }}<b class="ont-weight-bold">{{ withdrawLimits.level_two }}</b> BTC</p>
                         @if( ! kyc )
-                        <p class="step-message"><a href="{{ route('personal_info') }}">{{ antl.formatMessage('keywords.submit_document') }}</a></p>
+                        <p class="step-message"><a class="btn btn-sm btn-dark-ui mt-md-0 mt-2" href="{{ route('personal_info') }}" style="padding: 6px 7px;font-size: .84rem; background: #d58c07;margin: 0 2px 0 0;">{{ antl.formatMessage('keywords.submit_document') }}</a></p>
                         @elseif( kyc.status == 0 )
                         <p class="step-message"><span class="text-warning">{{ antl.formatMessage('keywords.pending') }}</span></p>
                         @elseif( kyc.status == 2 )
