@@ -17,7 +17,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<div class="preloader"></div>
+{{--  <div class="preloader"></div>  --}}
 <section class="slider">
 	<div id="owl-demo">
 <!-- 		<div class="item slider1">
@@ -42,7 +42,7 @@
 		</div> -->
 
 
-		@each(slider in pairs.sliders.rows)
+		<!--  @each(slider in pairs.sliders.rows)
 		<div class="item slider1 ">
 		  <img class="d-block w-100" src="{{ assetsUrl('images/sliders/' + slider.image) }}" alt="{{ slider.title }}">
 			<div class="overlay">
@@ -65,7 +65,7 @@
 						</div>
 				</div>
 		</div>
-		@endeach
+		@endeach  -->
 
 
 
@@ -284,7 +284,7 @@
 										<th>{{ antl.formatMessage('keywords.trade') }}</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="btcBody">
 									@each(pair in pairs.usd.rows)
 									<tr id="{{ pair.pair_key }}">
 										<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
@@ -457,9 +457,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
 <script type="text/javascript">
-	$(window).load(function() {
-		$('.preloader').fadeOut('fast');
-	});
+	
 	$(document).ready(function() {
 		$("#owl-demo").owlCarousel({
 			autoPlay: 6000, //Set AutoPlay to 3 seconds
@@ -672,6 +670,38 @@
 			});
 		});
 	});
+
+	function getSliders() {
+		$.ajax({
+			url		: "/get_sliders",
+			type	: 'GET',
+			dataType : "text",
+			contentType: "application/json",
+			success : function(response){
+				response=JSON.parse(response);
+				if(response.success) {
+					for(let i=0; i<response.data.length; i++) {
+						var imageSlide = "images/sliders/"+response.data[i].image;
+						$('#owl-demo').append('<div class="item slider1 "><img class="d-block w-100" src="../images/sliders/'+response.data[i].image+'") }}" alt="{{ slider.title }}"><div class="overlay"></div><div class="container"><div class="col-md-6 col-sm-6 col-xs-12"><div class="text_banner"><h2>Make your first deposit and <br>get 1 BTC for free. <br> Minimum deposit 0,30 BTC</h2><p>Use this BTC, to trade for a month.If you are in profits,we add in your balance the existing profitable amount.</p><div class="get-started-btn"><a href="#">Lets Get Started <i class="fas fa-arrow-right"></i></a></div></div></div><div class="col-md-6 col-sm-6 col-xs-12"><div class="logo_img"><img src="../images/logo.png"><a href="#">www.cryptofxspace.com</a></div></div></div></div>');
+					}	
+				}
+			},	
+		});
+	}
+	getSliders();
+
+	function getTablePairData() {
+		$.ajax({
+			url		: "/get_tablePairData",
+			type	: 'GET',
+			dataType : "text",
+			contentType: "application/json",
+			success : function(response){
+				response=JSON.parse(response);				
+			},	
+		});
+	}
+	getTablePairData();
 
 	function getfeedbacks(){
 		$.ajax({
