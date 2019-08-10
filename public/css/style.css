@@ -1222,6 +1222,8 @@ ul.sub-menu li:hover {
     position: inherit;
     float: none;
     margin-bottom: 20px;
+    width: 90px;
+    padding: 4px 0px;
 }
 .view_more_table tbody tr { display: none; }
 .view_more_table tbody tr.active { display: table-row; }
