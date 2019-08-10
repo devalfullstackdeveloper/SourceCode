@@ -671,7 +671,7 @@
 			});
 		});
 	});
-
+$(document).ready(function(){
 	function getSliders() {
 		$.ajax({
 			url		: "/get_sliders",
@@ -703,7 +703,7 @@
 		});
 	}
 	getTablePairData();
-
+});
 	function getfeedbacks(){
 		$.ajax({
 			url		: "/get_feedback",

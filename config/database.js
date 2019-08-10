@@ -50,7 +50,7 @@ module.exports = {
   mysql: {
     client: 'mysql',
     connection: {
-      host: Env.get('DB_HOST', '142.93.231.155'),
+      host: Env.get('DB_HOST', '127.0.0.1'),
       port: Env.get('DB_PORT', '3306'),
       //localhost
 
