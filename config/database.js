@@ -55,7 +55,7 @@ module.exports = {
       //localhost
       user: Env.get('DB_USER', 'root'),
       password: Env.get('DB_PASSWORD', 'saurabh'),
-      database: Env.get('DB_DATABASE', 'CryptoFxSpaceDb'),
+      database: Env.get('DB_DATABASE', 'CryptoAug'),
       //design
       // user: Env.get('DB_USER', 'zithex19_design'),
       // password: Env.get('DB_PASSWORD', 'Zithex@2019'),
