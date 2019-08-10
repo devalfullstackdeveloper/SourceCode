@@ -248,7 +248,7 @@ text-decoration:none;
   width: 100%;
   float: left;
   position: relative;
-  bottom: 81px;
+  /*bottom: 81px;*/
 }
 .bnrhdddr {
   background: #ffff;
@@ -1053,7 +1053,8 @@ textarea {
 .market-tab {
 
   background: #1b1b38;
-  width: 100%;
+  width: auto !important;
+  float: none !important;
   position: relative;
   padding: 30px 0;
 
@@ -1140,7 +1141,7 @@ color: #ed8a19;
     text-align: center;
 }
 .market-tab .btn.btn-sm {
-    padding: .5rem 1.6rem;
+    /*padding: .5rem 1.6rem;*/
     font-size: 1.10rem;
     background: #b4800e;
 }
@@ -1225,7 +1226,7 @@ ul.sub-menu li:hover {
     width: 90px;
     padding: 4px 0px;
 }
-.view_more_table tbody tr { display: none; }
+/*.view_more_table tbody tr { display: none; }*/
 .view_more_table tbody tr.active { display: table-row; }
 .favorite {
   cursor: pointer;
