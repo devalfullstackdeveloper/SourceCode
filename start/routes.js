@@ -63,6 +63,8 @@ Route.get('/api/ticker/btcEth', 'BinanceBtcEthApi.index').as('api.ticker.btcEth'
 Route.get('/testpayment', 'TestController.index')
 Route.get('/get_sponsor', 'PageController.getAllSponsors')
 Route.get('/get_feedback', 'PageController.getAllFeedbacks')
+Route.get('/get_sliders', 'PageController.getAllSliderImages')
+Route.get('/get_tablePairData', 'PageController.getAllTablePairData')
 
 
 //Authentication routes

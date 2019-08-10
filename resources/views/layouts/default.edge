@@ -52,34 +52,37 @@
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/index/#trading">Trade</a></li>
-                    <li><a href="{{ route('requestcoin') }}">List your Coin</a></li>
-                    <li><a href="{{ route('hire-trader') }}">Buy Courses</a></li>
+                   <!--  <li><a href="{{ route('requestcoin') }}">List your Coin</a></li> -->
+                    <li><a href="{{ route('hire-trader') }}">Purchase Courses/Hire Pro Trader</a></li>
                     <li><a href="{{ route('about') }}">About Us </a></li>
                     <li><a href="#">Support <i class="fa fa-caret-down"></i></a> 
-                        <ul CLASS="sub-menu">
+                        <ul CLASS="sub-menu" style="width: 100%;">
                             <li><a href="{{ route('contact') }}">Support</a></li>
                             <li><a href="{{ route('faq') }}">FAQs</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('blogs') }}">BLOG</a></li>
+                    <li><a href="{{ route('blogs') }}">Blog</a></li>
                     
                 </ul>
 
                 @loggedIn
                 <div class="button_profile" style="top:0%">    
                     <ul class="nav navbar-nav" style="float:right;">
-                        <li>
-                            <a href="#" class ="lgHDR">
-                                    <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:50px">
+                        <li class="text_anc" style="position: relative; left: 15px;"><a href="{{ route('wallets') }}" id="btcBal"></a>
+                            <a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+                            <a href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
+                        </li>
+                        <li class="textKJDS" style="float: right; position: absolute; left: 226px">
+                            <a href="#" class ="lgHDR" style="border: none;">
+                                    <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:28px; bottom: 5px;" >
                                 <i class="fa fa-caret-down"></i>
                             </a> 
-                            <ul CLASS="sub-menu">
-                                <li>{{auth.user.name}}</li>
+                             <a class="ghdv" href="javascript:void(0)" style="color: #fff; position: relative; bottom: 45px; border: none; right: 11px;">{{auth.user.name}}</a>
+                            <ul CLASS="sub-menu sefsed" style="position: absolute; top: 88px ; margin: 0px; width: 100%;">
                                 <strong class="" id="btcmain"></strong>
-                                <li><a href="{{ route('wallets') }}" id="btcBal"></a></li>
-                                <li><a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a></li>
-                                <li><a href="{{ route('wallets') }}">EURO : {{auth.user.euro_balance}}</a></li>
-                                <li><a href="{{ route('logout') }}">Logout</a></li>
+                                <li><a href="{{ route('account') }}" style="line-height: 0px; padding-left: 2px; border: none;">Account</a></li>
+                                <li><a href="{{ route('wallets') }}" style="line-height: 0px; padding-left: 2px; border: none;">Wallet</a></li>
+                                <li><a href="{{ route('logout') }}" style="line-height: 0px; padding-left: 2px; border: none;">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -90,7 +93,7 @@
                         <a href="{{ route('login') }}">Log In</a>
                 </div>
                 <div class="button_2">
-                    <a href="{{ route('signup') }}">Sign Up <i class="fas fa-arrow-right"></i></a>
+                    <a href="{{ route('signup') }}">Sign Up</a>
                 </div>  
                 @endloggedIn
                 

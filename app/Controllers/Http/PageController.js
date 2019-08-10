@@ -11,6 +11,7 @@ const WhoWeAre = use('App/Models/WhoWeAre')
 const Contact = use('App/Models/Contact')
 const { validate } = use('Validator')
 const Pair = use('App/Models/Pair')
+const Slider = use('App/Models/Slider')
 const Address = use('App/Models/Address')
 const DepositWallet = use('App/Models/DepositWallet')
 const Announcement = use('App/Models/Announcement')
@@ -86,6 +87,46 @@ class PageController {
 		session.flash({ success: antl.formatMessage('messages.contact_success') })
 		return response.redirect('/contact')
 
+	}
+
+	
+	async getAllSliderImages ({ request, response,session,view }) {
+		
+		var data = await Slider.query().select('id', 'title', 'subtitle','alt', 'image').where('deleted_at', null).fetch()
+		
+		if(!data) {
+			return response.json({ success : false, message : 'No Images' })
+		}
+		return response.json({ success : true, data:data})		
+	}
+
+	async getAllTablePairData ({ request, response,session,view }) {
+
+		const pairs = {}
+
+		pairs.favourite_pairs = session.get('favourite_pairs', [])
+		pairs.favourite = await Pair.query().whereIn('pair_key', pairs.favourite_pairs).where('deleted_at', null).fetch()
+		pairs.usd = await Pair.query().where('base_currency', 'usd').where('deleted_at', null).where('status', 1).fetch()
+		pairs.euro = await Pair.query().where('base_currency', 'eur').where('deleted_at', null).where('status', 1).fetch()
+		pairs.btc = await Pair.query().where('base_currency', 'btc').where('deleted_at', null).where('status', 1).fetch()
+		pairs.eth = await Pair.query().where('base_currency', 'eth').where('deleted_at', null).where('status', 1).fetch()
+
+		const usdPairs = Array.prototype.map.call(pairs.usd.rows, function(item){ return `t${(item.pair_key).toUpperCase()}`; }).join(",")
+		const euroPairs = Array.prototype.map.call(pairs.euro.rows, function(item){ return `t${(item.pair_key).toUpperCase()}`; }).join(",")
+		const btcPairs = Array.prototype.map.call(pairs.btc.rows, function(item){ return `${(item.pair_key).toUpperCase()}`; }).join(",")
+		const ethPairs = Array.prototype.map.call(pairs.eth.rows, function(item){ return `${(item.pair_key).toUpperCase()}`; }).join(",")
+		const custRates = {};
+		Array.prototype.map.call(pairs.usd.rows, function(item){ return custRates[item.pair_key] = item.custom_amount; })
+		Array.prototype.map.call(pairs.euro.rows, function(item){ return custRates[item.pair_key] = item.custom_amount; })
+		Array.prototype.map.call(pairs.btc.rows, function(item){ return custRates[item.pair_key] = item.custom_amount; })
+		Array.prototype.map.call(pairs.eth.rows, function(item){ return custRates[item.pair_key] = item.custom_amount; })
+
+		pairs.custRates = JSON.stringify(custRates)
+
+		pairs.allPairs = `${usdPairs},${euroPairs}`;
+
+		pairs.btcEthPairs = `${btcPairs},${ethPairs}`;
+		return response.json({ success : true, data:pairs })
 	}
 
 
