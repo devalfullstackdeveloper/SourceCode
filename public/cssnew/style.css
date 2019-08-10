@@ -398,8 +398,12 @@ color: #333 !important;
   background: #d58c07 !important;
 }
 .wallet-table-search{
-  padding-bottom: 7px;
+  /* padding-bottom: 7px; */
+padding: 32px 32px !important;
 /*market/btcusd*/}
+.search-wallt{
+  height: 62px;
+}
 .market-section .text-weight-bold {
   display: inline-block;
 }
