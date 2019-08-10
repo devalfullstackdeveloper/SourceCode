@@ -4,7 +4,7 @@
 }
   
 body {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif !important;
 }
 
 .main_header {
@@ -23,9 +23,9 @@ body {
   background: #1b1b38e8;
 }
 ul.nav.navbar-nav.navbar-right {
-  position: relative;
-  right: 264px;
-  margin-bottom: 14px;
+    position: relative;
+    right: 300px;
+    margin-bottom: 14px;
 }
 a.navbar-brand img {
     width: 100%;
@@ -38,13 +38,14 @@ a.navbar-brand img {
 
 }
 .main_header .navbar-default {
-  background-color:transparent;
-  border-color: transparent;
+    background-color: transparent;
+    border-color: transparent;
+    height: 95px;
 }
 .main_header .navbar-default .navbar-nav>li>a {
     color: #fff;
     margin-top: 22px;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .table-responsive.view_more_table td.text-left {
@@ -117,26 +118,26 @@ section.main_header_1 ul li:hover .sub-menu {
 }
 
 .button_1 {
-  float: right;
-  position: relative;
-  left: 35%;
-  top: 30px;
+    float: right;
+    position: relative;
+    left: 37%;
+    top: 33px;
 }
 .button_2 {
   float: right;
   position: relative;
-  left: 56%;
-  top: 17px;
+  left: 55%;
+  top: 20px;
 }
 .button_1 a {
-  border: 1px solid #fff;
-  padding: 12px 14px;
-  border-radius: 4px;
-  color: #fff;
+    border: 1px solid #fff;
+    padding: 12px 23px;
+    border-radius: 4px;
+    color: #fff;
 }
 .button_2 a {
   background: #b4800e;
-  padding: 12px 20px;
+  padding: 12px 28px;
   color: #000;
   border-radius: 4px;
   display: inline-table;
@@ -273,12 +274,23 @@ button {
   border: none;
   color: #fff !important;
   border-radius: 4px;
+  height: auto;
+}
+
+button.searchbtn {
+  position: relative;
+  background: #084688;
+  border: none;
+  color: #fff !important;
+  border-radius: 4px;
   right: 30px;
   height: 44px;
   float: right;
   width: 117px;
   top: -54px;
 }
+
+
 .table_nav {
   width: 100%;
   float: left;
@@ -475,7 +487,7 @@ text-decoration:none;
 }
 ul.icons li {
   display: inline;
-  padding: 7px;
+  padding: 5px;
 }
 ul.icons li a {
   color: #fff;
@@ -537,7 +549,7 @@ section.logos {
 .banners{
 width:100%;
 float:left;
-    margin-top: 82px;
+    margin-top: 81px;
 }
 .banners .single-header {
   width: 100%;
@@ -750,15 +762,31 @@ left:86px !important;
     margin-bottom: 14px;
     top: 4px;
 }
+li.textKJDS {
+    left: 180px !important;
+}
+a.ghdv.waves-effect.waves-light {
+    bottom: 42px !important;
+    right: 4px !important;
+}
 .main_header .navbar-default .navbar-nav>li>a {
     color: #fff;
     margin-top: 22px;
-    font-size: 11px;
+    font-size: 10px !important;
 }
 .nav>li>a {
     position: relative;
     display: block;
     padding: 10px 7px !important;
+}
+li.text_anc {
+    top: 10px;
+    margin-right: 9px;
+}
+li.text_anc a {
+    line-height: 33px !important;
+    position: relative;
+    top: -31px;
 }
 .button_1 {
     float: right;
@@ -952,7 +980,7 @@ a {
 
 .btn-yellow {
   color: #1a202c;
-  background: #F5BC00;
+  background: #b4800e;
 }
 
 .footer {
@@ -1210,13 +1238,13 @@ ul.sub-menu li:hover {
 }
 /***Header login icon set***/
 ul.nav.navbar-nav li a.lgHDR.waves-effect.waves-light i {
-    padding-left: 11px;
+    padding-left: 6px;
 }
 
 ul.nav.navbar-nav li a.lgHDR.waves-effect.waves-light {
     width: max-content !important;
     padding: 10px;
-    margin-top: 18px;
+   margin-top: 10px;;
 }
 
 
@@ -1241,15 +1269,27 @@ ul.nav.navbar-nav li a.lgHDR.waves-effect.waves-light {
 .table-responsive tbody tr:nth-child(even) {
   background-color: #2b2b46;
 }
-
 li.text_anch a {
     color: #fff;
-    line-height: 1px;
-    padding: 5px 17px;
-    font-size: 12px;
+    line-height: 5px;
+    padding: 5px 13px;
+    font-size: 13px;
 }
 li.text_anch {
     display: block;
     border: 1px solid #fff;
     margin-left: 17px;
+}
+
+
+
+li.text_anc a {
+    border: none;
+    line-height: 23px !important;
+    font-size: 13px !important;
+    padding: 25px 0px;
+    margin-bottom: -60px;
+    position: relative;
+    bottom: 17px;
+    left: 65px;
 }
