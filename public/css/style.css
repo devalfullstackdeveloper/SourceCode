@@ -248,14 +248,14 @@ text-decoration:none;
   width: 100%;
   float: left;
   position: relative;
-  /*bottom: 81px;*/
+  bottom: 81px;
 }
 
 .coin_table_wallet {
   width: 100%;
   float: left;
   position: relative;
-  bottom: 81px;
+/*  bottom: 81px;*/
 }
 .bnrhdddr {
   background: #ffff;
