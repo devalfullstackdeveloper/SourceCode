@@ -1061,8 +1061,7 @@ textarea {
 .market-tab {
 
   background: #1b1b38;
-  width: auto !important;
-  float: none !important;
+  width: 100%;
   position: relative;
   padding: 30px 0;
 
