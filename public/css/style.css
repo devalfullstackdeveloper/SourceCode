@@ -248,14 +248,14 @@ text-decoration:none;
   width: 100%;
   float: left;
   position: relative;
-  /*bottom: 81px;*/
+  bottom: 81px;
 }
 
 .coin_table_wallet {
   width: 100%;
   float: left;
   position: relative;
-  /*bottom: 81px;*/
+/*  bottom: 81px;*/
 }
 .bnrhdddr {
   background: #ffff;
@@ -1061,8 +1061,7 @@ textarea {
 .market-tab {
 
   background: #1b1b38;
-  width: auto !important;
-  float: none !important;
+  width: 100%;
   position: relative;
   padding: 30px 0;
 
