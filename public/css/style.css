@@ -250,12 +250,19 @@ text-decoration:none;
   position: relative;
   /*bottom: 81px;*/
 }
+
+.coin_table_wallet {
+  width: 100%;
+  float: left;
+  position: relative;
+  /*bottom: 81px;*/
+}
 .bnrhdddr {
   background: #ffff;
   width: 100%;
   float: left;
   padding: 17px 0px;
-border-radius:7px;
+  border-radius:7px;
 }
 form.example input[type=text] {
   padding: 0px 32px;
@@ -1050,7 +1057,19 @@ textarea {
   }
 }
 
+
 .market-tab {
+
+  background: #1b1b38;
+  width: auto !important;
+  float: none !important;
+  position: relative;
+  padding: 30px 0;
+
+}
+
+
+.market-tabwallet {
 
   background: #1b1b38;
   width: auto !important;
@@ -1226,7 +1245,11 @@ ul.sub-menu li:hover {
     width: 90px;
     padding: 4px 0px;
 }
-/*.view_more_table tbody tr { display: none; }*/
+
+.view_more_table tbody tr { display: none; }
+
+
+
 .view_more_table tbody tr.active { display: table-row; }
 .favorite {
   cursor: pointer;

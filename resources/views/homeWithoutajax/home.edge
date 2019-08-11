@@ -41,13 +41,8 @@
 					</div>
 				</div>
 		</div> -->
-
-
-<<<<<<< HEAD
+		
 		@each(slider in pairs.sliders.rows)
-=======
-		 @each(slider in pairs.sliders.rows)
->>>>>>> a9f4264741fce71670b6b6cb762b9e376efc96b1
 		<div class="item slider1 ">
 		  <img class="d-block w-100" src="{{ assetsUrl('images/sliders/' + slider.image) }}" alt="{{ slider.title }}">
 			<div class="overlay">
@@ -70,14 +65,7 @@
 						</div>
 				</div>
 		</div>
-<<<<<<< HEAD
 		@endeach
-=======
-		@endeach 
->>>>>>> a9f4264741fce71670b6b6cb762b9e376efc96b1
-
-
-
 
 <!-- 		<div class="item slider2">
 			<div clsliderass="overlay">
@@ -682,41 +670,6 @@
 		});
 	});
 
-<<<<<<< HEAD
-=======
-/*	function getSliders() {
-		$.ajax({
-			url		: "/get_sliders",
-			type	: 'GET',
-			dataType : "text",
-			contentType: "application/json",
-			success : function(response){
-				response=JSON.parse(response);
-				if(response.success) {
-					for(let i=0; i<response.data.length; i++) {
-						var imageSlide = "images/sliders/"+response.data[i].image;
-						$('#owl-demo').append('<div class="item slider1 "><img class="d-block w-100" src="../images/sliders/'+response.data[i].image+'") }}" alt="{{ slider.title }}"><div class="overlay"></div><div class="container"><div class="col-md-6 col-sm-6 col-xs-12"><div class="text_banner"><h2>Make your first deposit and <br>get 1 BTC for free. <br> Minimum deposit 0,30 BTC</h2><p>Use this BTC, to trade for a month.If you are in profits,we add in your balance the existing profitable amount.</p><div class="get-started-btn"><a href="#">Lets Get Started <i class="fas fa-arrow-right"></i></a></div></div></div><div class="col-md-6 col-sm-6 col-xs-12"><div class="logo_img"><img src="../images/logo.png"><a href="#">www.cryptofxspace.com</a></div></div></div></div>');
-					}	
-				}
-			},	
-		});
-	}
-	getSliders();*/
-
-	function getTablePairData() {
-		$.ajax({
-			url		: "/get_tablePairData",
-			type	: 'GET',
-			dataType : "text",
-			contentType: "application/json",
-			success : function(response){
-				response=JSON.parse(response);				
-			},	
-		});
-	}
-	getTablePairData();
-
->>>>>>> a9f4264741fce71670b6b6cb762b9e376efc96b1
 	function getfeedbacks(){
 		$.ajax({
 			url		: "/get_feedback",
