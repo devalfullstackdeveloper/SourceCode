@@ -124,7 +124,7 @@ class BlogController {
 		return view.render('admin.blogs.edit_form', { blog : blog })
 	}
 
-	async edit({ params, request, response, session }) {
+	async edit({ params, request, response, session , antl}) {
 
 		
 		const rules = {
@@ -142,10 +142,11 @@ class BlogController {
 		const validation = await validate(request.all(), rules, messages)
 
 		if (validation.fails()) {
+			// return session
+			// 	.withErrors(validation.messages())
+			// 	.flashExcept()
 
-			session
-				.withErrors(validation.messages())
-				.flashExcept()
+			session.flash({ error: antl.formatMessage('messages.require_fields') })
 
 			return response.route('admin.blog.edit', { id : params.id })
 		}
