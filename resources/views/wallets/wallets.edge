@@ -5,7 +5,9 @@
 .wallet-image img {
     width: 100%;
 }
-.td-style
+.td-style{
+	    font-size: 11px;
+}
 </style>
 <section class="balances">
 	<div class="container">
@@ -115,9 +117,12 @@
 			<div class="col-sm-8">
 			</div>
 			<div class="col-sm-12 pl-0 wallet-table-search">
+			<form class="example" action="">
 				<input type="text" name="search" id="search" class="form-control search-wallt" placeholder="{{ antl.formatMessage('keywords.search_coin') }}" autocomplete="off">
+				<button class = "searchbtn" type="submit" disabled><i class="fa fa-search"></i> Search</button>
+			</form>
 			</div>
-			<table class="table profile-table  text-center mb-0 trade-ui--table table-brw wallet-table">
+			<table class="table profile-table  text-center mb-0 trade-ui--table table-brw wallet-table td-style">
 				<thead class="wallet-table-head">
 					<tr class="grey-text">
 						<th scope="col">{{ antl.formatMessage('keywords.coin') }}</th>

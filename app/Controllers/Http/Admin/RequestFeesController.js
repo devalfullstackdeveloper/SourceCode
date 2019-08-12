@@ -69,10 +69,16 @@ const page = (request.get().page !== undefined) ? request.get().page : 1
                                           .update({ 'amount': data.custom_amount}) 
 
 		console.log(requestfees);
+		const page = (request.get().page !== undefined) ? request.get().page : 1 
+		const requestfees1 = await Requestfees
+							.query()
+							.orderBy('id', 'asc')
+							.paginate(page)
 		if( ! requestfees ){
 			return response.json({ success : false, message : 'Invalid Requestfees.' })
 		}
-return response.redirect('https://zithex.com/admin/requestfees/');
+		return view.render('admin.requestfees.list', {requestfeess : requestfees1.toJSON()})
+		//return response.redirect('https://zithex.com/admin/requestfees/');
 
 	}
 	
