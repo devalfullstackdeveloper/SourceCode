@@ -5,6 +5,7 @@
 .wallet-image img {
     width: 100%;
 }
+.td-style
 </style>
 <section class="balances">
 	<div class="container">
@@ -110,7 +111,7 @@
 			</div>
 		</div>
 		<div class="message"></div>
-		<div class="row mt-5 mb-5 shadow row-grey coin_table market-tab">
+		<div class="row mt-5 mb-5 shadow row-grey coin_table_wallet market-tabwallet tab-content table_responsive">
 			<div class="col-sm-8">
 			</div>
 			<div class="col-sm-12 pl-0 wallet-table-search">
@@ -128,9 +129,8 @@
 				<tbody class="wallet-table-body">
 					@each(pair in pairsw)
 					<tr>
-						<td class="symbol">
-							<img width="30" style="margin-right: 7px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
-							{{ (pair.derive_currency).toUpperCase() }}
+						<td class="symbol text">
+							<img class="mr-1" width="20" style="margin-top:-4px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
 						</td>
 						<td class="coin">{{ pair.coin }}</td>
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>

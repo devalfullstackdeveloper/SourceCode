@@ -1,0 +1,530 @@
+@layout('layouts.default')
+
+@section('content')
+
+<style type="text/css">
+	.pair-name i.fa {
+		color: #a9a9a9;
+		cursor: pointer;
+	}
+	.pair-name i.fa-active {
+		color: #d58c07; 
+	}
+</style>
+
+<section class="bennar">
+	<div class="position-relative">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+			<ol class="carousel-indicators">
+				@each(slider in pairs.sliders.rows)
+				<li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop.index }}" class="{{ ($loop.index == 0) ? 'active' : '' }}"></li>
+				@endeach
+			</ol>
+			<div class="carousel-inner">
+				@each(slider in pairs.sliders.rows)
+				<div class="carousel-item {{ ($loop.index == 0) ? 'active' : '' }}">
+					<img class="d-block w-100" src="{{ assetsUrl('images/sliders/' + slider.image) }}" alt="{{ slider.title }}">
+					<div class="position-absolute">
+							<h3>{{ slider.title }}</h3>
+							<h4>{{ slider.subtitle }}</h4>
+						@loggedIn
+						@else
+						<p><a href="{{ route('signup') }}"><span>{{ antl.formatMessage('keywords.signup') }}</span></a> | {{ antl.formatMessage('keywords.already_registered') }} <a href="{{ route('login') }}"><span>{{ antl.formatMessage('keywords.login') }}</span></a></p>
+						@endloggedIn
+						<div style="display: inline-block; width: 100%">
+							<div class='time-frame'>
+								<div id='date-part'></div>
+								<div id='time-part'></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				@endeach
+			</div>
+		</div>
+	</div> 
+</section>
+
+<!-- <section class="market-info p-3 text-center">
+	<div class="container">
+		<div class="row ">
+			<div class="col my-auto">
+				BTC/USD
+			</div>	
+			<div class="col-sm-3 my-auto">
+				<img class="w-100" src="{{ assetsUrl('images/download.png') }}">
+			</div>	
+			<div class="col">
+				<span class="small grey-text"">18:00</span>
+				<br>
+				<span class="font-weight-bold">$ 16,643.3</span>
+			</div>		
+			<div class="col">
+				<span class="small grey-text"">LOW</span>
+				<br>
+				<span class="font-weight-bold">$ 15,143.3</span>
+			</div>		
+			<div class="col">
+				<span class="small grey-text">HIGH</span>
+				<br>
+				<span class="font-weight-bold">$ 18,643.3</span>
+			</div>
+			<div class="col">
+				<span class="small grey-text">MARKETCAP</span>
+				<br>
+				<span class="font-weight-bold">$ 250.73B</span>
+			</div>	
+		</div>	
+	</div> 	
+</section>
+
+<section class="live-chart">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<span>BTC: £3,117.56</span> <a class="chart-btn">(-6.83)</a>	
+			</div>	
+			<div class="col">
+				<span>ETH: £3,117.56</span> <a class="chart-btn">(-6.83)</a>	
+			</div>	
+			<div class="col">
+				<span>ETH: £3,117.56</span> <a class="chart-btn">(-6.83)</a>	
+			</div>	
+			<div class="col">
+				<span>ETH: £3,117.56</span> <a class="chart-btn">(-6.83)</a>	
+			</div>	
+			<div class="col">
+				<span>ETH: £3,117.56</span> <a class="chart-btn">(-6.83)</a>	
+			</div>	
+		</div>	
+	</div> 	
+</section> -->
+
+<section class="market-tab mt-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 col-offset-md-9">
+				<input type="text" name="search" id="search" class="form-control" placeholder="{{ antl.formatMessage('keywords.search') }}">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="nav nav-pills" id="pills-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="favourite-market-tab-link" data-toggle="pill" href="#favourite-market-tab" role="tab" aria-controls="favourite-market-tab" aria-selected="true"><i class="fa fa-star fa-active" style="color: #d58c07;"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" id="btc-market-tab-link" data-toggle="pill" href="#btc-market-tab" role="tab" aria-controls="btc-market-tab" aria-selected="true">{{ antl.formatMessage('keywords.usd_market') }}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="eth-market-tab-link" data-toggle="pill" href="#eth-market-tab" role="tab" aria-controls="eth-market-tab" aria-selected="false">{{ antl.formatMessage('keywords.euro_market') }}</a>
+					</li>
+						<li class="nav-item">
+						<a class="nav-link" id="btcnew-market-tab-link" data-toggle="pill" href="#btcnew-market-tab" role="tab" aria-controls="btcnew-market-tab" aria-selected="false">BTC market</a>
+					</li>
+						<li class="nav-item">
+						<a class="nav-link" id="ethnew-market-tab-link" data-toggle="pill" href="#ethnew-market-tab" role="tab" aria-controls="ethnew-market-tab" aria-selected="false">ETH market</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="pills-tabContent">
+					<div class="tab-pane fade" id="favourite-market-tab" role="tabpanel" aria-labelledby="favourite-market-tab-link">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr class="text-center">
+									<th>{{ antl.formatMessage('keywords.pair') }}</th>
+									<th>{{ antl.formatMessage('keywords.coin') }}</th>
+									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
+									<th>{{ antl.formatMessage('keywords.trade') }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								@each(pair in pairs.favourite.rows)
+								<tr id="{{ pair.pair_key }}">
+									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
+									<td class="text-center">
+										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+									</td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center">
+										{{ auth.user.is_admin }}
+										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">{{ antl.formatMessage('keywords.trade') }}</a>
+									</td>
+								</tr>
+								@endeach
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane fade show active" id="btc-market-tab" role="tabpanel" aria-labelledby="btc-market-tab-link">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr class="text-center">
+									<th>{{ antl.formatMessage('keywords.pair') }}</th>
+									<th>{{ antl.formatMessage('keywords.coin') }}</th>
+									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
+									<th>{{ antl.formatMessage('keywords.trade') }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								@each(pair in pairs.usd.rows)
+								<tr id="{{ pair.pair_key }}">
+									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
+									<td class="text-center">
+										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+									</td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center">
+										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">{{ antl.formatMessage('keywords.trade') }}</a>
+									</td>
+								</tr>
+								@endeach
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane fade" id="eth-market-tab" role="tabpanel" aria-labelledby="eth-market-tab-link">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr class="text-center">
+									<th>{{ antl.formatMessage('keywords.pair') }}</th>
+									<th>{{ antl.formatMessage('keywords.coin') }}</th>
+									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
+									<th>{{ antl.formatMessage('keywords.trade') }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								@each(pair in pairs.euro.rows)
+								<tr id="{{ pair.pair_key }}">
+									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
+									<td class="text-center">
+										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+									</td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center">
+										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">{{ antl.formatMessage('keywords.trade') }}</a>
+									</td>
+								</tr>
+								@endeach
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="tab-pane fade" id="btcnew-market-tab" role="tabpanel" aria-labelledby="btcnew-market-tab-link">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr class="text-center">
+									<th>{{ antl.formatMessage('keywords.pair') }}</th>
+									<th>{{ antl.formatMessage('keywords.coin') }}</th>
+									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>
+									<th>{{ antl.formatMessage('keywords.trade') }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								@each(pair in pairs.btc.rows)
+								<tr id="{{ pair.pair_key }}">
+									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
+									<td class="text-center">
+										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+									</td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center">
+										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">{{ antl.formatMessage('keywords.trade') }}</a>
+									</td>
+								</tr>
+								@endeach
+							</tbody>
+						</table>
+					</div>
+					
+						<div class="tab-pane fade" id="ethnew-market-tab" role="tabpanel" aria-labelledby="ethnew-market-tab-link">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr class="text-center">
+									<th>{{ antl.formatMessage('keywords.pair') }}</th>
+									<th>{{ antl.formatMessage('keywords.coin') }}</th>
+									<th>{{ antl.formatMessage('keywords.last_price') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_change') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_high') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_low') }}</th>
+									<th>{{ antl.formatMessage('keywords.24h_volume') }}</th>  
+									<th>{{ antl.formatMessage('keywords.trade') }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								@each(pair in pairs.eth.rows)
+								<tr id="{{ pair.pair_key }}">
+									<td class="text-center pair-name"><i class="fa fa-star favourite {{ ( ( pairs.favourite_pairs ).indexOf( pair.pair_key ) >= 0 ) ? 'fa-active' : '' }}" data-id="{{ pair.pair_key }}"></i> {{ pair.pair_name }}</td>
+									<td class="text-center">
+										<img class="mr-1" width="20" style="margin-top:-4px " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> {{ pair.coin }}
+									</td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center"></td>
+									<td class="text-center">
+										<a class="btn btn-sm btn-dark-ui" href="{{ (auth.user && auth.user.is_admin == 0 ) ? route( 'market', { pair : pair.pair_key } ) : route( 'login' ) }}">{{ antl.formatMessage('keywords.trade') }}</a>
+									</td>
+								</tr>
+								@endeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> 	
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+	isArray = function(a) {
+		return (!!a) && (a.constructor === Array);
+	};
+</script>
+<script>
+$(document).ready(function(){
+    $.ajax({
+        url: 'http://api-pub.bitfinex.com/v2/tickers?symbols=ALL&callback=jQuery33102493679027905482_1554714619054&_=1554714619055',
+        dataType: 'jsonp',
+        success: function(json) {
+                
+ console.log(json);
+           // rates = json.rates;
+           // base = json.base;
+            console.log(json);
+        }
+    });
+});
+</script>
+
+@each(pair in pairs.usd.rows)
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+setTimeout(function(){
+var pair = '{{ pair.pair_key }}';
+$.get('http://www.zithex.com/api/ticker/'+ pair.toUpperCase(), function(response){
+
+console.log(response);
+		
+	var hjk = response;
+	
+		if( hjk[0] !== "hb"){
+
+			var price = parseFloat( hjk[0][1] ) + ( ( parseFloat( hjk[0][1] ) * parseFloat( {{ pair.custom_amount }} ) ) / 100 );
+		
+			$('#{{pair.pair_key}} td:nth-child(3)').text(price.toFixed(6));
+			if(parseFloat(hjk[0][5]) >= 0){
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-success');
+			} else {
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-danger');
+			}
+			$('#{{pair.pair_key}} td:nth-child(4)').text( parseFloat( ( hjk[0][6] ) * 100 ).toFixed(1) + '%' );
+			$('#{{pair.pair_key}} td:nth-child(5)').text(hjk[0][9]);
+			$('#{{pair.pair_key}} td:nth-child(6)').text(hjk[0][10]);
+			$('#{{pair.pair_key}} td:nth-child(7)').text(hjk[0][8]);
+
+		}
+
+	});
+} , {{ ($loop.index + 1)*00 }}00);
+});
+
+</script>
+
+@endeach
+
+@each(pair in pairs.euro.rows)
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+setTimeout(function(){
+var pair = '{{ pair.pair_key }}';
+$.get('http://www.zithex.com/api/ticker/'+ pair.toUpperCase(), function(response){
+
+console.log(response);
+		
+	var hjk = response;
+	
+		if( hjk[0] !== "hb"){
+
+			var price = parseFloat( hjk[0][1] ) + ( ( parseFloat( hjk[0][1] ) * parseFloat( {{ pair.custom_amount }} ) ) / 100 );
+		
+			$('#{{pair.pair_key}} td:nth-child(3)').text(price.toFixed(6));
+			if(parseFloat(hjk[0][5]) >= 0){
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-success');
+			} else {
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-danger');
+			}
+			$('#{{pair.pair_key}} td:nth-child(4)').text( parseFloat( ( hjk[0][6] ) * 100 ).toFixed(1) + '%' );
+			$('#{{pair.pair_key}} td:nth-child(5)').text(hjk[0][9]);
+			$('#{{pair.pair_key}} td:nth-child(6)').text(hjk[0][10]);
+			$('#{{pair.pair_key}} td:nth-child(7)').text(hjk[0][8]);
+
+		}
+
+	});
+} , {{ ($loop.index + 1)*10 }}00);
+});
+
+</script>
+
+@endeach
+
+
+@each(pair in pairs.btc.rows)
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+setTimeout(function(){
+	
+var pair = '{{ pair.pair_key }}';
+$.get('http://www.zithex.com/api/ticker/'+ pair.toUpperCase(), function(response){
+
+console.log(response);
+		
+	var hjk = response;
+	
+		if( hjk[0] !== "hb"){
+
+			var price = parseFloat( hjk[0][1] ) + ( ( parseFloat( hjk[0][1] ) * parseFloat( {{ pair.custom_amount }} ) ) / 100 );
+		
+			$('#{{pair.pair_key}} td:nth-child(3)').text(price.toFixed(6));
+			if(parseFloat(hjk[0][5]) >= 0){
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-success');
+			} else {
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-danger');
+			}
+			$('#{{pair.pair_key}} td:nth-child(4)').text( parseFloat( ( hjk[0][6] ) * 100 ).toFixed(1) + '%' );
+			$('#{{pair.pair_key}} td:nth-child(5)').text(hjk[0][9]);
+			$('#{{pair.pair_key}} td:nth-child(6)').text(hjk[0][10]);
+			$('#{{pair.pair_key}} td:nth-child(7)').text(hjk[0][8]);
+
+		}
+
+	}); 
+
+} , {{ ($loop.index + 1)*30 }}00);
+
+});
+
+</script>
+
+@endeach
+
+@each(pair in pairs.eth.rows)
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+setTimeout(function(){
+
+	var pair = '{{ pair.pair_key }}';
+$.get('http://www.zithex.com/api/ticker/'+ pair.toUpperCase(), function(response){
+
+console.log(response);
+		
+	var hjk = response;
+	
+		if( hjk[0] !== "hb"){
+
+			var price = parseFloat( hjk[0][1] ) + ( ( parseFloat( hjk[0][1] ) * parseFloat( {{ pair.custom_amount }} ) ) / 100 );
+		
+			$('#{{pair.pair_key}} td:nth-child(3)').text(price.toFixed(6));
+			if(parseFloat(hjk[0][5]) >= 0){
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-success');
+			} else {
+				$('#{{pair.pair_key}} td:nth-child(4)').attr('class', 'text-center text-danger');
+			}
+			$('#{{pair.pair_key}} td:nth-child(4)').text( parseFloat( ( hjk[0][6] ) * 100 ).toFixed(1) + '%' );
+			$('#{{pair.pair_key}} td:nth-child(5)').text(hjk[0][9]);
+			$('#{{pair.pair_key}} td:nth-child(6)').text(hjk[0][10]);
+			$('#{{pair.pair_key}} td:nth-child(7)').text(hjk[0][8]);
+
+		}
+
+	});
+} , {{ ($loop.index + 1)*40 }}00);
+});
+
+</script>
+
+@endeach
+<script type="text/javascript">
+
+$(document).on('keyup', '#search', function(event){
+
+	if( event.which == 32 ){
+		$(this).val('');
+	}
+
+	var searchText = (($(this).val()).toUpperCase()).trim();
+
+	if( searchText ){
+		$('td.pair-name:not(:contains("' + searchText + '"))').parent('tr').hide();
+		$('td.pair-name:contains("' + searchText + '")').parent('tr').show();
+	} else {
+		$('td.pair-name').parent('tr').show();
+	}
+
+
+});
+
+$(document).on('click', '.favourite', function(){
+
+	var favourite = $(this);
+	var pair = favourite.attr('data-id');
+
+	$.ajax({
+		url : "{{ url }}favourite/" + pair,
+		success : function(result){
+
+			if( result.added ){
+				favourite.addClass('fa-active');
+				$('#favourite-market-tab tbody').append( $('tr#' + pair).clone() );
+				
+			} else {
+				favourite.removeClass('fa-active');
+				$('#favourite-market-tab tr#' + pair).remove();
+			}
+
+		}
+	})
+
+});
+</script>
+
+@endsection

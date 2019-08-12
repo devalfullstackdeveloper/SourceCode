@@ -501,10 +501,7 @@
                     </li>
                       <li class="nav-item">
                         <a class="nav-link p-1 grey-text small border" id="ethnew-market-tab-link" data-toggle="pill" href="#ethnew-market-tab" role="tab" aria-controls="ethnew-market-tab" aria-selected="false">ETH</a>
-                    </li>
-                      <li class="nav-item">
-                        <a class="nav-link p-1 grey-text small border" id="ztxnew-market-tab-link" data-toggle="pill" href="#ztxnew-market-tab" role="tab" aria-controls="ztxnew-market-tab" aria-selected="false">ZTX</a>
-                    </li>
+                  
                 </ul>
                 <div class="tab-content" id="pills-tabContent" style="background-color:#7b7b7b;">
                      <div class="tab-pane fade" id="favourite-market-tab" role="tabpanel" aria-labelledby="favourite-market-tab-link">
@@ -1208,17 +1205,19 @@ binanceSocket.onmessage = function(evt) {
 
     if( (ethBtcPairs).indexOf(pair.s) === -1 ) return;
 
-    var pairID = (pair.s).toLowerCase();
+    var pairID = (pair.s).replace('t', '').toLowerCase();
+    console.log("pairID", pairID)
 
     var price = parseFloat( pair.c ) + ( ( parseFloat( pair.c ) * parseFloat(custRates[pairID]) ) / 100 );
     var low = parseFloat( pair.c ) + ( ( parseFloat( pair.c ) * parseFloat(custRates[pairID]) ) / 100 );
-    
+    $('#'+pairID+' td:nth-child(2)').text(price.toFixed(8));
+
     if(parseFloat(pair.P) >= 0){
       $('#'+pairID+' td:nth-child(3)').attr('class', 'text-center text-success');
     } else {
       $('#'+pairID+' td:nth-child(3)').attr('class', 'text-center text-danger');
     }
-    $('#'+pairID+' td:nth-child(3)').text( parseFloat( pair.P  ).toFixed(8) + '%' );
+    $('#'+pairID+' td:nth-child(3)').text( parseFloat( pair.P  ).toFixed(1) + '%' );
     
     var selectedpair=document.getElementById("selectedpair").value;
     if(selectedpair==pairID.toUpperCase()){
