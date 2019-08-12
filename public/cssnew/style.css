@@ -382,6 +382,10 @@ color: #333 !important;
 .wallet-withdraw-btn{
   background: #d58c07 !important;
 }
+.wallet-balance{
+  font-weight: bold;
+  padding-top: 10px;
+}
 .wallet-table-search{
   /* padding-bottom: 7px; */
 padding: 32px 32px !important;

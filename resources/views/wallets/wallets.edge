@@ -44,7 +44,7 @@
 					</div>
 					<div class="wallet-content">
 						<h5>BTC</h5>
-						<strong class="" id="btcmain"></strong>
+						<p class="wallet-balance" id="btcmain"></p>
 						@if(!btc.public_key) 
 							<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -65,7 +65,7 @@
 					</div>
 					<div class="wallet-content">
 						<h5>{{ antl.formatMessage('keywords.usd') }}</h5>
-						<strong>{{  auth.user.usd_balance }}</strong>
+						<p class="wallet-balance">{{  auth.user.usd_balance }}</p>
 						<a href="javascript:void(0);" class="btn btn-sm yl-btn depositModal" data-currency="USD">{{ antl.formatMessage('keywords.deposit') }}</a>
 						<a href="javascript:void(0);" class=" btn btn-sm bl-btn withdrawModal" data-currency="USD">{{ antl.formatMessage('keywords.withdraw') }}</a>
 						<a href="{{ route('usdhistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
@@ -79,7 +79,7 @@
 					</div>
 					<div class="wallet-content">
 						<h5>{{ antl.formatMessage('keywords.euro') }}</h5>
-						<strong>{{  auth.user.euro_balance }}</strong>
+						<p class="wallet-balance">{{  auth.user.euro_balance }}</p>
 						<a href="javascript:void(0);" class="btn btn-sm yl-btn depositModal" data-currency="EUR">{{ antl.formatMessage('keywords.deposit') }}</a>
 						<a href="javascript:void(0);" class=" btn btn-sm bl-btn withdrawModal" data-currency="EUR">{{ antl.formatMessage('keywords.withdraw') }}</a>
 						<a href="{{ route('eurohistory') }}" class=" btn btn-sm brw-btn">{{ antl.formatMessage('keywords.history') }}</a>
@@ -94,7 +94,7 @@
 					<div class="wallet-content">
 						{{--  <h5>{{ antl.formatMessage('keywords.euro') }}</h5>  --}}
 						<h5>ETH</h5>
-						<strong id="ethmain"></strong>
+						<p class="wallet-balance" id="ethmain"></p>
 						@if(!eth.public_key) 
 							<a  href="{{ route('deposit', { currency : 'eth' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'eth' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -126,7 +126,7 @@
 					</tr>
 				</thead>
 				<tbody class="wallet-table-body">
-					@each(pair in pairsw.rows)
+					@each(pair in pairsw)
 					<tr>
 						<td class="symbol">
 							<img width="30" style="margin-right: 7px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
@@ -145,7 +145,7 @@
 					</tr>
 					@endeach
 					
-					@each(pair in pairs.rows)
+					@each(pair in pairs)
 					<tr>
 						<td class="symbol">
 							<img width="30" style="margin-right: 7px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
@@ -236,7 +236,7 @@
 					<input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
 					<input type="hidden" name="SUGGESTED_MEMO" value="">
 					<input type="hidden" name="BAGGAGE_FIELDS" value="">
-					<input type="submit" name="PAYMENT_METHOD" value="Pay Now!">
+					<input type="submit" class="btn btn-sm bl-btn" name="PAYMENT_METHOD" value="Pay Now!">
 				</form>
 			</div>
 		</div>
