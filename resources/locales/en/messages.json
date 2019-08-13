@@ -110,5 +110,6 @@
 	"apply_success" : "We have received your request. We will respond you soon.",
 	"resume_choose_error" : "Please choose resume",
 	"hire_trader_request":"Your request has been submitted successfully",
-	"hire_trader_request_fail":"Your request could not submit please try again"
+	"hire_trader_request_fail":"Your request could not submit please try again",
+	"require_fields": "Please enter required fields"
 }
