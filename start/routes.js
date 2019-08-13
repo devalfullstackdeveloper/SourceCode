@@ -177,16 +177,14 @@ Route.group(() => {
 
 // API routes
 Route.group(() => {
-
 	Route.get('/get-sponsors',				'SponsorController.getAllSponsors');
-	
 }).middleware(['unauth']).namespace('Admin')
 
 Route.get('/sitemap.xml', 			'SitemapDatumController.renderXML');
 Route.get('/sitemapData', 			'SitemapDatumController.renderMap').as('sitemap.Data');
 Route.get('/sitemapUser', ({ view }) => view.render('UserSitemap'));
-// Admin panel routes
 
+// Admin panel routes
 Route.group(() => {
 
 	Route.get('/dashboard', 				'DashboardController.index').as('admin.dashboard');
@@ -208,7 +206,7 @@ Route.group(() => {
     Route.get('/requestcoin', 				'RequestCoinController.index').as('admin.requestcoin');
 	Route.get('/requestcoin/view/:id', 			'RequestCoinController.viewDetail').as('admin.requestcoin.view');
 	Route.get('/requestfees', 				'RequestFeesController.index').as('admin.requestfees');
-	 Route.get('/requestcoin/status', 		'RequestCoinController.changeStatus').as('admin.requestcoin.status');
+	Route.get('/requestcoin/status', 		'RequestCoinController.changeStatus').as('admin.requestcoin.status');
     Route.get('/requestfees/status', 		'RequestFeesController.changeStatus').as('admin.requestfees.status');
 	Route.get('/requestfees/edit/:id', 		'RequestFeesController.showEdit').as('admin.requestfees.edit');
 	Route.post('/requestfees/feesedit/:id', 	'RequestFeesController.FeesEdit').as('admin.requestfees.feesedit');;
@@ -265,12 +263,12 @@ Route.group(() => {
 	Route.get('/hiretraders', 					'HireTraderController.index').as('admin.hiretraders');				
 	Route.get('/hiretrader/remove', 			'HireTraderController.remove').as('admin.hiretrader.remove');
 
-	Route.get('/teams', 					'TeamController.index').as('admin.teams');
-	Route.get('/team/new', 					'TeamController.showNew').as('admin.team.new');
-	Route.post('/team/new', 				'TeamController.addNew');
-	Route.get('/team/edit/:id', 			'TeamController.showEdit').as('admin.team.edit');
-	Route.post('/team/edit/:id', 			'TeamController.edit');
-	Route.get('/team/remove', 				'TeamController.remove').as('admin.team.remove');
+	// Route.get('/teams', 					'TeamController.index').as('admin.teams');
+	// Route.get('/team/new', 					'TeamController.showNew').as('admin.team.new');
+	// Route.post('/team/new', 				'TeamController.addNew');
+	// Route.get('/team/edit/:id', 			'TeamController.showEdit').as('admin.team.edit');
+	// Route.post('/team/edit/:id', 			'TeamController.edit');
+	// Route.get('/team/remove', 				'TeamController.remove').as('admin.team.remove');
 
 	Route.get('/faqs', 						'FaqController.index').as('admin.faqs');
 	Route.get('/faq/new', 					'FaqController.showNew').as('admin.faq.new');
@@ -289,12 +287,12 @@ Route.group(() => {
 	Route.get('/deposit/request', 			'DepositRequestController.index').as('admin.deposit.request');
 	Route.get('/deposit/status', 			'DepositRequestController.changestatus').as('admin.deposit.changestatus');
 
-	Route.get('/announcements', 			'AnnouncementController.index').as('admin.announcements');
-	Route.get('/announcement/new', 			'AnnouncementController.showNew').as('admin.announcement.new');
-	Route.post('/announcement/new', 		'AnnouncementController.addNew');
-	Route.get('/announcement/edit/:id', 	'AnnouncementController.showEdit').as('admin.announcement.edit');
-	Route.post('/announcement/edit/:id', 	'AnnouncementController.edit');
-	Route.get('/announcement/remove', 		'AnnouncementController.remove').as('admin.announcement.remove');
+	// Route.get('/announcements', 			'AnnouncementController.index').as('admin.announcements');
+	// Route.get('/announcement/new', 			'AnnouncementController.showNew').as('admin.announcement.new');
+	// Route.post('/announcement/new', 		'AnnouncementController.addNew');
+	// Route.get('/announcement/edit/:id', 	'AnnouncementController.showEdit').as('admin.announcement.edit');
+	// Route.post('/announcement/edit/:id', 	'AnnouncementController.edit');
+	// Route.get('/announcement/remove', 		'AnnouncementController.remove').as('admin.announcement.remove');
 
 	Route.get('/blogs', 					'BlogController.index').as('admin.blogs');
 	Route.get('/blog/new', 					'BlogController.showNew').as('admin.blog.new');
