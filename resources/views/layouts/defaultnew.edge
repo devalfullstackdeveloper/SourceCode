@@ -70,13 +70,26 @@
                             <a class="nav-link" href="{{ route('blogs') }}">Blog</a>
                         </li>
                        
-                    </ul>
+                   
                     
                     @loggedIn
-                    <ul class="navbar-nav">
-                    <li class="text_anch"> <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
+                    <li class="nav-item dropdown pr-md-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Balances
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                                <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
                                 <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
-                                <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a></li>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
+                            </div>
+                    </li>
+                </ul>
+                    <ul class="navbar-nav">
+                    <!--  <li class="text_anch"> <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a></li>  -->
+                        
                         <li class="nav-item dropdown pr-md-2">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -141,8 +154,8 @@
                     <h6 class="text-uppercase text-white font-weight-bold">Explore</h6>
                     <ul class="list-unstyled mb-0">
                         <li><a href="/index/#trading" title="" class="d-block py-1">Trade</a></li>
-                        <li><a href="{{ route('requestcoin') }}" title="" class="d-block py-1">List Your Coin</a></li>
-                        <li><a href="{{ route('hire-trader') }}" title="" class="d-block py-1">Buy Courses</a></li>
+                        <!--  <li><a href="{{ route('requestcoin') }}" title="" class="d-block py-1">List Your Coin</a></li>  -->
+                        <li><a href="{{ route('hire-trader') }}" title="" class="d-block py-1">Purchase Courses/Hire Pro Trader</a></li>
                     </ul>
                 </div>
 
