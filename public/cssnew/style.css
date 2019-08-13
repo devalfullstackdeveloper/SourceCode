@@ -967,3 +967,20 @@ li.text_anch a {
     right: 21px !important;
 }
 }
+@media (max-width: 991px) {
+  #sidebarCollapse {
+    display: block !important;
+  }
+  div#navbarSupportedContent {
+      margin-top: 6px;
+      background: #1c1c38;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      padding: 20px;
+      top: 93px;
+  }
+  header a.navbar-brand img {
+    position: inherit !important;
+  }
+}
