@@ -397,6 +397,10 @@ color: #333 !important;
 .wallet-withdraw-btn{
   background: #d58c07 !important;
 }
+.wallet-balance{
+  font-weight: bold;
+  padding-top: 10px;
+}
 .wallet-table-search{
   /* padding-bottom: 7px; */
 padding: 32px 32px !important;
@@ -962,4 +966,21 @@ li.text_anch a {
     position: relative;
     right: 21px !important;
 }
+}
+@media (max-width: 991px) {
+  #sidebarCollapse {
+    display: block !important;
+  }
+  div#navbarSupportedContent {
+      margin-top: 6px;
+      background: #1c1c38;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      padding: 20px;
+      top: 93px;
+  }
+  header a.navbar-brand img {
+    position: inherit !important;
+  }
 }

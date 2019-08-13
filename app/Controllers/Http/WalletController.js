@@ -21,51 +21,39 @@ class WalletController {
 
 		const pairs = await Pair
 							.query()
-							.select('pairs.coin', 'pairs.derive_currency', 'pairs.icon', 'addresses.public_key', 'addresses.balance')
+							.select('pairs.coin', 'pairs.pair_name','pairs.derive_currency', 'pairs.icon', 'addresses.public_key', 'addresses.balance')
 							.joinRaw("LEFT JOIN (SELECT currency, public_key, balance FROM addresses WHERE user_id=" + auth.user.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
 							.where('pairs.deleted_at', null)
 							.whereNotIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
-							.groupBy('pairs.derive_currency', 'pairs.coin','pairs.icon','addresses.public_key','addresses.balance')
+							.groupBy('pairs.derive_currency', 'pairs.coin','pairs.pair_name','pairs.icon','addresses.public_key','addresses.balance')
 							.fetch()
 
+
     	const pairsw = await Pair
-				.query()
-				.select('pairs.coin', 'pairs.derive_currency', 'pairs.icon', 'addresses.public_key', 'addresses.balance')
-				.joinRaw("LEFT JOIN (SELECT currency, public_key, balance FROM addresses WHERE user_id=" + auth.user.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
-				.where('pairs.deleted_at', null)
-				.whereIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
-				.groupBy('pairs.derive_currency', 'pairs.coin','pairs.icon','addresses.public_key','addresses.balance')
-				.fetch()
-
-		// const pairs = await Pair
-		// 					.query()
-		// 					.select('pairs.coin', 'pairs.derive_currency', 'pairs.icon', 'crypto_withdraw_request.balance')
-		// 					.joinRaw("LEFT JOIN (SELECT currency, balance FROM crypto_withdraw_request WHERE user_id=" + auth.user.id + ") AS crypto_withdraw_request ON pairs.derive_currency = crypto_withdraw_request.currency")
-		// 					.where('pairs.deleted_at', null)
-		// 					.whereNotIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
-		// 					.groupBy('pairs.derive_currency')
-		// 					.fetch()
-
-    	// const pairsw = await Pair
-		// 		.query()
-		// 		.select('pairs.coin', 'pairs.derive_currency', 'pairs.icon', 'crypto_withdraw_request.balance')
-		// 		.joinRaw("LEFT JOIN (SELECT currency, balance FROM crypto_withdraw_request WHERE user_id=" + auth.user.id + ") AS crypto_withdraw_request ON pairs.derive_currency = crypto_withdraw_request.currency")
-		// 		.where('pairs.deleted_at', null)
-		// 		.whereIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
-		// 		.groupBy('pairs.derive_currency')
-		// 		.fetch()
-
-
+							.query()
+							.select('pairs.coin','pairs.pair_name', 'pairs.derive_currency', 'pairs.icon', 'addresses.public_key', 'addresses.balance')
+							.joinRaw("LEFT JOIN (SELECT currency, public_key, balance FROM addresses WHERE user_id=" + auth.user.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
+							.where('pairs.deleted_at', null)
+							.whereIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
+							.groupBy('pairs.derive_currency','pairs.coin','pairs.pair_name', 'pairs.coin','pairs.icon','addresses.public_key','addresses.balance')
+							.fetch()
 
 		const personalInfo = await PersonalInfo.query().where('user_id', auth.user.id).where('deleted_at', null).first()
 		const deposit_url = Env.get('DEPOSIT_URL')
 		const seller_id = Env.get('SELLER_ID')
 		const return_url = Env.get('RETURN_URL')
 
-
+		function removeDuplicates(myArr, prop) {
+			return myArr.filter((obj, pos, arr) => {
+				return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+			});
+		}
+		var pairs_unique = removeDuplicates(pairs.rows, "derive_currency")
+		var pairsw_unique = removeDuplicates(pairsw.rows, "derive_currency")
+		
 		return view.render('wallets.wallets', { 
-			pairs : pairs,
-			pairsw : pairsw,
+			pairs : pairs_unique,
+			pairsw : pairsw_unique,
 			personalInfo : personalInfo,
 			deposit_url : deposit_url,
 			seller_id : seller_id,
@@ -136,7 +124,6 @@ class WalletController {
 							.where('user_id', auth.user.id)
 							.where('pair', 'like', params.currency + '%' )
 							.fetch()
-
 		return view.render('wallets.deposit', { 
 			pairs 		: pairs,
 			currency 	: params.currency,
@@ -164,7 +151,7 @@ class WalletController {
 							  .first()
 
 							 
-		const balance = { available : 0, inOrder : 0, total : 0 }
+		const balance = { available : address.balance, inOrder : 0, total : 0 }
 		
 		if( address == null ) {
 			session.flash({ error: 'You do not have any wallet activated.' })
