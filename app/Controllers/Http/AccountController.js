@@ -35,6 +35,13 @@ class AccountController {
         data.devices = await UserDevice.query().where('user_id', data.user.id).pickInverse(10)
         data.kyc = await Kyc.query().where('user_id', data.user.id).first()
         data.addressKyc = await AddressKyc.query().where('user_id', data.user.id).first() 
+        const address = await Address
+							  .query()
+							  .select('public_key', 'balance')
+							  .where('currency', 'btc')
+							  .where('user_id', auth.user.id)
+							  .first()
+
         data.requestcoins = await RequestCoin
                             .query().with('user')
                             .where('user_id', data.user.id)
@@ -43,6 +50,12 @@ class AccountController {
         data.withdrawLimits = await WithdrawLimit.findBy({
             currency: 'btc'
         })
+        
+        if(address == null || address == undefined) {
+            data.balance = { available : 0, inOrder : 0, total : 0 };
+        } else {
+            data.balance = { available : address.balance, inOrder : 0, total : 0 }
+        }
 
         data.withdrawLimits = data.withdrawLimits ? (data.withdrawLimits).toJSON() : null
 

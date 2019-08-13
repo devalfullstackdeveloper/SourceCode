@@ -45,7 +45,7 @@
 					</div>
 					<div class="wallet-content">
 						<h5>BTC</h5>
-						<p class="wallet-balance" id="btcmain"></p>
+						<p class="wallet-balance" id="btcmain">{{btc_balance.available_btc}}</p>
 						@if(!btc.public_key) 
 							<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -95,7 +95,7 @@
 					<div class="wallet-content">
 						{{--  <h5>{{ antl.formatMessage('keywords.euro') }}</h5>  --}}
 						<h5>ETH</h5>
-						<p class="wallet-balance" id="ethmain"></p>
+						<p class="wallet-balance" id="ethmain">{{btc_balance.available_eth}}</p>
 						@if(!eth.public_key) 
 							<a  href="{{ route('deposit', { currency : 'eth' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'eth' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -1236,13 +1236,14 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		$('#btcmain').text($('#btc').text());
+	/* $(window).on("load" , function(){
+		$('#btcmain').text($('#btc').text());		
 	});
+
 
 	$(document).ready(function(){
 		$('#ethmain').text($('#eth').text());
-	});
+	}); */
 
 	$(document).on('click', '.get-wallet', function(){
 	

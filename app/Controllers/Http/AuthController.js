@@ -142,7 +142,6 @@ class AuthController {
         userHistory.save()
 
         return response.redirect('/account')
-
     }
 
     async showVerify2FA ({ request, response, session, antl, view }) {
