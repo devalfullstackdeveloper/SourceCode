@@ -60,10 +60,11 @@
 								</label>
 								<input type="text" id="deposit-address" class="form-control disabled" value="{{ depositWallet.address }}">
 							</div>
-							<button style="padding: 10px;margin-left: 0;" type="button" class="btn btn-dark btn-outline-grey" data-toggle="modal" data-target="#QRModal"><i class="fas fa-qrcode"></i> {{ antl.formatMessage('keywords.show_qr_code') }}</button>
-							<button style="padding: 10px;margin-left: 0;" type="button" class="btn btn-outline-grey btn-copy"><i class="far fa-copy"></i> {{ antl.formatMessage('keywords.copy_ddress') }}</button>
+							<button style="padding: 10px;margin-left: 0;" type="button" class="btn btn-dark btn-outline-grey mr-2" data-toggle="modal" data-target="#QRModal"><i class="fas fa-qrcode"></i> {{ antl.formatMessage('keywords.show_qr_code') }}</button>
 
-							<button style="padding: 10px;margin-left: 0;" type="button" onclick="$('#orderCompletedModal').modal();" class="btn btn-outline-grey"><i class="far fa-check-circle"></i> Complete</button>
+							<button style="padding: 10px;margin-left: 0; color:#000 !important;" type="button" class="btn btn-outline-secondary btn-copy mr-2"><i class="far fa-copy"></i> {{ antl.formatMessage('keywords.copy_ddress') }}</button>
+
+							<button style="padding: 10px;margin-left: 0; color:#000 !important;" type="button" onclick="$('#orderCompletedModal').modal();" class="btn btn-outline-secondary"><i class="far fa-check-circle"></i> Complete</button>
 						</div>
 					</div>
 				</div>

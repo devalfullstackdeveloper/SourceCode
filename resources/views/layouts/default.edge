@@ -11,16 +11,21 @@
     @!section('title')
     <link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
+
+    {{ style('cssnew/theme.css') }}
     {{ style('css/all.css') }}
     {{ style('css/simple-line-icons.css') }}
     {{ style('fonts/boxicons.min.css') }}
-    {{ style('css/mdb.min.css') }}
+    <!-- {{ style('css/mdb.min.css') }} -->
     {{ style('css/swiper.css') }}
     {{ style('css/style.css') }}
     
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
     @!section('style')
     {{ script('js/jquery-3.3.1.min.js') }}
+     {{ script('js/jquery-3.3.1.slim.min.js') }}
+    {{ script('js/bootstrap.bundle.min.js') }}
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142280390-1"></script>
 <script>
@@ -116,13 +121,13 @@
     @!section('content')
 </section>
   
-<section class="footer">
+<footer class="footer">
     <div class="container">
     <div class="bnhder">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="footer-text">
                 <h1>Start trading now</h1>
-                <p>Trade Bitcoin,BNB,and hundreds of other cryptocurrencies in minutes.</p>
+                <p>Trade Bitcoin and any other cryptocurrency in simple steps.</p>
                 <div class="get-started-btn">
                     <a href="/index/#trading">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
                 </div>
@@ -193,7 +198,7 @@
         </div>
     </div>
     </div>
-</section> 
+</footer> 
 
     {{--  end sponsors  --}}
 
@@ -205,9 +210,8 @@
     </section> --> 
 
     <!-- SCRIPTS -->
-    {{ script('js/popper.min.js') }}
-    {{ script('js/bootstrap.min.js') }}
-    {{ script('js/mdb.min.js') }}
+   
+    <!-- {{ script('js/mdb.min.js') }} -->
     {{ script('js/swiper.js') }}
     {{ script('js/moment.js') }}
     {{ script('js/parsley.min.js') }}

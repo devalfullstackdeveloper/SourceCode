@@ -23,7 +23,7 @@
 
 	<section class="bg-gradient text-center">
 		<div class="container">
-			<div class="row mt-5">
+			<div class="row">
 			<div class="col-12">
 				<h6 class="text-uppercase text-white">Recent Blog Posts</h6>
 				<h1 class="display-4 text-white mb-0">Get trusted advice from our expert traders from CryptoFxSpace.</h1>
@@ -32,12 +32,12 @@
 		</div>
 	</section>
 
-	<section>
+	<section classs="space-0" style="padding:3rem 0">
 		<div class="container">
 			<div class="row">
 			@each(blog in blogs)
 			<div class="col-12 col-md-6 col-lg-4">
-				<div class="card border-0 mb-4">
+				<div class="card border-0 mb-0">
 				<div class="card-img mb-3">
 					<!-- {{assetsUrl('/images/blogs/' + blog.image)}} -->
 				<img src="{{assetsUrl('/images/blogs/' + blog.image)}}" alt="" class="w-100">
