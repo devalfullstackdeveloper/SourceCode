@@ -91,9 +91,14 @@
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
                         
-              <span class="ml-1"> <img
+                        <div class="d-flex align-items-center">
+                        <img
                 src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}"
-                style="height:28px; bottom: 5px;">&nbsp; {{auth.user.name}}</span>
+                style="height:28px; bottom: 0px;">
+
+                <span class="ml-1">{{auth.user.name}}</span>
+                        </div>
+              
            
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">

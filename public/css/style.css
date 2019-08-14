@@ -166,7 +166,7 @@ section.main_header_1 ul li:hover .sub-menu {
 #owl-demo .item.slider1 img.d-block.w-100 {
   display: block;
   width: 100%;
-  height: 570px;
+  height: 512px;
 }
 .sliders {
   width: 100%;
@@ -229,7 +229,7 @@ section.main_header_1 ul li:hover .sub-menu {
 .owl-pagination {
   position: relative;
   bottom: 89px;
-  right: 36%;
+  /* right: 36%; */
   width: 100%;
   float: left;
 }
@@ -259,7 +259,7 @@ section.main_header_1 ul li:hover .sub-menu {
   width: 100%;
   float: left;
   position: relative;
-  bottom: 81px;
+  /* bottom: 81px; */
 }
 
 .coin_table_wallet {
@@ -539,6 +539,9 @@ section.logos {
   background: #1b1b38;
   position: relative;
   bottom: 88px;
+}
+section.HomeLogos {
+  padding: 0px;
 }
 .text_center {
   width: 100%;
@@ -1165,9 +1168,10 @@ textarea {
   text-align: center;
 }
 .market-tab .btn.btn-sm {
-  /*padding: .5rem 1.6rem;*/
-  font-size: 1.1rem;
+  font-size: 0.75rem;
   background: #b4800e;
+  text-transform: uppercase;
+  color: #fff;
 }
 
 .market-tab table.table thead th {
@@ -1200,7 +1204,7 @@ textarea {
 
 .market-tab .nav-pills {
   background-color: #ffffff;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
 }
 

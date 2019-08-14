@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.defaultnew')
 @section('title')
 <title> Bitcoin & Cryptocurrency Trading Platform</title>
 <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
@@ -11,9 +11,11 @@
 		<h2 class="page-title">{{ antl.formatMessage('keywords.about_us') }}</h2>
 </section> -->
 
-<section class="banners">
+<section class="banners space-0 mt-0">
 	<div class="single-header slider header-bg">
 		<div class="container">
+		<div class="row">
+		<div class="col-12">
 			<div class="bnrhdere">
 				<div class="navbnr">
 					<ul>
@@ -24,6 +26,7 @@
 					</ul>
 				</div>
 			</div>
+			</div>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="bnr-txt">
 					<h4>About CryptoFxSpace</h4>
@@ -31,11 +34,13 @@
 				</div>
 			</div>
 		</div>
+		</div>
 	</div>
 </section>
 
-<section class="about_us">
+<section class="about_us space-0">
 	<div class="container">
+	<div class="row">
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			@each(about in data.about_us.rows)
 			
@@ -47,37 +52,43 @@
 			
 			@endeach
 		</div>
+		</div>
 	</div>
 </section>
 
-<section class="icons_Sec">
+<section class="icons_Sec space-sm pt-0">
 	<div class="container">
-		<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12">
 			<div class="icons_text">
-				<a href="#"><i class="fas fa-book"></i></a>
-				<h5>10 Years Experience</h5>
+				<a href="#" class="d-block mb-2" style="color: #337ab7;"><i class="fas fa-book"></i></a>
+				<h5 class="mb-2">10 Years Experience</h5>
 				<p>Ut turpis ex, elementum ac sapien ac, commodo molestie lectus. Fusce et tempus nisi.</p>
 			</div>
 			</div>
+
 			<div class="col-md-3 col-sm-3 col-xs-12">
 			<div class="icons_text">
-				<a href="#"><i class="fas fa-eye"></i></a>
-				<h5>Long Term Vision</h5>
+				<a href="#" class="d-block mb-2" style="color: #337ab7;"><i class="fas fa-eye"></i></a>
+				<h5 class="mb-2">Long Term Vision</h5>
 				<p>Aliquam ullamcorper feugiat urna ut bibendum. Nulla eu erat sed ipsum eleifend.</p>
 			</div>
 			</div>
+
 			<div class="col-md-3 col-sm-3 col-xs-12">
 			<div class="icons_text">
-				<a href="#"><i class="fas fa-shield-alt"></i></a>
-				<h5>More Secure</h5>
+				<a href="#" class="d-block mb-2" style="color: #337ab7;"><i class="fas fa-shield-alt"></i></a>
+				<h5 class="mb-2">More Secure</h5>
 				<p>Ut turpis ex, elementum ac sapien ac, commodo molestie lectus. Fusce et tempus nisi.</p>
 			</div>
 			</div>
+
 			<div class="col-md-3 col-sm-3 col-xs-12">
 			<div class="icons_text">
-				<a href="#"><i class="fas fa-briefcase"></i></a>
-				<h5>Professional</h5>
+				<a href="#" class="d-block mb-2" style="color: #337ab7;"><i class="fas fa-briefcase"></i></a>
+				<h5 class="mb-2">Professional</h5>
 				<p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+			</div>
 			</div>
 		</div>
 	</div>
