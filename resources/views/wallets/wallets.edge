@@ -47,7 +47,7 @@
 					</div>
 					<div class="wallet-content">
 						<h5>BTC</h5>
-						<p class="wallet-balance" id="btcmain"></p>
+						<p class="wallet-balance" id="btcmain">{{btc_balance.available_btc}}</p>
 						@if(!btc.public_key) 
 							<a  href="{{ route('deposit', { currency : 'btc' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'btc' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -97,7 +97,7 @@
 					<div class="wallet-content">
 						{{--  <h5>{{ antl.formatMessage('keywords.euro') }}</h5>  --}}
 						<h5>ETH</h5>
-						<p class="wallet-balance" id="ethmain"></p>
+						<p class="wallet-balance" id="ethmain">{{btc_balance.available_eth}}</p>
 						@if(!eth.public_key) 
 							<a  href="{{ route('deposit', { currency : 'eth' }) }}" class="btn btn-sm yl-btn deposit-btc-wallet">{{ antl.formatMessage('keywords.deposit') }}</a>
 								<a href="{{ route('withdraw', { currency : 'eth' }) }}" class=" btn btn-sm bl-btn  withdraw-btc-wallet">{{ antl.formatMessage('keywords.withdraw') }}</a>
@@ -122,7 +122,7 @@
 				<button class = "searchbtn" type="submit" disabled><i class="fa fa-search"></i> Search</button>
 			</form>
 			</div>
-			<table class="table profile-table  text-center mb-0 trade-ui--table table-brw wallet-table td-style">
+			<table class="table profile-table text-center mb-0 trade-ui--table table-brw wallet-table td-style">
 				<thead class="wallet-table-head">
 					<tr class="grey-text">
 						<th scope="col">{{ antl.formatMessage('keywords.coin') }}</th>
@@ -135,7 +135,10 @@
 					@each(pair in pairsw)
 					<tr>
 						<td class="symbol text">
-							<img class="mr-1" width="20" style="margin-top:-4px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
+							<img style="margin-right: 7px;background: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    width: 30px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
 						</td>
 						<td class="coin">{{ pair.coin }}</td>
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>
@@ -153,7 +156,10 @@
 					@each(pair in pairs)
 					<tr>
 						<td class="symbol">
-							<img width="30" style="margin-right: 7px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
+							<img style="margin-right: 7px;background: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    width: 30px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
 							{{ (pair.derive_currency).toUpperCase() }}
 						</td>
 						<td class="coin">{{ pair.coin }}</td>
@@ -1216,9 +1222,9 @@
 @endsection
 
 @section('script')
-{{ script('admin/vendors/bower_components/jquery/dist/jquery.min.js') }}
+<!-- {{ script('admin/vendors/bower_components/jquery/dist/jquery.min.js') }} -->
 {{ script('admin/vendors/bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js') }}
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 {{ script('admin/js/app.min.js') }}
 <script>
 $(document).ready(function() {
@@ -1241,13 +1247,14 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		$('#btcmain').text($('#btc').text());
+	/* $(window).on("load" , function(){
+		$('#btcmain').text($('#btc').text());		
 	});
+
 
 	$(document).ready(function(){
 		$('#ethmain').text($('#eth').text());
-	});
+	}); */
 
 	$(document).on('click', '.get-wallet', function(){
 	

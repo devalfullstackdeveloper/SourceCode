@@ -11,16 +11,21 @@
     @!section('title')
     <link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
+
+    {{ style('cssnew/theme.css') }}
     {{ style('css/all.css') }}
     {{ style('css/simple-line-icons.css') }}
     {{ style('fonts/boxicons.min.css') }}
-    {{ style('css/mdb.min.css') }}
+    <!-- {{ style('css/mdb.min.css') }} -->
     {{ style('css/swiper.css') }}
     {{ style('css/style.css') }}
     
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
     @!section('style')
     {{ script('js/jquery-3.3.1.min.js') }}
+     {{ script('js/jquery-3.3.1.slim.min.js') }}
+    {{ script('js/bootstrap.bundle.min.js') }}
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142280390-1"></script>
 <script>
@@ -34,85 +39,102 @@
 </head>
 
 <body>
-     <section class="main_header" id="navbar-default">
-        <nav class="navbar navbar-default">
-            <div class="container">
-            
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"><img src="../images/logo.png"></a>
-                </div>
-        
-            
-            <div class="collapse navbar-collapse" id="navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/index/#trading">Trade</a></li>
-                   <!--  <li><a href="{{ route('requestcoin') }}">List your Coin</a></li> -->
-                    <li><a href="{{ route('hire-trader') }}">Purchase Courses/Hire Pro Trader</a></li>
-                    <li><a href="{{ route('about') }}">About Us </a></li>
-                    <li><a href="#">Support <i class="fa fa-caret-down"></i></a> 
-                        <ul CLASS="sub-menu" style="width: 100%;">
-                            <li><a href="{{ route('contact') }}">Support</a></li>
-                            <li><a href="{{ route('faq') }}">FAQs</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ route('blogs') }}">Blog</a></li>
-                    
-                </ul>
+  
+       <nav class="navbar navbar-expand-md navbar-dark bg-blue-900">
+  <div class="container">
 
-                @loggedIn
-                <div class="button_profile" style="top:0%">    
-                    <ul class="nav navbar-nav" style="float:right;">
-                        <li class="text_anc" style="position: relative; left: 15px;"><a href="{{ route('wallets') }}" id="btcBal"></a>
-                            <a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
-                            <a href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
-                        </li>
-                        <li class="textKJDS" style="float: right; position: absolute; left: 226px">
-                            <a href="#" class ="lgHDR" style="border: none;">
-                                    <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:28px; bottom: 5px;" >
-                                <i class="fa fa-caret-down"></i>
-                            </a> 
-                             <a class="ghdv" href="javascript:void(0)" style="color: #fff; position: relative; bottom: 45px; border: none; right: 11px;">{{auth.user.name}}</a>
-                            <ul CLASS="sub-menu sefsed" style="position: absolute; top: 88px ; margin: 0px; width: 100%;">
-                                <strong class="" id="btcmain"></strong>
-                                <li><a href="{{ route('account') }}" style="line-height: 0px; padding-left: 2px; border: none;">Account</a></li>
-                                <li><a href="{{ route('wallets') }}" style="line-height: 0px; padding-left: 2px; border: none;">Wallet</a></li>
-                                <li><a href="{{ route('logout') }}" style="line-height: 0px; padding-left: 2px; border: none;">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>  
-               
-                @else
-                <div class="button_1">
-                        <a href="{{ route('login') }}">Log In</a>
-                </div>
-                <div class="button_2">
-                    <a href="{{ route('signup') }}">Sign Up</a>
-                </div>  
-                @endloggedIn
-                
-            </div>
-            
-            </div>
-        </nav>
-    </section>
+    <a class="navbar-brand" href="#"><img src="images/logo.png" height="60"></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-1"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="/index/#trading">Trade</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('hire-trader') }}">Purchase Courses/Hire Pro Trader</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About Us </a></li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Support
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ route('contact') }}">Support</a>
+            <a class="dropdown-item" href="{{ route('faq') }}">FAQs</a>
+          </div>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="{{ route('blogs') }}">Blog</a></li>
+      </ul>
+
+      <ul class="navbar-nav">
+
+        @loggedIn
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Balance
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+             <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
+            <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+            <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+                        
+                        <div class="d-flex align-items-center">
+                        <img
+                src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}"
+                style="height:28px; bottom: 0px;">
+
+                <span class="ml-1">{{auth.user.name}}</span>
+                        </div>
+              
+           
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ route('account') }}">Account</a>
+            <a class="dropdown-item" href="{{ route('wallets') }}">Wallet</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+          </div>
+        </li>
+
+        @else
+        <li class="nav-item">
+          <a class="btn btn-outline-light btn-block mt-2 mt-md-0" href="{{ route('login') }}">Log In</a>
+        </li>
+
+        <li class="nav-item ml-md-2">
+          <a class="btn btn-yellow btn-block mt-2 mt-md-0" href="{{ route('signup') }}">Register</a>
+        </li>
+        @endloggedIn
+      </ul>
+    </div>
+
+  </div>
+</nav>
+  
 
     @!section('content')
 </section>
   
-<section class="footer">
+<footer class="footer">
     <div class="container">
     <div class="bnhder">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="footer-text">
                 <h1>Start trading now</h1>
-                <p>Trade Bitcoin,BNB,and hundreds of other cryptocurrencies in minutes.</p>
+                <p>Trade Bitcoin and any other cryptocurrency in simple steps.</p>
                 <div class="get-started-btn">
                     <a href="/index/#trading">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
                 </div>
@@ -139,8 +161,8 @@
                         <h3>Explore</h3>
                         <ul>
                             <li><a href="/index/#trading">Trade/Exchange</a></li>
-                            <li><a href="{{ route('requestcoin') }}">List Your Coin</a></li>
-                            <li><a href="{{ route('hire-trader') }}">Buy Courses</a></li>
+                            <!--  <li><a href="{{ route('requestcoin') }}">List Your Coin</a></li>  -->
+                            <li><a href="{{ route('hire-trader') }}">Purchase Courses/Hire Pro Trader</a></li>
                         </ul>
                     </div>
                 </div>
@@ -183,7 +205,7 @@
         </div>
     </div>
     </div>
-</section> 
+</footer> 
 
     {{--  end sponsors  --}}
 
@@ -195,9 +217,8 @@
     </section> --> 
 
     <!-- SCRIPTS -->
-    {{ script('js/popper.min.js') }}
-    {{ script('js/bootstrap.min.js') }}
-    {{ script('js/mdb.min.js') }}
+   
+    <!-- {{ script('js/mdb.min.js') }} -->
     {{ script('js/swiper.js') }}
     {{ script('js/moment.js') }}
     {{ script('js/parsley.min.js') }}
@@ -235,10 +256,11 @@
         // To get particular user balance
         $(document).ready(function() {
             $.ajax({
-                url : "{{ route('getBtcBalance') }}",
+                url : "{{ route('getBtcBalance')}}",
                 type : 'get',
                 success: function(response){
                     if(response.success == true) {
+
                         if( response.data.available >= 0 ) {
                             $("#btcBal").text('BTC : ' +response.data.available);
                         }
