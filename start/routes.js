@@ -246,19 +246,19 @@ Route.group(() => {
 	Route.post('/slider/edit/:id', 			'SliderController.edit');
 	Route.get('/slider/remove', 			'SliderController.remove').as('admin.slider.remove');
 
-	Route.get('/feedbacks', 					'FeedbackController.index').as('admin.feedbacks');
-	Route.get('/feedback/new', 				    'FeedbackController.showNew').as('admin.feedback.new');
-	Route.post('/feedback/new', 				'FeedbackController.addNew');
-	Route.get('/feedback/edit/:id', 			'FeedbackController.showEdit').as('admin.feedback.edit');
-	Route.post('/feedback/edit/:id', 			'FeedbackController.edit').as('admin.feedback.edit');
-	Route.get('/feedback/remove', 			    'FeedbackController.remove').as('admin.feedback.remove');
+	// Route.get('/feedbacks', 					'FeedbackController.index').as('admin.feedbacks');
+	// Route.get('/feedback/new', 				    'FeedbackController.showNew').as('admin.feedback.new');
+	// Route.post('/feedback/new', 				'FeedbackController.addNew');
+	// Route.get('/feedback/edit/:id', 			'FeedbackController.showEdit').as('admin.feedback.edit');
+	// Route.post('/feedback/edit/:id', 			'FeedbackController.edit').as('admin.feedback.edit');
+	// Route.get('/feedback/remove', 			    'FeedbackController.remove').as('admin.feedback.remove');
 
-	Route.get('/socialmedia', 					'SocialMediaController.index').as('admin.socialmedia');
-	Route.get('/socialmedia/new', 				    'SocialMediaController.showNew').as('admin.socialmedia.new');
-	Route.post('/socialmedia/new', 				'SocialMediaController.addNew');
-	Route.get('/socialmedia/edit/:id', 			'SocialMediaController.showEdit').as('admin.socialmedia.edit');
-	Route.post('/socialmedia/edit/:id', 			'SocialMediaController.edit').as('admin.socialmedia.edit');
-	Route.get('/socialmedia/remove', 			    'SocialMediaController.remove').as('admin.socialmedia.remove');
+	// Route.get('/socialmedia', 					'SocialMediaController.index').as('admin.socialmedia');
+	// Route.get('/socialmedia/new', 				    'SocialMediaController.showNew').as('admin.socialmedia.new');
+	// Route.post('/socialmedia/new', 				'SocialMediaController.addNew');
+	// Route.get('/socialmedia/edit/:id', 			'SocialMediaController.showEdit').as('admin.socialmedia.edit');
+	// Route.post('/socialmedia/edit/:id', 			'SocialMediaController.edit').as('admin.socialmedia.edit');
+	// Route.get('/socialmedia/remove', 			    'SocialMediaController.remove').as('admin.socialmedia.remove');
 
 	Route.get('/hiretraders', 					'HireTraderController.index').as('admin.hiretraders');				
 	Route.get('/hiretrader/remove', 			'HireTraderController.remove').as('admin.hiretrader.remove');
@@ -356,10 +356,10 @@ Route.group(() => {
 	Route.get('/withdraw/limits', 'WithdrawLimitController.index').as('admin.withdrawLimits.index')
 	Route.post('/withdraw/limits/update', 'WithdrawLimitController.update').as('admin.withdrawLimits.update')
 
-	Route.get('/headerimages', 					'HeaderImageController.index').as('admin.headerimage');
-	Route.get('/headerimage/new', 				'HeaderImageController.headerImageNew').as('admin.headerimage.new');
-	Route.post('/headerimage/new', 				'HeaderImageController.addNew');
-	Route.get('/headerimage/detail', 		    'HeaderImageController.detail').as('admin.headerimage.detail');;
+	//Route.get('/headerimages', 					'HeaderImageController.index').as('admin.headerimage');
+	// Route.get('/headerimage/new', 				'HeaderImageController.headerImageNew').as('admin.headerimage.new');
+	// Route.post('/headerimage/new', 				'HeaderImageController.addNew');
+	// Route.get('/headerimage/detail', 		    'HeaderImageController.detail').as('admin.headerimage.detail');;
 
 
 	Route.get('/aboutus', 					'AboutUSController.index').as('admin.aboutus');

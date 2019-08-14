@@ -21,11 +21,12 @@
     {{ script('js/parsley.min.js') }}
     {{ style('css/style.css') }}
     {{ style('css/all.css') }}
+    
 </head>
 
 @!section('body')
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-blue-900 fixed-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-blue-900">
             <div class="container">
 
                 <a class="navbar-brand" href="/index">
@@ -69,27 +70,44 @@
                         <li class="nav-item pr-md-2">
                             <a class="nav-link" href="{{ route('blogs') }}">Blog</a>
                         </li>
-                       
-                    </ul>
                     
-                    @loggedIn
+                    
+                </ul>
                     <ul class="navbar-nav">
-                    <li class="text_anch"> <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
-                                <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
-                                <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a></li>
-                        <li class="nav-item dropdown pr-md-2">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:28px">
+                    @loggedIn
+                    <li class="nav-item dropdown pr-md-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 10px 0;">
+                                Balances
                             </a>
-                             <a class="dropdown-item" href="javascript:void(0)" style="color: #fff; position: relative; bottom: 10px;">{{auth.user.name}}</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                                <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
+                            </div>
+                    </li>
+
+                    <!--  <li class="text_anch"> <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+                                <a class="dropdown-item" href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a></li>  -->
+                        
+                        <li class="nav-item dropdown pr-md-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+                     
+                        <img
+                src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}"
+                style="height:28px; bottom: 0px;">
+               <span class="d-inline-block" style="margin: 10px 0;">{{auth.user.name}}</span>
+                       
+           
+          </a>
                             
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                               
-                                <a class="dropdown-item" id="btcBal" href="{{ route('wallets') }}"></a>
                                 <a class="dropdown-item" href="{{ route('account') }}">Account</a>
-                                <a class="dropdown-item" href="{{ route('wallets') }}">Wallet</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+            <a class="dropdown-item" href="{{ route('wallets') }}">Wallet</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                             </div>
                         </li>
                     </ul>
@@ -116,8 +134,7 @@
             <div class="row text-center mb-7">
                 <div class="col-12">
                     <h2 class="text-white mt-0 mb-2">Start trading now</h2>
-                    <p class="lead text-white opacity-70 mb-4">Trade Bitcoin, BNB, and hundreds of other
-                        cryptocurrencies in minutes.</p>
+                    <p class="lead text-white opacity-70 mb-4">Trade Bitcoin and any other cryptocurrency in simple steps.</p>
 
                     <a href="/index/#trading" title="" class="btn btn-yellow">Let's Get Started <i
                             class="bx bx-arrow-right-alt ml-1"></i></a>
@@ -142,8 +159,8 @@
                     <h6 class="text-uppercase text-white font-weight-bold">Explore</h6>
                     <ul class="list-unstyled mb-0">
                         <li><a href="/index/#trading" title="" class="d-block py-1">Trade</a></li>
-                        <li><a href="{{ route('requestcoin') }}" title="" class="d-block py-1">List Your Coin</a></li>
-                        <li><a href="{{ route('hire-trader') }}" title="" class="d-block py-1">Buy Courses</a></li>
+                        <!--  <li><a href="{{ route('requestcoin') }}" title="" class="d-block py-1">List Your Coin</a></li>  -->
+                        <li><a href="{{ route('hire-trader') }}" title="" class="d-block py-1">Purchase Courses/Hire Pro Trader</a></li>
                     </ul>
                 </div>
 

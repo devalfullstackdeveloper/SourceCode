@@ -29,7 +29,7 @@ class WalletController {
 							.fetch()
 
 
-    	const pairsw = await Pair
+    	const pairsw = 	await Pair
 							.query()
 							.select('pairs.coin','pairs.pair_name', 'pairs.derive_currency', 'pairs.icon', 'addresses.public_key', 'addresses.balance')
 							.joinRaw("LEFT JOIN (SELECT currency, public_key, balance FROM addresses WHERE user_id=" + auth.user.id + ") AS addresses ON pairs.derive_currency = addresses.currency")
@@ -37,6 +37,31 @@ class WalletController {
 							.whereIn('pairs.derive_currency', ['btc','eth','xrp','bab','ltc','eos','xlm','trx','xmr','dsh','iot','neo','etc'])
 							.groupBy('pairs.derive_currency','pairs.coin','pairs.pair_name', 'pairs.coin','pairs.icon','addresses.public_key','addresses.balance')
 							.fetch()
+
+		const addressBTC = await Address
+							.query()
+							.select('public_key', 'balance')
+							.where('currency', 'btc')
+							.where('user_id', auth.user.id)
+							.first()
+
+		const addressETH = await Address
+							.query()
+							.select('public_key', 'balance')
+							.where('currency', 'eth')
+							.where('user_id', auth.user.id)
+							.first()
+
+		let balance;
+		if( (addressBTC == null || addressBTC == undefined) && (addressETH == null || addressETH == undefined) ) {
+			balance = { available_btc : 0, available_eth : 0 };
+	 	} else if( addressETH == null || addressETH == undefined ) {
+			balance = { available_btc: addressBTC.balance.toFixed(8),  available_eth : 0 }
+		} else if( addressBTC == null || addressBTC == undefined ) {
+			balance = { available_btc: 0,  available_eth : addressETH.balance.toFixed(8) }
+		} else {
+			balance = { available_btc : addressBTC.balance.toFixed(8),available_eth : addressETH.balance.toFixed(8) }
+		}
 
 		const personalInfo = await PersonalInfo.query().where('user_id', auth.user.id).where('deleted_at', null).first()
 		const deposit_url = Env.get('DEPOSIT_URL')
@@ -54,6 +79,7 @@ class WalletController {
 		return view.render('wallets.wallets', { 
 			pairs : pairs_unique,
 			pairsw : pairsw_unique,
+			btc_balance : balance,
 			personalInfo : personalInfo,
 			deposit_url : deposit_url,
 			seller_id : seller_id,
@@ -150,14 +176,12 @@ class WalletController {
 							  .where('user_id', auth.user.id)
 							  .first()
 
-							 
-		const balance = { available : address.balance, inOrder : 0, total : 0 }
-		
 		if( address == null ) {
 			session.flash({ error: 'You do not have any wallet activated.' })
 			return response.route('wallets', {currency : params.currency })
 		}
 		
+		const balance = { available : address.balance, inOrder : 0, total : 0 }		
 		const url = Env.get('CRYPTO_URL') + params.currency + '/balance/' + address.public_key + '/' + Env.get('CRYPTO_NETWORK')
 
 		try{
@@ -676,20 +700,20 @@ class WalletController {
 		const mailData = { name : auth.user.name,email :auth.user.email,  amount : request.body.amount, currency :  request.body.currency }
 		mailData.url = Env.get('APP_URL')
 
-		await Mail.send('emails.deposit_request', mailData, (message) => {
-			message
-			.to(auth.user.email)
-			.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
-			.subject('Deposit Request')
-		})
+		// await Mail.send('emails.deposit_request', mailData, (message) => {
+		// 	message
+		// 	.to(auth.user.email)
+		// 	.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
+		// 	.subject('Deposit Request')
+		// })
 
-		await Mail.send('emails.deposit_admin', mailData, (message) => {
-			message
-			.to('admin@zithex.com')
-			.cc('support@zithex.com')
-			.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
-			.subject('Deposit Request')
-		}) 
+		// await Mail.send('emails.deposit_admin', mailData, (message) => {
+		// 	message
+		// 	.to('admin@zithex.com')
+		// 	.cc('support@zithex.com')
+		// 	.from(Env.get('MAIL_FROM'), Env.get('MAIL_FROM_NAME'))
+		// 	.subject('Deposit Request')
+		// }) 
 
 		session.flash({success: 'Your deposit request submitted once verified amount will be deposited to your wallet.'})
 		return response.redirect('back')

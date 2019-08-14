@@ -11,16 +11,21 @@
     @!section('title')
     <link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600,700&display=swap" rel="stylesheet">
+
+    {{ style('cssnew/theme.css') }}
     {{ style('css/all.css') }}
     {{ style('css/simple-line-icons.css') }}
     {{ style('fonts/boxicons.min.css') }}
-    {{ style('css/mdb.min.css') }}
+    <!-- {{ style('css/mdb.min.css') }} -->
     {{ style('css/swiper.css') }}
     {{ style('css/style.css') }}
     
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
     @!section('style')
     {{ script('js/jquery-3.3.1.min.js') }}
+     {{ script('js/jquery-3.3.1.slim.min.js') }}
+    {{ script('js/bootstrap.bundle.min.js') }}
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142280390-1"></script>
 <script>
@@ -63,16 +68,25 @@
                     </li>
                     <li><a href="{{ route('blogs') }}">Blog</a></li>
                     
-                </ul>
+                
 
                 @loggedIn
-                <div class="button_profile" style="top:0%">    
-                    <ul class="nav navbar-nav" style="float:right;">
-                        <li class="text_anc" style="position: relative; left: 15px;"><a href="{{ route('wallets') }}" id="btcBal"></a>
+                    <li><a href="#">Balances <i class="fa fa-caret-down"></i></a> 
+                        <ul class="sub-menu" style="width: 100%;">
+                            <a href="{{ route('wallets') }}" id="btcBal"></a>
                             <a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
                             <a href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
-                        </li>
-                        <li class="textKJDS" style="float: right; position: absolute; left: 226px">
+                        </ul>
+                    </li>
+                </ul>
+                <div class="button_profile" style="top:0%">    
+                    <ul class="nav navbar-nav" style="float:right;">
+                        <!--  <li class="text_anc" style="position: relative; left: 15px;">
+                            <a href="{{ route('wallets') }}" id="btcBal"></a>
+                            <a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
+                            <a href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
+                        </li>  -->
+                        <li class="textKJDS" style="float: right; position: absolute; left: 190px">
                             <a href="#" class ="lgHDR" style="border: none;">
                                     <img src="{{ (auth.user.profile != '' && auth.user.profile != null) ? assetsUrl('../images/users/'+auth.user.profile) : assetsUrl('images/user.png') }}" style="height:28px; bottom: 5px;" >
                                 <i class="fa fa-caret-down"></i>
@@ -89,6 +103,7 @@
                 </div>  
                
                 @else
+                </ul>
                 <div class="button_1">
                         <a href="{{ route('login') }}">Log In</a>
                 </div>
@@ -106,13 +121,13 @@
     @!section('content')
 </section>
   
-<section class="footer">
+<footer class="footer">
     <div class="container">
     <div class="bnhder">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="footer-text">
                 <h1>Start trading now</h1>
-                <p>Trade Bitcoin,BNB,and hundreds of other cryptocurrencies in minutes.</p>
+                <p>Trade Bitcoin and any other cryptocurrency in simple steps.</p>
                 <div class="get-started-btn">
                     <a href="/index/#trading">Let's Get Started  <i class="fas fa-arrow-right"></i></a>
                 </div>
@@ -139,8 +154,8 @@
                         <h3>Explore</h3>
                         <ul>
                             <li><a href="/index/#trading">Trade/Exchange</a></li>
-                            <li><a href="{{ route('requestcoin') }}">List Your Coin</a></li>
-                            <li><a href="{{ route('hire-trader') }}">Buy Courses</a></li>
+                            <!--  <li><a href="{{ route('requestcoin') }}">List Your Coin</a></li>  -->
+                            <li><a href="{{ route('hire-trader') }}">Purchase Courses/Hire Pro Trader</a></li>
                         </ul>
                     </div>
                 </div>
@@ -183,7 +198,7 @@
         </div>
     </div>
     </div>
-</section> 
+</footer> 
 
     {{--  end sponsors  --}}
 
@@ -195,9 +210,8 @@
     </section> --> 
 
     <!-- SCRIPTS -->
-    {{ script('js/popper.min.js') }}
-    {{ script('js/bootstrap.min.js') }}
-    {{ script('js/mdb.min.js') }}
+   
+    <!-- {{ script('js/mdb.min.js') }} -->
     {{ script('js/swiper.js') }}
     {{ script('js/moment.js') }}
     {{ script('js/parsley.min.js') }}
@@ -235,10 +249,11 @@
         // To get particular user balance
         $(document).ready(function() {
             $.ajax({
-                url : "{{ route('getBtcBalance') }}",
+                url : "{{ route('getBtcBalance')}}",
                 type : 'get',
                 success: function(response){
                     if(response.success == true) {
+
                         if( response.data.available >= 0 ) {
                             $("#btcBal").text('BTC : ' +response.data.available);
                         }
