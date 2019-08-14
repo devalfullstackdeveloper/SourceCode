@@ -259,7 +259,7 @@ section.main_header_1 ul li:hover .sub-menu {
   width: 100%;
   float: left;
   position: relative;
-  /* bottom: 81px; */
+   bottom: 81px; 
 }
 
 .coin_table_wallet {
