@@ -67,7 +67,7 @@
 
                 @loggedIn
                     <li><a href="#">Balances <i class="fa fa-caret-down"></i></a> 
-                        <ul CLASS="sub-menu" style="width: 100%;">
+                        <ul class="sub-menu" style="width: 100%;">
                             <a href="{{ route('wallets') }}" id="btcBal"></a>
                             <a href="{{ route('wallets') }}">USD : {{auth.user.usd_balance}}</a>
                             <a href="{{ route('wallets') }}">EUR : {{auth.user.euro_balance}}</a>
@@ -98,6 +98,7 @@
                 </div>  
                
                 @else
+                </ul>
                 <div class="button_1">
                         <a href="{{ route('login') }}">Log In</a>
                 </div>
