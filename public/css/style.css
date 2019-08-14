@@ -37,9 +37,9 @@ li.nav-item.pr-md-2 {
   background: #1b1b38e8;
 }
 ul.nav.navbar-nav.navbar-right {
-  position: relative;
-  right: 200px;
-  margin-bottom: 14px;
+    position: relative;
+    right: 280px;
+    margin-bottom: 14px;
 }
 a.navbar-brand img {
   width: 100%;
