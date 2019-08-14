@@ -122,7 +122,7 @@
 				<button class = "searchbtn" type="submit" disabled><i class="fa fa-search"></i> Search</button>
 			</form>
 			</div>
-			<table class="table profile-table  text-center mb-0 trade-ui--table table-brw wallet-table td-style">
+			<table class="table profile-table text-center mb-0 trade-ui--table table-brw wallet-table td-style">
 				<thead class="wallet-table-head">
 					<tr class="grey-text">
 						<th scope="col">{{ antl.formatMessage('keywords.coin') }}</th>
@@ -135,7 +135,10 @@
 					@each(pair in pairsw)
 					<tr>
 						<td class="symbol text">
-							<img class="mr-1" width="20" style="margin-top:-4px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
+							<img style="margin-right: 7px;background: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    width: 30px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
 						</td>
 						<td class="coin">{{ pair.coin }}</td>
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>
@@ -153,7 +156,10 @@
 					@each(pair in pairs)
 					<tr>
 						<td class="symbol">
-							<img width="30" style="margin-right: 7px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
+							<img style="margin-right: 7px;background: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    width: 30px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
 							{{ (pair.derive_currency).toUpperCase() }}
 						</td>
 						<td class="coin">{{ pair.coin }}</td>
