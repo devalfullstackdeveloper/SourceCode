@@ -125,8 +125,8 @@
 			<table class="table profile-table text-center mb-0 trade-ui--table table-brw wallet-table td-style">
 				<thead class="wallet-table-head">
 					<tr class="grey-text">
-						<th scope="col">{{ antl.formatMessage('keywords.coin') }}</th>
-						<th scope="col">{{ antl.formatMessage('keywords.name') }}</th>
+						<th scope="col" style="text-align:left; padding-left:78px">{{ antl.formatMessage('keywords.coin') }}</th>
+						<th scope="col" style="padding-right:84px">{{ antl.formatMessage('keywords.name') }}</th>
 						<th scope="col">{{ antl.formatMessage('keywords.balance') }}</th>
 						<th scope="col">{{ antl.formatMessage('keywords.deposit') }} / {{ antl.formatMessage('keywords.withdraw') }}</th>
 					</tr>
@@ -134,13 +134,13 @@
 				<tbody class="wallet-table-body">
 					@each(pair in pairsw)
 					<tr>
-						<td class="symbol text">
+						<td class="symbol text" style="text-align:left;">
 							<img style="margin-right: 7px;background: #fff;
     border-radius: 50%;
     padding: 5px;
-    width: 30px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
+    width: 30px; margin-left: 43px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}" alt="{{pair.alt}}" title="{{pair.coin}}"> <span title="{{ pair.derive_currency }}">{{ (pair.derive_currency).length > 15 ? (pair.derive_currency).substr(0, 15) + '...' : (pair.derive_currency).toUpperCase() }}</span>
 						</td>
-						<td class="coin">{{ pair.coin }}</td>
+						<td class="coin" style="padding-right: 84px;">{{ pair.coin }}</td>
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>
 						<td>
 							@if( pair.balance != null )
@@ -155,14 +155,14 @@
 					
 					@each(pair in pairs)
 					<tr>
-						<td class="symbol">
+						<td class="symbol text" style="text-align:left;">
 							<img style="margin-right: 7px;background: #fff;
     border-radius: 50%;
     padding: 5px;
-    width: 30px;" src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
+    width: 30px; margin-left: 43px; " src="{{ assetsUrl('images/coins/' + pair.icon) }}"> 
 							{{ (pair.derive_currency).toUpperCase() }}
 						</td>
-						<td class="coin">{{ pair.coin }}</td>
+						<td class="coin" style="padding-right: 84px;">{{ pair.coin }}</td>
 						<td class="balance" id="{{ pair.derive_currency }}">{{ pair.balance != null && pair.balance != 0 ? (pair.balance).toFixed(8) : '0.00000000' }}</td>
 						<td>
 							@if( pair.balance != null )
@@ -218,17 +218,17 @@
 				<!-- Perfect Money -->
 				<form style="display: none; margin-top: 10px;" id="usdDepositForm" action="https://perfectmoney.is/api/step1.asp" method="POST">
 					<input type="hidden" name="PAYEE_ACCOUNT" value="U19902751">
-					<input type="hidden" name="PAYEE_NAME" value="Zithex">
+					<input type="hidden" name="PAYEE_NAME" value="Cryptofxspace">
 					<input type="hidden" name="PAYMENT_ID" value="{{ auth.user.id }}">
 					<div class="form-group">
 						<input type="number" name="PAYMENT_AMOUNT" class="form-control" placeholder="{{ antl.formatMessage('keywords.amount') }}" required>
 					</div>
 					<!-- <input type="text" name="PAYMENT_AMOUNT" value=""> -->
 					<input type="hidden" name="PAYMENT_UNITS" value="USD">
-					<input type="hidden" name="STATUS_URL" value="https://zithex.com/wallets/payment">
-					<input type="hidden" name="PAYMENT_URL" value="https://zithex.com/wallets/payment">
+					<input type="hidden" name="STATUS_URL" value="https://cryptofxspace.com/wallets/payment">
+					<input type="hidden" name="PAYMENT_URL" value="https://cryptofxspace.com/wallets/payment">
 					<input type="hidden" name="PAYMENT_URL_METHOD" value="POST">
-					<input type="hidden" name="NOPAYMENT_URL" value="https://zithex.com/wallets">
+					<input type="hidden" name="NOPAYMENT_URL" value="https://cryptofxspace.com/wallets">
 					<input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
 					<input type="hidden" name="SUGGESTED_MEMO" value="">
 					<input type="hidden" name="BAGGAGE_FIELDS" value="">
@@ -584,17 +584,17 @@
 
 				<form style="display: none; margin-top: 10px; " id="eurDepositForm" action="https://perfectmoney.is/api/step1.asp" method="POST">
 					<input type="hidden" name="PAYEE_ACCOUNT" value="E19730239">
-					<input type="hidden" name="PAYEE_NAME" value="ZIthex">
+					<input type="hidden" name="PAYEE_NAME" value="Cryptofxspace">
 					<input type="hidden" name="PAYMENT_ID" value="{{ auth.user.id }}">
 					<!-- <input type="text" name="PAYMENT_AMOUNT" value=""><BR> -->
 					<div class="form-group">
 						<input type="number" name="PAYMENT_AMOUNT" class="form-control" placeholder="{{ antl.formatMessage('keywords.amount') }}" required>
 					</div>
 					<input type="hidden" name="PAYMENT_UNITS" value="EUR">
-					<input type="hidden" name="STATUS_URL" value="https://zithex.com/wallets/payment">
-					<input type="hidden" name="PAYMENT_URL" value="https://zithex.com/wallets/payment">
+					<input type="hidden" name="STATUS_URL" value="https://cryptofxspace.com/wallets/payment">
+					<input type="hidden" name="PAYMENT_URL" value="https://cryptofxspace.com/wallets/payment">
 					<input type="hidden" name="PAYMENT_URL_METHOD" value="POST">
-					<input type="hidden" name="NOPAYMENT_URL" value="https://zithex.com/wallets">
+					<input type="hidden" name="NOPAYMENT_URL" value="https://cryptofxspace.com/wallets">
 					<input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
 					<input type="hidden" name="SUGGESTED_MEMO" value="">
 					<input type="hidden" name="BAGGAGE_FIELDS" value="">

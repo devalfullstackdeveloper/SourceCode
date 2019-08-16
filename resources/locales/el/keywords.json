@@ -248,8 +248,10 @@
 	"my_profile" : "My Profile",
 	"hire_trader":"Hire Trader",
 	"hire_trader_package": "Select Package",
-	"hire_trader_package_1": "Part Time (4 Hours Per Day, For 1 Month,Price 0,05 BTC)",
-	"hire_trader_package_2": "Full Time (8 Hours, For 1 Month,Price 0,10 BTC)",
-	"hire_trader_package_3": "12 Hours Per Day,For 1 Month, Price 0,15 BTC)",
-	"hire_trader_package_4": "24 Hours Per Day ,For 1 Month,Price (0,25BTC)"
+	"hire_trader_package_1":"25 Trading Cources, Two Times Per Week, (0.35 BTC) ",
+	"hire_trader_package_2":"Teach The Secrets of Trading. (0.40 BTC)",
+	"hire_trader_package_3": "Part Time (4 Hours Per Day, For 1 Month,Price 0,05 BTC)",
+	"hire_trader_package_4": "Full Time (8 Hours, For 1 Month,Price 0,10 BTC)",
+	"hire_trader_package_5": "12 Hours Per Day,For 1 Month, Price 0,15 BTC)",
+	"hire_trader_package_6": "24 Hours Per Day ,For 1 Month,Price (0,25BTC)"
 }

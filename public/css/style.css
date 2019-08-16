@@ -255,6 +255,11 @@ section.main_header_1 ul li:hover .sub-menu {
   color: #fff;
   text-decoration: none;
 }
+
+.row.text-center.igt {
+    text-align: center !important;
+    display: block;
+}
 .coin_table {
   width: 100%;
   float: left;
